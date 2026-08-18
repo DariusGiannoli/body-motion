@@ -39,7 +39,6 @@ Lausanne, Switzerland.}%
 under Grant 200020\_212077.}%
 \thanks{This study involving human participants was approved by the EPFL
 Human Research Ethics Committee under Application No.\ HREC 092-2023.}%
-\thanks{The authors thank Pablo Palle for his groundwork on the simulation.}%
 }
 
 \begin{document}
@@ -353,8 +352,7 @@ calibration or additional temporal filtering.
 
 The study included $N=14$ adults recruited from the local university
 community (10 men and 4 women; age: $22.4 \pm 4.0$ years, range 19--35).
-Sample size reflected participant availability; no a priori power analysis was
-conducted. Eligibility required self-reported ability to perform the seated
+Eligibility required self-reported ability to perform the seated
 upper-body movements and vision compatible with the VR headset. All
 participants completed the study, provided written informed consent, and were
 compensated.
@@ -381,7 +379,7 @@ Labels G1--G7 mark the gate sequence; dashed arrows show traversal direction.}
 
 
 All participants received identical prerecorded instructions and
-demonstrations. They were asked to complete each course as quickly as possible while passing near the opening centers, collecting stars, and minimizing crashes and disconnections. Control remained active during the approach, providing a flying start. Timing ran from the first agent crossing the start plane to the first agent crossing the finish plane. A run was valid only if the controlled-component centroid crossed all seven gate planes in sequence; no time limit was imposed. Participants viewed only stereoscopic FPV, with no timer, score, or task-status display.
+demonstrations. They were asked to complete each course as quickly as possible while passing near the opening centers, collecting stars, and minimizing crashes and disconnections. Control remained active during the approach, providing a flying start. Timing ran from the first agent crossing the start plane to the first agent crossing the finish plane. Participants viewed only stereoscopic FPV, with no timer, score, or task-status display.
 
 A star was collected when any agent entered its trigger; wall or inter-agent collisions removed the affected agent, and survivors outside the interaction graph's largest connected component were classified as disconnected at each sample.
 
@@ -580,53 +578,51 @@ and one had no preference. Motion-sickness responses favored the body motion con
 % =====================================================================
 \section{Discussion}
 
-Body-motion control improved traversal in the tested task. Participants
-finished 19.4\% faster, and 13 of 14 were faster with body motion. Their paths
-were 7.0\% shorter, and their mean speed was 12.5\% higher. They also spent less
-time moving slowly, followed more direct paths, and made less excess vertical
-travel. These results indicate more continuous and direct movement. However,
-path length and mean speed are related to completion time. They support the
-main result but do not explain its cause.
+Body-motion control reduced completion time by 19.4\%, with shorter trajectories
+and less time at low speed. The higher path-directness ratio indicates that the
+trajectories more closely followed the straight-line connections between
+successive course landmarks. Excess vertical travel was also 44.0\% lower,
+indicating less unnecessary ascent and descent. Because gate-centering error
+did not clearly differ, this finding reflects more economical vertical movement
+rather than greater positional accuracy. Together, these measures suggest that
+the efficiency advantage was expressed through more continuous and direct
+movement. This gain was not accompanied by a detected trade-off in collection
+yield or swarm survival, suggesting that faster traversal did not come at an
+observable cost to these task outcomes. However, the study did not establish
+equivalent performance or safety.
 
-Delivered commands varied 88.8\% less with body motion. The difference remained
-large after the same extra offline filter was applied to both command streams.
-Both interfaces provided the same five controls. However, they used different
-hardware, calibration, mappings, and online filters. The results therefore
-compare the two complete systems. They do not show which difference caused the
-faster traversal.
+At the command level, body motion produced a substantially steadier control
+stream: delivered-command variation was 88.8\% lower and remained 80.0\% lower
+after common offline filtering. Fewer abrupt changes in the reference commands
+could help sustain motion and reduce corrective maneuvers. This interpretation
+is consistent with the lower low-speed fraction, higher path directness, and
+lower excess vertical travel, although the analysis does not establish a causal
+relationship.
 
-The study found no clear differences in gate centering, collection yield, or
-swarm survival. This does not show that the interfaces had the same task
-performance or safety. The sample was small, and survival was almost 100\% with
-both interfaces. Body motion also increased physical demand by 40.7 points,
-and every participant reported higher physical demand. Total TLX and SUS scores
-showed no clear differences. Eight participants preferred body motion, five
-preferred the transmitter, and one had no preference.
+Overall TLX and SUS scores did not clearly differ between the interfaces.
+However, physical demand was 40.7 points higher with body motion, and all
+participants rated it as more physically demanding. This result is consistent
+with the required arm and torso movements. The lower ratings for body motion on most dimensions partly offset its higher physical demand. Eight participants preferred body motion, five preferred the transmitter, and one had no preference. Motion-sickness reports did not clearly favor either interface.
 
-The physical cost suggests several design changes. Arm support may reduce
-effort~\cite{rognon2018flyjacket}. Higher control gains could reduce the
-required movement, but they may also reduce precision. Participant comments
-also suggest that the interface should correct changes in hand height when the
-torso moves. Feedback about formation spacing may improve spatial awareness.
-Tactile feedback is one option~\cite{tsykunov2019swarmtouch}. These changes
-require testing.
+The higher physical demand and repeated requests for arm support suggest two
+design improvements. Arm support, as used in prior body-based drone
+control~\cite{rognon2018flyjacket}, could reduce sustained effort. Higher
+shoulder-motion gains could reduce the required movement range, but may make
+fine control more difficult.
 
 This study extends upper-body control from individual aerial
 robots~\cite{rognon2018flyjacket,miehlbradt2018datadriven,
-macchini2024datadriven} and externally viewed
-formations~\cite{macchini2021personalized,tsykunov2019swarmtouch,
-kratky2025gesture} to rear-focal FPV swarm control. It also complements earlier
-transmitter-based FPV control~\cite{ben_focaldrone}. Direct comparison is not
-possible because the studies used different tasks, viewpoints, swarm sizes,
-and measures.
+macchini2024datadriven} to multi-agent swarm control, and from externally
+viewed formations~\cite{macchini2021personalized,tsykunov2019swarmtouch,
+kratky2025gesture} to rear-focal FPV operation. It also complements earlier
+transmitter-based FPV control~\cite{ben_focaldrone} by evaluating body motion
+as an alternative input method.
 
-The main limits were the small sample, the lack of a power analysis, the short
-exposure, and the fixed course order. The study also tested only one simulated
-15-agent swarm. Future studies should use larger samples, vary the course order,
-provide more training, and use harder tasks. They should record commands before
-and after processing and compare matched mappings and filters. Tests with
-physical swarms are also needed to measure the effects of communication delays,
-aerodynamics, and real safety constraints.
+Future studies should use larger samples, provide longer training, and include
+more demanding tasks, such as time-limited navigation, dynamic obstacles, or
+competing objectives. Experiments with physical swarms are also needed to
+assess communication delays, aerodynamic effects, and real-world safety
+constraints.
 
 % =====================================================================
 \section{Conclusion}
