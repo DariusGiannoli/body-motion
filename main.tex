@@ -523,7 +523,7 @@ Fig.~\ref{fig:paired_results}(c)).
 Figure~\ref{fig:trajectory_overlays} shows the horizontal paths and height
 profiles.
 
-\begin{figure}[!tb]
+\begin{figure}[!b]
 \centering
 \includegraphics[width=\columnwidth]
 {Figures/fig_trajectory_overlays_height_mean_max.pdf}
@@ -533,6 +533,17 @@ runs, thick curves are interface medians, and dashed lines indicate the mean
 run-wise maximum height.}
 \label{fig:trajectory_overlays}
 \end{figure}
+
+% \begin{figure*}[!tb]
+% \centering
+% \includegraphics[width=\textwidth]
+% {Figures/fig_trajectory_overlays_height_mean_max_1x4.pdf}
+% \caption{Centroid trajectories for both courses. Panels (a,b) show top views,
+% and panels (c,d) show gate-aligned height profiles. Thin curves are individual
+% runs, thick curves are interface medians, and dashed lines indicate the mean
+% run-wise maximum height.}
+% \label{fig:trajectory_overlays}
+% \end{figure*}
 
 \emph{Delivered-command behavior.}
 The delivered commands varied 88.8\% less with the body-motion interface than
@@ -568,72 +579,53 @@ and one had no preference. Motion-sickness responses favored the body motion con
 % =====================================================================
 \section{Discussion}
 
-The body-motion interface improved traversal efficiency in the tested task.
-Participants completed the courses 19.4\% faster, and 13 of the 14 participants
-were faster with body motion. Their paths were 7.0\% shorter, and their mean
-speed was 12.5\% higher. These results show a clear advantage for the complete
-body-motion system under the evaluated conditions.
+Body-motion control improved traversal in the tested task. Participants
+finished 19.4\% faster, and 13 of 14 were faster with body motion. Their paths
+were 7.0\% shorter, and their mean speed was 12.5\% higher. They also spent less
+time moving slowly, followed more direct paths, and made less excess vertical
+travel. These results indicate more continuous and direct movement. However,
+path length and mean speed are related to completion time. They support the
+main result but do not explain its cause.
 
-The trajectory measures help describe this advantage. With body motion,
-participants spent less time at speeds below $0.5~\mathrm{m\,s^{-1}}$. They
-also followed more direct paths and made less excess vertical travel. This
-pattern is consistent with more continuous and direct movement. However, it
-does not identify the cause of the faster completion times. Path length and
-mean speed are also directly related to completion time. They should therefore
-be treated as supporting measures, not as independent proof of the main result.
+Delivered commands varied 88.8\% less with body motion. The difference remained
+large after the same extra offline filter was applied to both command streams.
+Both interfaces provided the same five controls. However, they used different
+hardware, calibration, mappings, and online filters. The results therefore
+compare the two complete systems. They do not show which difference caused the
+faster traversal.
 
-Delivered commands varied significantly less with the body-motion interface. The
-difference remained large after the same additional offline filter was applied
-to both recorded command streams. Lower command variation is consistent with
-the more continuous trajectories. However, the two interfaces used different
-hardware, calibration, mappings, and online filters. The comparison therefore
-applies to the two complete systems. It does not show that body input alone
-caused the lower command variation or the faster traversal. Both interfaces
-also provided the same five control dimensions. The study did not test whether
-the physical distribution of these dimensions across the head, torso, and
-hands caused the observed advantage.
+The study found no clear differences in gate centering, collection yield, or
+swarm survival. This does not show that the interfaces had the same task
+performance or safety. The sample was small, and survival was almost 100\% with
+both interfaces. Body motion also increased physical demand by 40.7 points,
+and every participant reported higher physical demand. Total TLX and SUS scores
+showed no clear differences. Eight participants preferred body motion, five
+preferred the transmitter, and one had no preference.
 
-Faster traversal was not accompanied by a detected difference in gate
-centering, collection yield, or swarm survival. This result does not show that
-the interfaces had equivalent task performance or safety. The sample was
-small, and swarm survival was near its maximum value with both interfaces.
-These factors reduced the ability to detect differences.
-
-The body-motion interface also had a clear physical cost. Physical demand was
-40.7 points higher, and all participants reported higher physical demand with
-body motion. In contrast, the study found no clear difference in total TLX or
-SUS scores. Thus, the total workload score did not capture the specific
-increase in physical demand. Eight participants preferred body motion, five
-preferred the transmitter, and one had no preference. Efficiency did not
-determine interface choice for every participant.
-
-The physical cost suggests several design changes. Arm support, as used in
-prior body-based drone control, may reduce
-effort~\cite{rognon2018flyjacket}. Higher control gains could also reduce the
-required body movement, but they may reduce precision. Participant comments
-further suggest a need to compensate for changes in hand height when the torso
-moves. Feedback about formation spacing may also improve spatial awareness.
-Tactile feedback is one possible approach~\cite{tsykunov2019swarmtouch}.
-These changes require direct evaluation.
+The physical cost suggests several design changes. Arm support may reduce
+effort~\cite{rognon2018flyjacket}. Higher control gains could reduce the
+required movement, but they may also reduce precision. Participant comments
+also suggest that the interface should correct changes in hand height when the
+torso moves. Feedback about formation spacing may improve spatial awareness.
+Tactile feedback is one option~\cite{tsykunov2019swarmtouch}. These changes
+require testing.
 
 This study extends upper-body control from individual aerial
 robots~\cite{rognon2018flyjacket,miehlbradt2018datadriven,
 macchini2024datadriven} and externally viewed
 formations~\cite{macchini2021personalized,tsykunov2019swarmtouch,
-kratky2025gesture} to rear-focal FPV swarm teleoperation. It also complements
-earlier transmitter-based FPV control~\cite{ben_focaldrone}. Direct numerical
-comparison with these studies is not possible because their tasks, viewpoints,
-swarm sizes, and outcome measures differ.
+kratky2025gesture} to rear-focal FPV swarm control. It also complements earlier
+transmitter-based FPV control~\cite{ben_focaldrone}. Direct comparison is not
+possible because the studies used different tasks, viewpoints, swarm sizes,
+and measures.
 
-The study has several limits. It used 14 participants, and no power analysis
-was completed before data collection. Exposure to each interface was brief,
-and the course order was fixed. The study also tested one simulated 15-agent
-swarm with one rear-focal FPV design. Future studies should use larger samples,
-vary the course order across participants, provide longer training, and use
-more difficult tasks. They should record commands before and after processing
-and compare matched mappings and filters. Tests with physical swarms are also
-needed. Such tests can show whether the traversal advantage remains under
-communication delays, aerodynamic effects, and real safety constraints.
+The main limits were the small sample, the lack of a power analysis, the short
+exposure, and the fixed course order. The study also tested only one simulated
+15-agent swarm. Future studies should use larger samples, vary the course order,
+provide more training, and use harder tasks. They should record commands before
+and after processing and compare matched mappings and filters. Tests with
+physical swarms are also needed to measure the effects of communication delays,
+aerodynamics, and real safety constraints.
 
 % =====================================================================
 \section{Conclusion}
