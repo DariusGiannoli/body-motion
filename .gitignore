@@ -1,0 +1,29 @@
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+conference_101719.pdf
+
+# scratch
+_writetest
+_concept_preview.png
+*_preview.png
+*_preview.pdf
+_zoomA.png
+_zoomB.png
+_traj_perspectives.png
+_views_contact.png
+Figures/fig_overview.png
+# raw screenshot drops in repo root (the tracked copies live in Figures/)
+/minimum_expansion_TPV.png
+/maximum_expansion_TPV.png
+/minimum_expansion_FPV.png
+/maximum_expansion_FPV.png
+Icon?
+**/Icon?
+.DS_Store

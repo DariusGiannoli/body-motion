@@ -1,0 +1,849 @@
+\documentclass[conference, a4paper]{IEEEtran}
+\usepackage{cuted}
+\setlength{\stripsep}{6pt}
+%\documentclass[conference, a4paper, 10pt]{ieeeconf}
+
+% \overrideIEEEmargins
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{subcaption}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+% Figures live in the Figures/ folder
+\graphicspath{{Figures/}}
+
+\begin{document}
+
+\title{Body-Motion Control of a Simulated Aerial Swarm under First-Person View
+\thanks{This work was supported by the Swiss National Science Foundation under Grant 200020\_212077.}
+\thanks{This work involved human subjects or animals in its research. Approval of all ethical and experimental procedures and protocols was granted by the EPFL Human Research Ethics Committee under Application No.\ HREC 092-2023.}
+}
+
+\author{\IEEEauthorblockN{Yang Chen, Darius Giannoli, and Dario Floreano}
+\IEEEauthorblockA{\textit{Laboratory of Intelligent Systems} \\
+\textit{\'Ecole Polytechnique F\'ed\'erale de Lausanne (EPFL)}\\
+Switzerland\\
+\texttt{chenyang@ai.iit.tsukuba.ac.jp},\\
+\texttt{darius.giannoli@epfl.ch}, \texttt{dario.floreano@epfl.ch}}
+}
+
+\maketitle
+
+\begin{abstract}
+Aerial swarms require intuitive, continuous group-level commands under
+immersive first-person view (FPV). Conventional radio-control transmitters
+distribute commands across sticks and auxiliary controls, potentially
+constraining simultaneous adjustment of swarm motion, view direction, and
+formation size. We present a participant-calibrated upper-body interface for
+five-degree-of-freedom FPV teleoperation of a simulated aerial swarm. The
+interface maps torso inclination to planar velocity, mean hand height and
+inter-hand separation to vertical velocity and inter-agent spacing, and head
+yaw to FPV yaw rate. We compared the complete interface with a conventional
+transmitter in a within-subject study in which 14 participants controlled a
+simulated 15-agent swarm through three-dimensional gap-passing courses. The
+body-motion interface reduced mean completion time by 19.7\% and centroid
+travel distance by 6.6\%. No interface differences were detected in gate-centering accuracy, collection
+yield, swarm survival, connectivity, total workload, or usability. Within the
+tested simulation, these findings support an efficiency advantage for the
+complete implemented body-motion interface and demonstrate its capacity for
+concurrent multi-degree-of-freedom input. Evaluation under matched signal
+processing and physical flight is required to isolate modality effects and
+assess generalizability.
+\end{abstract}
+
+\begin{IEEEkeywords}
+aerial swarm, body-machine interface, teleoperation, first-person view,
+human--swarm interaction
+\end{IEEEkeywords}
+
+% =====================================================================
+\section{Introduction}
+
+Aerial swarms can provide parallel sensing, spatial coverage, and redundancy
+for applications such as search and rescue and infrastructure inspection
+\cite{ben_focaldrone,macchini2021personalized}. Even when decentralized
+controllers handle local coordination and collision avoidance, complex or
+safety-critical missions may still require a human operator to provide
+high-level motion and formation commands. To preserve scalability, a single operator should command the collective
+rather than control every agent individually
+\cite{kolling2016survey,hocraffer2017meta}. The operator must therefore coordinate several swarm degrees of
+freedom (DOF) at once---including planar translation, altitude, view direction,
+and expansion or contraction---while perceiving the remote environment.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{Figures/main.png}
+\caption{Overview of this work. The same aerial swarm (center) is teleoperated
+over five color-coded degrees of freedom (DOF) either with a Taranis
+radio-control transmitter (left) or with the proposed upper-body interface
+(right). In the body-motion interface, head yaw sets the view direction, torso
+lean the planar motion, arm lift the vertical motion, and arm
+flexion/extension the swarm's expansion/contraction. We compare the two
+interfaces under first-person view on a 3D gap-passing course.}
+\label{fig:overview}
+\end{figure*}
+
+The operator can perceive the swarm either from a third-person view (TPV), an
+external overview of the group, or from a first-person view (FPV), the
+egocentric image supplied by one swarm agent (Fig.~\ref{fig:views}). TPV makes
+the swarm geometry directly visible, but obtaining a live external view in an
+uninstrumented deployment may require additional sensing, reconstruction, or a
+dedicated viewing platform. FPV can instead be obtained from an onboard camera,
+but it limits global awareness and moves with the focal drone. Commands must
+therefore be expressed in a changing egocentric frame, and the view direction
+itself becomes a controlled DOF \cite{ben_focaldrone,macchini2021impact}. We
+focus on FPV because it is compatible with onboard perception, while recognizing
+that it places greater demands on the command interface.
+
+Existing focal-drone FPV interfaces retain a conventional hand-held
+transmitter, distributing planar and vertical motion and view yaw across two
+thumbsticks while assigning swarm expansion to a separate knob
+\cite{ben_focaldrone}. Although familiar, this arrangement may constrain the
+simultaneous manipulation of all five DOF. The limitation is particularly
+relevant when negotiating three-dimensional openings, where translation,
+altitude, heading, and formation size may need to change concurrently. Thus,
+even after an FPV viewpoint is established, the input device remains a
+potential bottleneck.
+
+Upper-body motion instead provides several continuous input dimensions. Head,
+torso, and arm movements can be assigned to distinct swarm DOF, allowing
+several commands to be expressed concurrently. Moreover, body lean can be
+mapped to planar motion in the current focal-drone frame, preserving spatial
+congruence as the view rotates or transfers between agents. Upper-body
+interfaces have already enabled accurate and immersive control of
+single drones \cite{rognon2018flyjacket,miehlbradt2018datadriven}, motivating
+their extension to group-level control.
+
+Human--swarm interaction reduces a high-dimensional collective to
+operator-level commands, making interface design and workload central to
+scalability \cite{kolling2016survey,hocraffer2017meta}. Gesture-based systems
+have enabled users to manipulate meaningful swarm-shape DOF
+\cite{alonsomora2015gesture,suresh2019gesture}. For aerial swarms,
+personalized hand motion has provided continuous group-level control under TPV
+\cite{macchini2021personalized}, SwarmTouch added tactile feedback
+\cite{tsykunov2019swarmtouch}, and Krátký et al. used contactless gestures to
+command a three-UAV formation \cite{kratky2025gesture}. These systems use
+external viewpoints and/or discrete high-level gestures. Under FPV,
+upper-body interfaces have focused on individual drones
+\cite{rognon2018flyjacket,miehlbradt2018datadriven,macchini2024datadriven},
+while swarm interfaces have retained conventional hand-held controls
+\cite{ben_focaldrone}. Upper-body motion offers several continuous input
+dimensions that can be mapped in the moving focal-drone frame. To the best of
+our knowledge, no prior system combines continuous upper-body control of
+translation, altitude, view direction, and formation size with an FPV from
+within the swarm.
+
+In this work, we design and evaluate an upper-body interface for FPV
+teleoperation of an aerial swarm (Fig.~\ref{fig:overview}). We investigate
+whether it enables faster task execution and smoother, more coordinated
+multi-DOF commands than a conventional transmitter, and whether any gains occur
+without a detectable degradation in task accuracy, swarm integrity, workload,
+or usability. The contributions are threefold: (i) a spatially congruent
+mapping from head, torso, and arm motion to five continuous swarm DOF under FPV;
+(ii) a participant-calibrated implementation that remains aligned with the
+current focal-drone frame; and (iii) a within-subject comparison with a
+radio-control transmitter using task performance, control behavior, swarm
+integrity, and subjective measures.
+
+% =====================================================================
+\section{Body-Motion Control Interface}
+% --- 2a. Methodology: the interface and the body-to-swarm mapping ---
+\subsection{System Overview}
+\label{sec:system}
+
+The implemented system couples an upper-body input layer to a collective
+controller for a 15-agent aerial swarm simulated in Unity, as summarized in
+Fig.~\ref{fig:overview}. The operator receives a first-person view (FPV) from
+a focal drone selected automatically at the rear of the largest connected
+component -- following the focal-drone framework evaluated
+by Jarvis et al.~\cite{ben_focaldrone}. The operator commands the swarm as a
+collective rather than controlling individual agents.
+
+At each simulation frame, the input layer generates the five-dimensional
+command vector
+\begin{equation}
+\mathbf{u}_t =
+\begin{bmatrix}
+v_{f,t}^{\mathrm{ref}} &
+v_{l,t}^{\mathrm{ref}} &
+v_{h,t}^{\mathrm{ref}} &
+\dot{\psi}_{t}^{\mathrm{cmd}} &
+\rho_t^{*}
+\end{bmatrix}^{\mathsf{T}},
+\label{eq:swarm_command}
+\end{equation}
+where $v_{f,t}^{\mathrm{ref}}$, $v_{l,t}^{\mathrm{ref}}$, and
+$v_{h,t}^{\mathrm{ref}}$ are the forward, lateral, and vertical reference
+velocities expressed in the current focal-drone frame;
+$\dot{\psi}_{t}^{\mathrm{cmd}}$ is the commanded FPV yaw rate; and
+$\rho_t^{*}$ is the target inter-agent spacing. The translational and yaw
+components are signed rate commands, whereas $\rho_t^{*}$ is an absolute
+formation-spacing setpoint.
+
+A decentralized controller based on the Olfati--Saber flocking algorithm
+\cite{olfatisaber2006flocking} converts these group-level commands into
+agent motion while maintaining local cohesion, velocity alignment, and
+obstacle avoidance. The human therefore specifies collective translation,
+view direction, altitude, and formation size, while local coordination remains
+autonomous. Both the body-motion and transmitter conditions drive this same
+command vector and downstream swarm controller; they differ in their physical
+input mappings and associated signal-processing pipelines.
+
+In the body-motion condition, a Meta Quest~3S headset measures head yaw and
+provides the FPV display while the two Quest controllers provide three-dimensional hand
+positions. An LPMS-B2 inertial measurement unit (LP-Research Inc.) measures
+torso inclination. The following subsections define the participant-calibrated
+mapping from these measurements to Eq.~\eqref{eq:swarm_command}, followed by
+the transmitter baseline.
+
+\subsection{Body-to-Swarm Mapping}
+\label{sec:mapping}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{Figures/fig_mapping_technical_v2.png}
+\caption{Mapping from measured upper-body motion to collective swarm
+commands.}
+\label{fig:mapping}
+\end{figure}
+
+At time $t$, the interface measures the sagittal and lateral torso
+inclinations $(\theta_t,\phi_t)$, headset yaw $\psi_t$, mean vertical position
+of the two controllers $h_t$, and their Euclidean separation $s_t$
+(Fig.~\ref{fig:mapping}). Rate control was used for translation and view
+rotation so that a bounded body posture could generate sustained motion.
+Swarm spacing was instead mapped absolutely, providing a direct correspondence
+between controller separation and formation size.
+
+\emph{Rate-command normalization:}
+Torso inclination, controller height, and head-yaw deviation were normalized
+using the participant-specific limits obtained through the calibration in
+Section~\ref{sec:calibration}. For a measurement $q_t$ with lower, neutral,
+and upper calibration values $(q^{-},q^{0},q^{+})$ and deadzone half-width
+$d$, let $q_{\mathrm{L}}=q^{0}-d$ and $q_{\mathrm{U}}=q^{0}+d$. The normalized
+command was
+\begin{equation}
+\mathcal{D}(q_t)=
+\begin{cases}
+\displaystyle
+\max\!\left(-1,\frac{q_t-q_{\mathrm{L}}}
+{q_{\mathrm{L}}-q^{-}}\right),
+& q_t<q_{\mathrm{L}},\\[7pt]
+0,
+& q_{\mathrm{L}}\leq q_t\leq q_{\mathrm{U}},\\[3pt]
+\displaystyle
+\min\!\left(1,\frac{q_t-q_{\mathrm{U}}}
+{q^{+}-q_{\mathrm{U}}}\right),
+& q_t>q_{\mathrm{U}}.
+\end{cases}
+\label{eq:deadzone_mapping}
+\end{equation}
+For subsequent expressions, the notation
+$\mathcal{D}(q_t;q^{-},q^{0},q^{+},d)$ identifies the calibration bounds and
+deadzone used in this mapping. Each side of the neutral posture was therefore
+scaled independently to accommodate asymmetric ranges of motion.
+
+\emph{Planar and vertical translation:}
+Sagittal and lateral torso inclinations generated forward and lateral
+commands, respectively, while mean controller height generated the vertical
+command:
+\begin{align}
+c_{f,t} &=
+\mathcal{D}(\theta_t;\theta^{-},0,\theta^{+},5^{\circ}),
+\nonumber\\
+c_{l,t} &=
+\mathcal{D}(\phi_t;\phi^{-},0,\phi^{+},5^{\circ}),
+\nonumber\\
+c_{h,t} &=
+\mathcal{D}(h_t;h_{\min},h_0,h_{\max},0.05~\mathrm{m}),
+\label{eq:body_rate_commands}
+\end{align}
+where positive values command forward, rightward, and upward motion,
+respectively.
+
+Defining $\mathbf{c}_{p,t}=[c_{f,t},c_{l,t}]^{\mathsf T}$, the planar command
+was low-pass filtered according to
+\begin{equation}
+\bar{\mathbf{c}}_{p,t}
+=(1-\alpha_t)\bar{\mathbf{c}}_{p,t-1}
++\alpha_t\mathbf{c}_{p,t},
+\qquad
+\alpha_t=\min\{1,7\Delta t\},
+\label{eq:torso_filter}
+\end{equation}
+where $\Delta t$ is the frame interval. The vertical command was filtered
+separately using a critically damped filter with a 0.1-s smoothing time.
+These filters attenuated IMU and controller-tracking noise before the
+commands were supplied to the swarm controller.
+
+Let $\mathbf{e}_{f,t}$, $\mathbf{e}_{r,t}$, and $\mathbf{e}_{u,t}$ denote the
+forward, right, and up axes of the current focal drone. The reference velocity
+applied to the swarm was
+\begin{equation}
+\mathbf{v}^{\mathrm{ref}}_t =
+v_{\max}\left(
+\bar c_{f,t}\mathbf{e}_{f,t}
++\bar c_{l,t}\mathbf{e}_{r,t}
++\bar c_{h,t}\mathbf{e}_{u,t}
+\right),
+\qquad
+v_{\max}=10~\mathrm{m\,s^{-1}},
+\label{eq:reference_velocity}
+\end{equation}
+where the bars denote the corresponding filtered commands. Consequently,
+torso commands remained aligned with the displayed FPV heading, including
+after the viewpoint transferred between focal drones.
+
+\emph{Inter-agent spacing:}
+Controller separation specified the target inter-agent spacing:
+\begin{align}
+e_t &=
+\mathrm{clip}\!\left(
+\frac{s_t-s_{\min}}{s_{\max}-s_{\min}},0,1\right),
+\nonumber\\
+\tilde{\rho}^{*}_t &=
+\rho_{\min}+e_t(\rho_{\max}-\rho_{\min}),
+\label{eq:spread_mapping}
+\end{align}
+where $\rho_{\min}=1~\mathrm{m}$ and $\rho_{\max}=5~\mathrm{m}$. The raw
+target $\tilde{\rho}^{*}_t$ was filtered with a 0.1-s smoothing time to obtain
+the applied target $\rho^{*}_t$. This absolute mapping allowed participants to
+select formation size directly rather than controlling an expansion or
+contraction rate.
+
+\emph{FPV yaw control:}
+Head motion controlled yaw rate rather than absolute view orientation. With
+the neutral headset yaw denoted by $\psi_{0,t}$, the wrapped yaw deviation was
+\[
+\Delta\psi_t=
+\operatorname{wrap}_{[-180^{\circ},180^{\circ}]}
+\left(\psi_t-\psi_{0,t}\right).
+\]
+The resulting yaw-rate command was
+\begin{equation}
+\dot{\psi}^{\,\mathrm{cmd}}_t
+=\omega_{\max}
+\mathcal{D}\!\left(
+\Delta\psi_t;\psi_{\mathrm{L}},0,\psi_{\mathrm{R}},10^{\circ}
+\right),
+\qquad
+\omega_{\max}=48^{\circ}\mathrm{s}^{-1}.
+\label{eq:yaw_rate}
+\end{equation}
+Returning the head to its neutral orientation therefore stopped view rotation
+without forcing the view back to its initial heading. No additional yaw
+smoothing was applied. To compensate for gradual postural drift,
+$\psi_{0,t}$ was adapted at $0.5~\mathrm{s}^{-1}$ when head angular velocity
+remained below $5^{\circ}\mathrm{s}^{-1}$ for at least 1.5~s and
+$1^{\circ}\leq|\Delta\psi_t|\leq8^{\circ}$.
+
+
+\subsection{Participant-Specific Calibration}
+\label{sec:calibration}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.55\linewidth]{Figures/calib_coord.png}
+\caption{Quantities measured during participant-specific calibration.
+Controller positions are expressed in the Unity world frame
+$\mathcal{F}_{W}$; their separation $s$ and mean vertical position $h$
+provide the arm-spread and arm-height inputs. Head-yaw deviation
+$\Delta\psi$ is measured about the headset frame $\mathcal{F}_{H}$, while
+the chest-mounted IMU frame $\mathcal{F}_{C}$ provides the
+forward--backward and lateral torso inclinations $\theta$ and $\phi$.}
+\label{fig:participant_calibration}
+\end{figure}
+
+The interface used a guided 13-pose procedure to determine each participant's
+neutral positions and comfortable motion limits. For each pose, an in-headset
+cue provided 4~s to assume the requested posture, followed by a 3-s hold
+countdown; the corresponding sensor value was recorded at the end of the hold.
+Fig.~\ref{fig:participant_calibration} defines the angle conventions. The calibration sequence comprised
+(i)~a neutral torso posture, which established the chest-IMU orientation
+offset, followed by maximum-forward, maximum-backward, maximum-left, and
+maximum-right inclinations, which defined the sagittal limits
+$(\theta^{-},\theta^{+})$ and lateral limits
+$(\phi^{-},\phi^{+})$ (five poses);
+(ii)~a neutral head orientation, which established $\psi_0$, followed by
+maximum-left and maximum-right turns, which defined
+$(\psi_{\mathrm{L}},\psi_{\mathrm{R}})$ (three poses);
+(iii)~minimum and maximum controller separations, which defined
+$(s_{\min},s_{\max})$ (two poses); and
+(iv)~minimum, neutral, and maximum controller heights, which defined
+$(h_{\min},h_0,h_{\max})$ (three poses).
+These parameters specified the normalizations in
+Eq.~\eqref{eq:body_rate_commands}, the yaw normalization preceding
+Eq.~\eqref{eq:yaw_rate}, and the absolute spread mapping in
+Eq.~\eqref{eq:spread_mapping}. They were stored in a participant-specific
+profile and used in the subsequent body-motion trials; no regression or
+additional curve fitting was performed.
+
+Table~\ref{tab:calibration_summary} summarizes the resulting calibrated input
+spans. The observed between-participant variability supports the use of
+participant-specific normalization rather than fixed population-wide bounds.
+
+\begin{table}[t]
+\centering
+\caption{Distribution of participant-specific calibrated input spans.}
+\label{tab:calibration_summary}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Calibration measure & Mean $\pm$ SD & Range \\
+\midrule
+Sagittal torso ($^\circ$)
+     & $56.4 \pm 18.4$  & $34.2$--$98.1$  \\
+Lateral torso ($^\circ$)
+     & $52.0 \pm 18.0$  & $26.2$--$81.2$  \\
+Head yaw ($^\circ$)
+    & $117.5 \pm 24.7$ & $65.6$--$138.0$ \\
+Controller separation (m)
+    & $1.17 \pm 0.31$  & $0.77$--$1.51$  \\
+Controller height (m)
+    & $0.77 \pm 0.22$  & $0.43$--$1.22$  \\
+\bottomrule
+\end{tabular}
+
+\vspace{1mm}
+\parbox{\columnwidth}{\scriptsize
+Torso and head-yaw spans are the sums of the two directional excursion
+magnitudes. Controller spans are the differences between the calibrated
+maximum and minimum.}
+\end{table}
+
+
+\subsection{Joystick Baseline}
+\begin{figure}[b]
+\centering
+\includegraphics[width=\columnwidth]{Figures/taranis_annotated.png}
+\caption{Taranis transmitter and control-axis assignments used for the
+joystick baseline. Straight arrows denote signed rate inputs; the curved arrow
+denotes absolute control of target inter-agent spacing.}
+\label{fig:taranis}
+\end{figure}
+\label{sec:joystick}
+
+The baseline condition used a Taranis radio-control transmitter to command the
+same five swarm DOF as the body-motion interface. Figure~\ref{fig:taranis}
+summarizes the control-axis assignments.
+
+Each of the four signed stick axes was normalized to $[-1,1]$ after applying
+a symmetric deadzone of 0.12 and linearly rescaling the remaining range.
+Translation and yaw commands used the same focal-drone reference frame,
+translation gain $k_v=10~\mathrm{m\,s}^{-1}$, and maximum yaw rate
+$\omega_{\max}=48^{\circ}\mathrm{s}^{-1}$ as the body-motion interface.
+The right rotary knob bypassed the deadzone and mapped linearly from $[-1,1]$
+to the same target-spacing range $\rho^{*}\in[1,5]~\mathrm{m}$.
+
+
+% =====================================================================
+
+\label{sec:experiment}
+
+\section{Experimental Evaluation}
+\label{sec:experiment}
+
+\subsection{Participants and Study Design}
+\label{sec:participants_design}
+
+Fourteen participants (10 men and 4 women; age:
+$22.4 \pm 4.0$ years, range 19--35) were recruited from the local university
+community. Eligibility required no self-reported condition limiting the
+necessary upper-body movements and vision compatible with the VR headset
+without spectacles. Most participants had no drone-control experience,
+although one was an experienced drone pilot; several reported prior video-game
+experience. All participants were compensated for their time and provided
+written informed consent.
+
+A within-subject design was used to compare the body-motion and joystick
+interfaces described in Section~\ref{sec:system}, thereby reducing the
+influence of inter-participant variability. Both conditions were performed
+while seated, as shown in Fig.~\ref{fig:setup}. Participants viewed the same
+Unity environment through the same headset, and the simulated swarm,
+focal-drone selection, command limits, and task were identical across
+conditions. Thus, the conditions differed only in the physical input device
+and its associated signal-processing pipeline. Condition order was
+counterbalanced to limit order and learning effects, with seven participants
+randomly assigned to each starting condition.
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=\columnwidth]{Figures/set.png}
+\caption{Experimental input conditions: (a) body-motion control using a Quest
+headset, two Quest controllers, and a chest-mounted IMU; and (b) joystick
+control using the same headset and a Taranis transmitter.}
+\label{fig:setup}
+\end{figure}
+
+\subsection{Task}
+\label{sec:task}
+
+
+Both interfaces controlled the same 15-agent swarm described in
+Section~\ref{sec:swarm_control}; all swarm-controller parameters were held
+constant across conditions.
+Three predefined course layouts were used: one practice course and two
+recorded-trial courses. Each course
+comprised seven wall gates and 316 collectible stars, and the layouts were
+matched in nominal path length.
+
+Each gate contained a single opening. Across the three courses, opening
+dimensions ranged from $4.5\times3.75$~m to $15\times12.5$~m
+(width $\times$ height), with opening centers displaced laterally and
+vertically. Consecutive gates along straight segments were separated by
+approximately 30~m, and each course turned by $90^{\circ}$ after the fifth
+gate. This geometry required participants to coordinate planar translation,
+altitude, view direction, and swarm contraction: lateral and vertical offsets
+required three-dimensional steering, narrow openings required contraction,
+and the final turn required a change in heading. The stars provided an
+additional coverage objective along the route.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{Figures/course_trials_annotated.png}
+\caption{Recorded-trial course layouts: (a) trial~1 and (b) trial~2. Labels
+G1--G7 indicate the gate sequence; cyan arrows show the traversal direction;
+magenta and green planes mark the start and finish, respectively; and yellow
+points represent collectible stars.}
+\label{fig:course}
+\end{figure}
+
+A run began when the first swarm agent crossed the start plane and ended when
+the first agent crossed the finish plane. Participants were instructed to
+complete the course as quickly as possible while passing near the center of
+each opening, collecting stars, and minimizing crashes and swarm
+disconnections. A star was collected when any agent entered its trigger
+volume. A crash was recorded when an agent collided with a wall or another agent, after which the affected agent was removed from the swarm. A disconnection
+occurred when the swarm interaction graph split into multiple connected
+components; agents outside the largest connected component were considered
+disconnected.
+
+\subsection{Procedure}
+\label{sec:procedure}
+
+Before the body-motion block, participants completed the participant-specific
+calibration described in Section~\ref{sec:calibration}. Calibration was
+performed once, in the same seated posture used during the trials, with no
+recalibration between runs.
+
+Each interface block began with a run on the practice course. Participants
+could initially maneuver freely to familiarize themselves with the control
+mapping, but all completed the practice course from start to finish. Practice
+data were excluded from the analysis. Participants then completed two recorded
+runs: trial~1 on course~1 and trial~2 on course~2. The course-to-trial
+assignment was identical across interface conditions to provide equivalent
+paired tasks, while the separate practice course prevented practice from
+affecting the recorded courses.
+
+After each interface block, participants completed the NASA Task Load Index
+(NASA-TLX)~\cite{hart1988nasatlx} and System Usability Scale
+(SUS)~\cite{brooke1996sus}. After both blocks, they completed a comparative
+questionnaire concerning interface preference and relative motion sickness.
+
+\subsection{Evaluation Metrics}
+
+We defined the following metrics to compare traversal efficiency, delivered
+commands, task outcomes, and subjective experience.
+
+\emph{Traversal efficiency.}
+Completion time $T$ was the interval between the start and finish events.
+For the controlled-component centroid positions $\mathbf{x}_k$, we also
+calculated travel distance
+$L=\sum_k\lVert\mathbf{x}_{k+1}-\mathbf{x}_k\rVert_2$ and mean centroid speed
+$\bar{v}=L/T$. Completion time was the primary task outcome; speed and distance
+were supporting measures because they are mathematically related to $T$.
+
+\emph{Delivered-command behavior.}
+The five delivered commands (three translations, target spacing, and view-yaw
+rate) were normalized by their implemented ranges to
+$\mathbf{q}_k\in[0,1]^5$. With $\tau=t_M-t_1$,
+$\Delta\mathbf{q}_k=\mathbf{q}_{k+1}-\mathbf{q}_k$, and
+$\Delta t_k=t_{k+1}-t_k$, command variation was
+\begin{equation}
+E_{\mathrm{cmd}}=\frac{\tau}{5}\sum_{k=1}^{M-1}
+\frac{\lVert\Delta\mathbf{q}_k\rVert_2^2}{\Delta t_k}.
+\label{eq:command_metrics}
+\end{equation}
+Lower $E_{\mathrm{cmd}}$ indicates less variation in the commands supplied to
+the swarm. Because the interfaces used different online filters, this metric
+characterizes the complete delivered-command pipelines rather than the
+intrinsic smoothness of the input modalities.
+
+\emph{Task accuracy and swarm integrity.}
+At the first forward crossing within each physical gate, centroid accuracy was
+\begin{equation}
+E_{\mathrm{gate}}=\frac{1}{7}\sum_{g=1}^{7}
+\max\left(\frac{|h_g|}{W_g/2},\frac{|v_g|}{H_g/2}\right),
+\label{eq:gate_error}
+\end{equation}
+where $h_g$ and $v_g$ are offsets from the opening center and $W_g$ and $H_g$
+are its dimensions. We further measured unique-star yield, swarm survival
+($1-N_{\mathrm{crash}}/15$), and the time-weighted fraction of surviving
+agents in the largest connected component.
+
+\emph{Subjective measures.}
+NASA-TLX and SUS quantified workload and usability. The final questionnaire
+recorded interface preference and relative motion sickness. We analyzed the
+recorded weighted TLX total and its six 0--100 ratings. Because TLX importance
+weights were elicited separately after each interface, the unweighted mean of
+the six ratings (Raw TLX) was also computed as a scoring sensitivity.
+
+\subsection{Data Processing and Statistical Analysis}
+\label{sec:statistical_analysis}
+
+All 56 recorded runs were retained. For each metric defined above, the 15-Hz
+logs were restricted to the start--finish interval; boundary values were
+interpolated, identical duplicate timestamps removed, and no smoothing or
+resampling applied. A value was computed per run and the two trials were then
+averaged within participant and interface.
+
+The resulting paired values were compared using exact two-sided Wilcoxon
+signed-rank tests, with Holm correction within the efficiency, command,
+task-outcome, and global-subjective families. The six exploratory TLX
+dimensions formed a separate family. Figure~\ref{fig:results_summary} reports
+interface means, paired body-minus-joystick differences, bootstrap 95\%
+confidence intervals (20,000 resamples), and adjusted $p$-values. Sensitivity
+checks examined trial/course and condition-order effects, path resampling,
+common filtering of both command streams, and Raw TLX scoring.
+
+% =====================================================================
+\section{Results}
+
+All 14 participants contributed two valid runs per interface.
+Figure~\ref{fig:results_summary} combines the statistical summary with
+participant-level results for completion time and physical demand.
+
+\emph{Traversal efficiency.}
+Body-motion control reduced mean completion time from 115.3 to 92.6~s, a
+19.7\% reduction ($\Delta=-22.7$~s; 95\% CI $[-32.1,-13.6]$;
+$p_{\mathrm H}=.001$). Thirteen of the 14 participants were faster with body
+motion (Fig.~\ref{fig:results_summary}(a)). Their trajectories were also 6.6\%
+shorter ($\Delta=-21.2$~m; 95\% CI $[-34.4,-7.4]$;
+$p_{\mathrm H}=.011$). Correspondingly, mean centroid speed increased from
+2.90 to 3.28~m/s, a 13.2\% increase.
+
+\emph{Delivered-command behavior.}
+Delivered command variation was 88.7\% lower in the body-motion pipeline
+($\Delta=-2971$; 95\% CI $[-3938,-2075]$;
+$p_{\mathrm H}<.001$). Applying the same additional 0.143-s low-pass filter
+to both delivered streams preserved a 79.8\% reduction. However, unfiltered
+body commands were not logged, so this result describes the complete delivered
+pipelines rather than an intrinsic difference between the two input signals.
+
+\emph{Task outcomes.}
+Neither normalized gate error nor collection yield showed a clear interface
+difference. Swarm survival and largest-component retention remained near
+ceiling with both interfaces: survival averaged 99.0\% with body motion and
+98.6\% with the joystick, while component retention averaged 0.996 and 1.000,
+respectively. These results do not establish equivalent task performance.
+
+\emph{Subjective outcomes.}
+Weighted NASA-TLX and SUS showed no clear interface differences; Raw TLX gave
+the same conclusion. Physical demand, however, was higher with body motion for
+all 14 participants, increasing from 23.0 to 63.7 points
+($\Delta=40.7$; 95\% CI $[30.7,50.4]$; $p_{\mathrm H}<.001$;
+Fig.~\ref{fig:results_summary}(b)). Eight participants preferred body motion,
+five preferred the joystick, and one reported no preference. Six reported
+greater motion sickness with body motion, four with the joystick, and four
+reported no difference.
+
+\begin{strip}
+\centering
+
+\begin{minipage}[t]{0.55\textwidth}
+\vspace{0pt}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.04}
+
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Outcome &
+Body/joystick &
+$\Delta$ [95\% CI]; $p_{\mathrm H}$ \\
+\midrule
+
+\multicolumn{3}{@{}l}{\emph{Traversal efficiency}} \\
+Completion time (s) &
+$92.6/115.3$ &
+$-22.7\,[-32.1,-13.6];\ .001$ \\
+
+Path length (m) &
+$298.9/320.1$ &
+$-21.2\,[-34.4,-7.4];\ .011$ \\
+
+\addlinespace[2pt]
+\multicolumn{3}{@{}l}{\emph{Delivered-command behavior}} \\
+Command variation$^{*}$ &
+$380/3351$ &
+$-2971\,[-3938,-2075];\ <.001$ \\
+
+\addlinespace[2pt]
+\multicolumn{3}{@{}l}{\emph{Task outcomes}} \\
+Normalized gate error &
+$0.236/0.228$ &
+$0.008\,[-0.023,0.039];\ 1.000$ \\
+
+Collection yield (\%) &
+$25.6/24.8$ &
+$0.8\,[-2.1,3.6]$ pp; $1.000$ \\
+
+\addlinespace[2pt]
+\multicolumn{3}{@{}l}{\emph{Subjective outcomes}} \\
+Weighted NASA-TLX &
+$59.1/51.9$ &
+$7.2\,[-5.5,20.2];\ .482$ \\
+
+TLX physical demand &
+$63.7/23.0$ &
+$40.7\,[30.7,50.4];\ <.001$ \\
+
+SUS &
+$60.7/59.1$ &
+$1.6\,[-12.1,14.1];\ .491$ \\
+
+\bottomrule
+\end{tabular}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.42\textwidth}
+\vspace{0pt}
+\centering
+\includegraphics[width=\linewidth]{Figures/fig_key_results.pdf}
+\end{minipage}
+
+\captionof{figure}{Summary of paired interface outcomes ($n=14$). Left:
+interface means (body/joystick), paired body-minus-joystick differences with
+bootstrap 95\% CIs, and Holm-adjusted $p_{\mathrm H}$ values. Right:
+participant-level completion time (a) and TLX physical demand (b) after
+averaging the two trials per interface; circles denote participants, lines
+connect conditions, and diamonds show group means. Confidence intervals
+containing zero do not establish equivalence. $^{*}$Command variation was
+measured at the delivered-command output and includes interface-specific
+filtering.}
+\label{fig:results_summary}
+\end{strip}
+
+\FloatBarrier
+
+
+% =====================================================================
+\section{Discussion}
+% --- 4. Discussion ---
+
+Within the tested simulated FPV task, the body-motion interface improved
+traversal efficiency relative to the conventional transmitter. Participants
+completed the courses 19.7\% faster while following shorter centroid
+trajectories and attaining a higher mean centroid speed. No interface
+difference was detected in gate centering, collection yield, swarm survival,
+or largest-component retention. The results therefore support an efficiency
+advantage for the complete implemented body-motion interface under the
+evaluated conditions, rather than a general advantage across all outcomes.
+
+The reduction in completion time reflected both faster motion and more direct
+trajectories. A plausible explanation is that distributing commands across the
+head, torso, and arms allowed several swarm DOF to be modified concurrently
+while maintaining a spatially congruent mapping in the rotating focal-drone
+frame. By contrast, adjusting formation spread with the transmitter required
+participants to leave the forward-velocity stick to manipulate the spread
+knob, which may have serialized commands and introduced pauses near narrow
+gates. The higher simultaneous-change index under body-motion control is
+consistent with the concept of integral multidimensional input
+\cite{jacob1994integrality,zhai1998quantifying}. However, this index measures
+temporal concurrence rather than coordination quality, and the present
+experiment does not establish that concurrent commands caused the performance
+improvement. Similarly, the lower delivered-command variation characterizes
+the complete interface pipelines: the body-motion interface applied online
+filtering, whereas the transmitter relied primarily on a deadzone. Matched
+filtering or a filter-ablation study would be required to isolate the effect of
+the input modality.
+
+The efficiency improvement was not accompanied by a detectable degradation in
+the measured task-quality or swarm-integrity outcomes. These null results do
+not demonstrate equivalence or noninferiority. In particular, swarm survival
+and largest-component retention were close to their upper bounds in both
+conditions, limiting sensitivity to modest differences. Consequently, the
+findings should not be interpreted as evidence of equivalent safety or
+robustness beyond the tested simulation.
+
+The subjective outcomes reveal a performance--effort trade-off: body-motion
+control improved objective efficiency but was substantially more physically
+demanding, while total NASA-TLX and SUS did not differ detectably between
+interfaces. Thus, its performance benefit came at a physical cost without a
+clear overall workload or usability advantage.
+
+Overall, these findings extend upper-body interfaces previously evaluated for
+individual-drone control
+\cite{rognon2018flyjacket,miehlbradt2018datadriven,macchini2024datadriven, tsykunov2019swarmtouch,kratky2025gesture}
+and complement hand- or body-based swarm interfaces evaluated primarily from
+external viewpoints
+\cite{macchini2021personalized,tsykunov2019swarmtouch}. They also complement
+previous FPV swarm research using a conventional transmitter
+\cite{ben_focaldrone}. By holding the FPV strategy and swarm controller
+constant, the present comparison indicates that distributing collective
+control dimensions across body segments is a promising approach when
+translation, altitude, view direction, and formation size must be adjusted
+during the same maneuver. Direct quantitative comparison with previous studies
+is nevertheless inappropriate because their tasks, viewpoints, swarm
+configurations, and outcome measures differ.
+
+The physical-demand result identifies an important direction for interface
+refinement. FlyJacket incorporated passive arm support to reduce fatigue during
+upper-body drone control \cite{rognon2018flyjacket}. A comparable mechanism
+could be investigated for the present interface. Participants also reported
+that torso leaning could unintentionally lower their hands and therefore
+affect the vertical command. Passive support or software compensation that
+separates torso-induced hand displacement from intentional arm-height changes
+could reduce this command coupling. Informal participant feedback further
+indicated limited awareness of the swarm's spatial extent when selecting a
+formation spread for passing through openings. Vibrotactile feedback could
+communicate the current spread or available clearance, as demonstrated for
+swarm-state and formation guidance in SwarmTouch
+\cite{tsykunov2019swarmtouch}. These observations were not obtained through a
+formal qualitative analysis and should therefore be treated as design
+hypotheses for future evaluation.
+
+Finally, the findings are bounded by the relatively small and predominantly
+young university sample, two recorded courses with a fixed course-to-trial
+order, one 15-agent swarm, one rear-FPV strategy, seated operation, and brief
+exposure to each interface. The simulation also omitted real world noise (wind, communication
+disturbances, consequences of physical collisions, ...). Future studies should examine learning and fatigue over longer periods, randomize and diversify the courses, evaluate different swarm
+sizes and viewpoint strategies, compare interfaces under matched signal
+processing, and validate the approach using physical aerial swarms.
+
+% =====================================================================
+\section{Conclusion}
+
+This work presented a participant-calibrated upper-body interface for
+continuous five-DOF teleoperation of an aerial swarm under first-person view.
+In a within-subject comparison with a conventional transmitter, the complete
+body-motion interface enabled participants to finish the simulated courses
+nearly 20\% faster while travelling shorter distances and attaining higher mean
+speed. It also produced lower delivered-command variation and more
+simultaneous multi-DOF command changes. No interface differences were detected
+in gate centering, collection, swarm survival, connectivity, workload, or
+usability, while preference and motion-sickness responses were mixed. These
+findings support upper-body motion as a promising command modality for
+multi-DOF FPV swarm interaction within the tested simulation. Evaluation under
+matched signal processing, longer exposure, varied swarm configurations, and
+physical flight is required before broader deployment conclusions can be
+drawn.
+
+
+% =====================================================================
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}
