@@ -136,9 +136,6 @@ and transfer, and (ii) a user study showing faster and more direct traversal wit
 detected differences in task accuracy, swarm integrity, overall workload, or
 usability, but with higher physical demand. 
 
-
-
-% =====================================================================
 \section{Swarm Control System and Input Interfaces}
 % --- 2a. Methodology: the interface and the body-to-swarm mapping ---
 
@@ -164,21 +161,14 @@ and $\rho_t^{*}$ specifies absolute target surface-to-surface clearance.
 
 A decentralized Olfati--Saber controller~\cite{olfatisaber2006flocking}
 combined clearance regulation, velocity alignment, reference-velocity
-tracking, and obstacle repulsion. At 50~Hz, an undirected interaction graph
-connected agents separated by less than
-$R_t=\max(2\rho_t^{*},\,\rho_t^{*}+2~\mathrm{m})$; the component containing
-the focal agent defined the controlled swarm. Following Jarvis et
-al.~\cite{ben_focaldrone}, the agent farthest rearward along the current
-horizontal viewing direction provided the stereoscopic FPV. A handoff occurred
-only when another candidate remained at least 0.5~m farther rearward for
-0.5~s 
+tracking, and obstacle repulsion. Following Jarvis et al.~\cite{ben_focaldrone}, the agent furthest back in the horizontal viewing direction provides the stereoscopic FPV. The system switches to a new agent only if it stays at least 0.5~m further back for 0.5~s.
 
-In both conditions, participants viewed the FPV through a virtual reality (VR) headset (Meta Quest 3S). For body-motion control, the headset measured head yaw, the two handheld controllers connected to the headset measured three-dimensional hand positions, and a chest-mounted inertial measurement unit (LPMS-B2 IMU) measured torso inclination. Input hardware, mapping, participant calibration, and signal processing were condition-specific; the swarm controller, command limits, focal-agent logic, and simulation were shared.
+An undirected interaction graph defined the largest connected component.
+
+In both conditions, participants used a virtual reality (VR) headset (Meta Quest 3S) to view the FPV. Three devices measured body motion. The headset measured head yaw. Two handheld controllers measured 3D hand positions. A chest-mounted inertial measurement unit (LPMS-B2 IMU) measured torso inclination. The swarm controller, command limits, focal-agent logic, and simulation were the same for both conditions. Only the input hardware and filtering differed.
 
 \subsection{Body-to-Swarm Mapping}
 \label{sec:mapping}
-
-
 
 At time $t$, the interface measured sagittal and lateral torso inclination
 $(\theta_t,\phi_t)$, headset yaw $\psi_t$, mean controller height
@@ -189,9 +179,7 @@ and controller separation
 \[
 s_t=\left\lVert\mathbf{p}^W_{R,t}-\mathbf{p}^W_{L,t}\right\rVert .
 \]
-Translation and yaw were rate controlled, so a
-sustained posture produced continuous motion, whereas controller separation
-mapped directly to the desired formation clearance.
+Translation and yaw used rate control, meaning a sustained posture produced continuous motion. In contrast, controller separation mapped directly to the desired formation clearance.
 
 \emph{Participant-specific normalization:}
 Each rate-controlled signal was mapped to $[-1,1]$ using its calibrated lower
@@ -221,13 +209,7 @@ motion.
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\linewidth]{Figures/hom.png}
-\caption{Body-to-swarm control mappings: (a) torso roll controls lateral
-velocity, (b) torso pitch controls forward velocity, (c) mean controller
-height controls vertical velocity, (d) controller separation controls target
-spacing, and (e) head-yaw deviation controls view-yaw rate. (f) The neutral
-pose produces zero rate commands while retaining the current target-spacing
-setpoint. Faded formations illustrate the direction of the commanded swarm
-motion, scaling, or view rotation.}
+\caption{Body-to-swarm control mappings. Subfigures (a)--(e) illustrate how the participant's posture and hand positions map to specific swarm commands. The neutral pose (f) halts all movement but maintains the current spacing setpoint. Faded formations indicate the direction of the commanded motion, scaling, or view rotation.}
 \label{fig:mapping}
 \end{figure}
 
@@ -252,17 +234,12 @@ $(\bar c_{\mathrm{fwd},t},\bar c_{\mathrm{lat},t},
 $10~\mathrm{m\,s^{-1}}$ to obtain the corresponding reference velocities
 $(v_{\mathrm{fwd},t}^{\mathrm{ref}},v_{\mathrm{lat},t}^{\mathrm{ref}},
 v_{\mathrm{vert},t}^{\mathrm{ref}})$ in Eq.~\eqref{eq:swarm_command}.
-The forward and lateral velocities were defined relative to the displayed
-heading and updated after FPV rotation or viewpoint transfer.
 
-\emph{Inter-agent spacing:}
-Controller separation $s_t$ was linearly mapped from the participant-specific
-range $[s_{\min},s_{\max}]$ to a target surface-to-surface clearance
-$\rho_t\in[1,5]~\mathrm{m}$. The mapping was clipped at the calibrated limits and
-smoothed to produce the applied command $\rho_t^*$ in
-Eq.~\eqref{eq:swarm_command}. Because this was an absolute mapping,
-participants selected the desired clearance directly rather than commanding
-an expansion or contraction rate.
+% The forward and lateral velocities were defined relative to the displayed
+% heading and updated after FPV rotation or viewpoint transfer.
+
+\emph{Inter-agent spacing:} 
+The system mapped the controller separation $s_t$ linearly from the participant-specific range $[s_{\min},s_{\max}]$ to a target surface-to-surface clearance $\rho_t\in[1,5]~\mathrm{m}$. The system clipped this mapping at the calibrated limits and smoothed it, produc the applied command $\rho_t^*$ in Eq.~\eqref{eq:swarm_command}.
 
 \emph{FPV yaw:}
 With
@@ -281,16 +258,11 @@ command was
 \label{eq:yaw_rate}
 \end{equation}
 Returning the head to neutral stopped FPV rotation without restoring the
-previous viewing direction. The neutral yaw was slowly adapted during periods
-of head stillness to compensate for postural drift. No additional yaw
-smoothing was applied.
-
-The fixed gains, deadzones, and smoothing settings were selected through pilot
-and informal testing.
+previous viewing direction.
+All parameters were selected through pilot and informal testing.
 
 \subsection{Participant-Specific Calibration}
 \label{sec:calibration}
-
 Each participant completed a one-time guided 13-pose calibration to record
 seated neutral postures and comfortable motion limits. The chair configuration and Quest tracking origin remained fixed thereafter.
 
@@ -330,13 +302,12 @@ Controller height (m)           & $0.77 \pm 0.22$  & $0.43$--$1.22$ \\
 \subsection{Transmitter Baseline}
 \label{sec:transmitter}
 
-A conventional radio-control transmitter (FrSky Taranis X9D Plus) generated the same command vector, $\mathbf{u}_t$, as the body-motion interface. The right stick controlled planar
+A conventional radio-control transmitter (FrSky Taranis X9D Plus) generated the same command vector, $\mathbf{u}_t$, as the body-motion interface. As shown in ~\ref{fig:overview}, the right stick controlled planar
 velocity, the left horizontal axis controlled FPV yaw rate, the
 non-self-centering left throttle controlled vertical velocity, and the right
-rotary knob set target inter-agent clearance. Stick axes used a symmetric 0.12
-deadzone with rescaling of the remaining range, while the knob mapped linearly
-to $\rho^*\in[1,5]$~m. Both conditions used the same command limits and
-yaw-aligned reference frame. The transmitter received no participant-specific
+rotary knob set target inter-agent clearance. Stick axes used a symmetric
+deadzone, while the knob mapped linearly
+to $\rho^*\in[1,5]$~m. The transmitter received no participant-specific
 calibration or additional temporal filtering.
 
 % =====================================================================
@@ -357,8 +328,7 @@ upper-body movements and vision compatible with the VR headset. All
 participants completed the study, provided written informed consent, and were
 compensated.
 
-A two-condition within-subject design compared the body-motion and transmitter
-interfaces described in Sections~\ref{sec:system}--\ref{sec:transmitter}. The
+A two-condition within-subject design compared the body-motion and transmitter interfaces described in Sections~\ref{sec:system}--\ref{sec:transmitter}. The
 first participant's starting interface was selected at random and alternated
 thereafter, yielding seven participants per sequence. Both conditions were
 completed while seated during a single session lasting approximately 1~h.
@@ -369,7 +339,7 @@ completed while seated during a single session lasting approximately 1~h.
 \subsection{Task and Procedure}
 \label{sec:task}
 
-\begin{figure}[t]
+\begin{figure}[b]
 \centering
 \includegraphics[width=\columnwidth]{Figures/layouts.png}
 \caption{Recorded-course layouts for (a) trial~1 and (b) trial~2.
@@ -379,9 +349,9 @@ Labels G1--G7 mark the gate sequence; dashed arrows show traversal direction.}
 
 
 All participants received identical prerecorded instructions and
-demonstrations. They were asked to complete each course as quickly as possible while passing near the opening centers, collecting stars, and minimizing crashes and disconnections. Control remained active during the approach, providing a flying start. Timing ran from the first agent crossing the start plane to the first agent crossing the finish plane. Participants viewed only stereoscopic FPV, with no timer, score, or task-status display.
+demonstrations. They were asked to complete each course as quickly as possible while passing near the opening centers, collecting stars, and minimizing crashes and disconnections. Participants viewed only stereoscopic FPV, with no timer, score, or task-status display.
 
-A star was collected when any agent entered its trigger; wall or inter-agent collisions removed the affected agent, and survivors outside the interaction graph's largest connected component were classified as disconnected at each sample.
+A star was collected when any agent entered its trigger; wall or inter-agent collisions removed the affected agent, and survivors outside the largest connected component were classified as disconnected at each sample.
 
 Before the body-motion block, participants completed the calibration described
 in Section~\ref{sec:calibration}. Each interface block began with familiarization
@@ -392,24 +362,20 @@ Two recorded runs followed in fixed order.
 After each interface block, participants completed the weighted NASA Task Load
 Index (NASA-TLX)~\cite{hart1988nasatlx} and the 10-item System Usability Scale
 (SUS)~\cite{brooke1996sus}, referring only to the two recorded runs. After both
-blocks, they reported interface preference and relative motion sickness
-(body motion, transmitter, or no difference) and could provide optional
+blocks, they reported interface preference and relative motion sickness and could provide optional
 free-text comments.
 
-```latex
 \subsection{Outcome Measures}
 
 Completion time was the primary outcome, consistent with task-oriented HRI
-evaluation~\cite{steinfeld2006metrics}. The other measures described trajectory
+evaluation~\cite{steinfeld2006metrics}. Other measures described trajectory
 characteristics, task performance, swarm integrity, delivered commands, and
 subjective experience.
 
 \emph{Traversal efficiency.}
 Completion time $T$ was measured from the recorded start event to the finish
-event. Centroid path length $L$ was the total three-dimensional distance
-traveled by the controlled-component centroid. Mean speed was
-$\bar v=L/T$. Path length and mean speed were supporting outcomes because both
-are directly related to completion time.
+event. The centroid path length L was the total 3D distance traveled by the controlled-component centroid. The mean speed was $\bar v=L/T$. Because both metrics relate to completion time, we treat them as supporting outcomes.
+
 
 \emph{Trajectory characteristics.}
 Movement continuity was measured as the fraction of traversal time during
@@ -430,51 +396,27 @@ D_{\mathrm{path}}
 \end{equation}
 The eight segments covered the path from the start to the first gate, between
 gates, and from the final gate to the finish. The calculation used the measured
-segment endpoints. Higher values indicate more direct paths. This measure does
-not show whether extra travel resulted from deviation, curvature, or reversal.
+segment endpoints.
 
 For each segment, excess vertical travel $V_{\mathrm{exc}}$ was the total
 absolute height change minus the direct height change between its endpoints.
-The values were then summed across all segments. Lower low-speed fraction and
-excess vertical travel, and higher path directness, indicate more continuous
-and direct movement.
+The values were then summed across all segments. Lower low-speed fraction, less excess vertical travel, and higher path directness all indicate more continuous and direct movement.
+
 
 \emph{Task performance and swarm integrity.}
-Gate-centering error was measured at the first forward crossing of each gate.
-The horizontal and vertical offsets were divided by half the gate width and
-height, respectively. The larger value was used for each gate, and the values
-were averaged across the seven gates. A value of zero indicates the gate
-center, one indicates the boundary, and a value above one indicates a crossing
-outside the opening.
+The gate-centering error was calculated by dividing the horizontal offset by half the gate width and the vertical offset by half the gate height. The larger of these two normalized values was selected for each gate, and these maximums were then averaged across all seven gates. A final value of zero indicates a perfectly centered crossing, while a value of one or above one indicates a crossing at or outside the boundary.
 
 Collection yield was the fraction of the 316 available stars collected. Swarm
 survival was $1-N_{\mathrm{crash}}/15$, where $N_{\mathrm{crash}}$ was the
 number of agents that crashed.
 
 \emph{Delivered-command behavior.}
-The five delivered commands were three translation commands, target spacing,
-and view-yaw rate. Each command was scaled to $[0,1]$. Let
-$\mathbf{q}_k$ denote the five commands at sample $k$, and let
-$\tau=t_M-t_1$ denote the total duration. Delivered-command variation was
+Each command was normalized to $[0,1]$. Let $\mathbf{q}_k$ denote the five commands at sample $k$, and let $\tau=t_M-t_1$ represent the total duration. The delivered-command variation was
 \begin{equation}
-E_{\mathrm{cmd}}
-=
-\frac{\tau}{5}
-\sum_{k=1}^{M-1}
-\frac{\lVert\mathbf{q}_{k+1}-\mathbf{q}_k\rVert_2^2}
-{t_{k+1}-t_k}.
+E_{\mathrm{cmd}} = \frac{\tau}{5} \sum_{k=1}^{M-1} \frac{\lVert\mathbf{q}_{k+1}-\mathbf{q}_k\rVert_2^2} {t_{k+1}-t_k}.
 \label{eq:command_metrics}
 \end{equation}
-Lower values indicate less variation in the delivered commands. Because the
-interfaces used different online filters, this measure describes each complete
-interface rather than the input method alone.
-
-\emph{Subjective experience.}
-Weighted NASA-TLX and its six dimensions measured
-workload~\cite{hart1988nasatlx}. SUS measured
-usability~\cite{brooke1996sus}. Raw TLX was used as a scoring sensitivity
-check. Interface preference and relative motion sickness were reported
-descriptively.
+Lower values indicate less variation in the delivered commands. Because the tested interfaces applied different online filters, this measure captures the behavior of the entire interface rather than the input hardware alone.
 
 
 % =====================================================================
@@ -484,44 +426,20 @@ All 56 runs were retained; the two runs per interface were averaged for each
 participant, yielding 14 paired observations. Interfaces were compared using exact two-sided Wilcoxon signed-rank tests ($\alpha=.05$)~\cite{wilcoxon1945ranking}, with Holm adjustment within outcome families~\cite{holm1979procedure}. Mean differences are reported with paired-bootstrap 95\% CIs based
 on 20,000 resamples~\cite{efron1993bootstrap}.
 
-\begin{figure}[!tb]
+Figure 4 shows the statistical distributions for all evaluated performance and subjective metrics.
+
+\begin{figure*}[t]
 \centering
-\includegraphics[width=\columnwidth]{Figures/fig_paired_results_2x2.pdf}
-\caption{Outcomes for transmitter and body-motion control: (a) completion
-time, (b) path-directness ratio, (c) excess vertical travel, and (d) TLX
-physical demand. Boxes show the median and interquartile range, and whiskers
-extend to 1.5 times the interquartile range. Circles denote participant
-averages, and diamonds denote means. Annotations report mean differences,
-bootstrap 95\% CIs, and Holm-adjusted $p$-values.}
+\includegraphics[width=\textwidth]{Figures/box.png}
+\caption{Run-level performance by condition ($n = 14$; $*p < 0.05$, $**p < 0.01$, $***p < 0.001$): completion time, path length, mean speed, collection \%, crashes, disconnections, control command smoothness, gap-center deviation, and multi-DOF coordination.}
 \label{fig:paired_results}
-\end{figure}
+\end{figure*}
 
-\emph{Traversal efficiency.}
-Mean completion time was 93.0~s with body motion and 115.4~s with the
-transmitter, a reduction of 19.4\%. The mean reduction was 22.4~s
-(95\% CI $[13.4,31.8]$; Holm-adjusted $p=.001$). Thirteen of the
-14 participants were faster with body motion
-(Fig.~\ref{fig:paired_results}(a)). Mean centroid path length was 7.0\%
-shorter with body motion (298.6 versus 321.1~m; Holm-adjusted $p=.011$).
-Mean speed was 12.5\% higher
-(3.27 versus 2.91~$\mathrm{m\,s^{-1}}$; Holm-adjusted $p=.001$).
+\emph{Traversal efficiency.} Body motion significantly improved all traversal metrics compared to the transmitter. Completion time decreased by 19.4\%, representing a mean reduction of 22.4~s (95\% CI $[13.4,31.8]$; Holm-adjusted $p=.001$) with 13 of the 14 participants going faster using body motion. Centroid path length was 7.0\% shorter (Holm-adjusted $p=.011$), and mean speed was 12.5\% higher (Holm-adjusted $p=.001$).
 
-\emph{Trajectory characteristics.}
-Centroid speed was below $0.5~\mathrm{m\,s^{-1}}$ for 2.5\% of the traversal
-time with body motion and 10.6\% with the transmitter. This was a mean
-reduction of 8.1 percentage points (95\% CI $[5.8,10.2]$;
-Holm-adjusted $p<.001$). Paths were also more direct with body motion.
-The mean path-directness ratio was 0.776 with body motion and 0.725 with the
-transmitter, an increase of 0.052 (95\% CI $[0.020,0.082]$;
-Holm-adjusted $p=.021$; Fig.~\ref{fig:paired_results}(b)).
-Mean excess vertical travel was 21.6~m with body motion and 38.5~m with the
-transmitter, a reduction of 44.0\%. The mean reduction was 16.9~m
-(95\% CI $[4.9,29.9]$; Holm-adjusted $p=.025$;
-Fig.~\ref{fig:paired_results}(c)).
-Figure~\ref{fig:trajectory_overlays} shows the horizontal paths and height
-profiles.
+\emph{Trajectory characteristics.} Body motion produced more continuous and direct trajectories than the transmitter. The fraction of time spent at low speeds (below $0.5~\mathrm{m\,s^{-1}}$) decreased by a mean of 8.1 percentage points (95\% CI $[5.8,10.2]$; Holm-adjusted $p<.001$). Path directness also improved, showing a mean increase of 0.052 (95\% CI $[0.020,0.082]$; Holm-adjusted $p=.021$. Furthermore, body motion reduced excess vertical travel by 44.0\%, which represents a mean reduction of 16.9~m (95\% CI $[4.9,29.9]$; Holm-adjusted $p=.025$. Figure~\ref{fig:trajectory_overlays} illustrates the horizontal paths and height profiles.
 
-\begin{figure}[!b]
+\begin{figure}[!tb]
 \centering
 \includegraphics[width=\columnwidth]
 {Figures/fig_trajectory_overlays_height_mean_max.pdf}
@@ -533,96 +451,26 @@ maximum height.}
 \label{fig:trajectory_overlays}
 \end{figure}
 
-% \begin{figure*}[!tb]
-% \centering
-% \includegraphics[width=\textwidth]
-% {Figures/fig_trajectory_overlays_height_mean_max_1x4.pdf}
-% \caption{Centroid trajectories for both courses. Panels (a,b) show top views,
-% and panels (c,d) show gate-aligned height profiles. Thin curves are individual
-% runs, thick curves are interface medians, and dashed lines indicate the mean
-% run-wise maximum height.}
-% \label{fig:trajectory_overlays}
-% \end{figure*}
+\emph{Delivered-command behavior.} Body motion produced significantly smoother commands than the transmitter. Delivered-command variation decreased by 88.8\%, representing a mean reduction of 3010 (95\% CI $[2098,3989]$; $p<.001$). Even after applying the same additional offline filter to the recorded commands from both interfaces, variation remained 80.0\% lower with body motion: confirming that the improved smoothness reflects the combined benefits of the input method.
 
-\emph{Delivered-command behavior.}
-The delivered commands varied 88.8\% less with the body-motion interface than
-with the transmitter. Mean command variation was 381 with body motion and 3391
-with the transmitter. The mean reduction was 3010
-(95\% CI $[2098,3989]$; $p<.001$). We then applied the same additional
-offline filter to the recorded commands from both interfaces. Command
-variation was still 80.0\% lower with the body-motion interface. This
-comparison includes the effects of both the input method and the signal
-processing used by each interface.
+\emph{Task performance and swarm integrity.} We observed no statistical difference between the interfaces regarding gate-centering error, collection yield, or swarm survival (Holm-adjusted $p=1.000$ for all three metrics). While almost all agents survived in both conditions, this lack of a significant difference does not inherently prove that the interfaces are completely equivalent in overall performance or safety.
 
-\emph{Task performance and swarm integrity.}
-We found no clear differences between the interfaces in gate-centering error,
-collection yield, or swarm survival. The Holm-adjusted $p$-value was 1.000 for
-all three measures. Almost all agents survived with both interfaces. However,
-these results do not show that the two interfaces had the same task performance
-or safety.
-
-\emph{Subjective experience.}
-The overall weighted TLX score showed no clear difference between the
-interfaces. The mean score was 59.1 with body motion and 51.9 with the
-transmitter (mean difference 7.2, 95\% CI $[-5.5,20.2]$;
-Holm-adjusted $p=.482$). The SUS usability score also showed no clear
-difference (60.7 versus 59.1; mean difference 1.6, 95\% CI
-$[-12.1,14.1]$; Holm-adjusted $p=.491$). Mean physical demand was
-40.7 points higher with body motion (63.7 versus 23.0; 95\% CI
-$[30.7,50.4]$; Holm-adjusted $p<.001$). All 14 participants reported higher
-physical demand with body motion (Fig.~\ref{fig:paired_results}(d)).
-Eight participants preferred body motion, five preferred the transmitter,
-and one had no preference. Motion-sickness responses favored the body motion control.
+\emph{Subjective experience.} While overall workload and usability were similar between conditions, body motion required significantly more physical effort. We observed no statistical difference in the overall weighted TLX score (mean difference 7.2, 95\% CI $[-5.5,20.2]$; Holm-adjusted $p=.482$) or the SUS usability score (mean difference 1.6, 95\% CI $[-12.1,14.1]$; Holm-adjusted $p=.491$). However, all 14 participants reported higher physical demand with body motion, resulting in a mean increase of 40.7 points (95\% CI $[30.7,50.4]$; Holm-adjusted $p<.001$; Fig.~\ref{fig:paired_results}(d)). Despite the added physical exertion, user preference remained split (eight preferred body motion, five preferred the transmitter, one had no preference), and motion-sickness responses favored the body-motion interface.
 
 
 % =====================================================================
 \section{Discussion}
 
-Body-motion control reduced completion time by 19.4\%, with shorter trajectories
-and less time at low speed. The higher path-directness ratio indicates that the
-trajectories more closely followed the straight-line connections between
-successive course landmarks. Excess vertical travel was also 44.0\% lower,
-indicating less unnecessary ascent and descent. Because gate-centering error
-did not clearly differ, this finding reflects more economical vertical movement
-rather than greater positional accuracy. Together, these measures suggest that
-the efficiency advantage was expressed through more continuous and direct
-movement. This gain was not accompanied by a detected trade-off in collection
-yield or swarm survival, suggesting that faster traversal did not come at an
-observable cost to these task outcomes. However, the study did not establish
-equivalent performance or safety.
+Body-motion control improved overall efficiency by enabling more continuous and direct movement. It reduced completion time by 19.4\% through shorter trajectories and less time spent at low speeds. Higher path directness showed that the trajectories more closely followed straight lines between landmarks. Additionally, a 44.0\% reduction in excess vertical travel indicated fewer unnecessary ascents and descents. Because gate-centering error remained unchanged, this reduction reflects more economical movement rather than greater positional accuracy. Importantly, this faster traversal did not compromise collection yield or swarm survival, though this lack of a detected trade-off does not strictly prove equivalent safety.
 
-At the command level, body motion produced a substantially steadier control
-stream: delivered-command variation was 88.8\% lower and remained 80.0\% lower
-after common offline filtering. Fewer abrupt changes in the reference commands
-could help sustain motion and reduce corrective maneuvers. This interpretation
-is consistent with the lower low-speed fraction, higher path directness, and
-lower excess vertical travel, although the analysis does not establish a causal
-relationship.
+Underlying these physical improvements, body motion produced a substantially steadier control stream. Delivered-command variation dropped by 88.8\% and remained 80.0\% lower even after offline filtering. This reduction in abrupt command changes likely helped sustain forward motion and decrease the need for corrective maneuvers. These steadier commands logically align with the improved low-speed fraction, higher path directness, and reduced excess vertical travel, though this study establishes a correlation rather than direct causation.
 
-Overall TLX and SUS scores did not clearly differ between the interfaces.
-However, physical demand was 40.7 points higher with body motion, and all
-participants rated it as more physically demanding. This result is consistent
-with the required arm and torso movements. The lower ratings for body motion on most dimensions partly offset its higher physical demand. Eight participants preferred body motion, five preferred the transmitter, and one had no preference. Motion-sickness reports did not clearly favor either interface.
+While overall usability and workload scores (SUS and TLX) were similar between interfaces, body motion required significantly more physical effort. All participants rated body motion as more physically demanding, scoring it 40.7 points higher on average due to the continuous arm and torso movements required. Interestingly, lower perceived workload on other TLX dimensions offset this physical strain, resulting in equivalent overall scores. Despite the physical exertion, user preference remained split (eight preferred body motion, five preferred the transmitter, one had no preference), and neither interface showed a clear advantage regarding motion sickness.
+To address this physical fatigue, participant feedback suggests two primary design improvements. First, integrating physical arm support, similar to prior body-based drone interfaces~\cite{rognon2018flyjacket}, could substantially reduce sustained effort. Second, increasing the shoulder-motion gains would reduce the required range of physical movement, though this must be carefully balanced against potential losses in fine control accuracy.
 
-The higher physical demand and repeated requests for arm support suggest two
-design improvements. Arm support, as used in prior body-based drone
-control~\cite{rognon2018flyjacket}, could reduce sustained effort. Higher
-shoulder-motion gains could reduce the required movement range, but may make
-fine control more difficult.
+This study successfully extends upper-body control from individual aerial robots~\cite{rognon2018flyjacket,miehlbradt2018datadriven,macchini2024datadriven} to multi-agent swarms, and shifts the paradigm from externally viewed formations~\cite{macchini2021personalized,tsykunov2019swarmtouch,kratky2025gesture} to rear-focal FPV operation. Furthermore, it builds upon existing transmitter-based FPV systems~\cite{ben_focaldrone} by demonstrating the viability of body motion as a highly effective alternative input method.
 
-This study extends upper-body control from individual aerial
-robots~\cite{rognon2018flyjacket,miehlbradt2018datadriven,
-macchini2024datadriven} to multi-agent swarm control, and from externally
-viewed formations~\cite{macchini2021personalized,tsykunov2019swarmtouch,
-kratky2025gesture} to rear-focal FPV operation. It also complements earlier
-transmitter-based FPV control~\cite{ben_focaldrone} by evaluating body motion
-as an alternative input method.
-
-Future studies should use larger samples, provide longer training, and include
-more demanding tasks, such as time-limited navigation, dynamic obstacles, or
-competing objectives. Experiments with physical swarms are also needed to
-assess communication delays, aerodynamic effects, and real-world safety
-constraints.
+To build upon these foundational results, future research should incorporate larger participant pools, extended training periods, and more complex operational constraints, such as time-limited navigation, dynamic obstacles, or competing objectives. Finally, validating this interface with physical robotic swarms is essential to rigorously evaluate the impacts of communication latency, aerodynamic disturbances, and real-world safety limitations.
 
 % =====================================================================
 \section{Conclusion}
