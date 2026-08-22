@@ -302,7 +302,7 @@ Controller height (m)           & $0.77 \pm 0.22$  & $0.43$--$1.22$ \\
 \subsection{Transmitter Baseline}
 \label{sec:transmitter}
 
-A conventional radio-control transmitter (FrSky Taranis X9D Plus) generated the same command vector, $\mathbf{u}_t$, as the body-motion interface. As shown in ~\ref{fig:overview}, the right stick controlled planar
+A conventional radio-control transmitter (FrSky Taranis X9D Plus) generated the same command vector, $\mathbf{u}_t$, as the body-motion interface. As shown in Fig. ~\ref{fig:study_overview}, the right stick controlled planar
 velocity, the left horizontal axis controlled FPV yaw rate, the
 non-self-centering left throttle controlled vertical velocity, and the right
 rotary knob set target inter-agent clearance. Stick axes used a symmetric
@@ -333,16 +333,13 @@ first participant's starting interface was selected at random and alternated
 thereafter, yielding seven participants per sequence. Both conditions were
 completed while seated during a single session lasting approximately 1~h.
 
-
-
-
 \subsection{Task and Procedure}
 \label{sec:task}
 
 \begin{figure}[b]
 \centering
 \includegraphics[width=\columnwidth]{Figures/single_layout.png}
-\caption{Recorded-course layouts for (a) trial~1 and (b) trial~2.
+\caption{Course layout for trial~2.
 Labels G1--G7 mark the gate sequence; dashed arrows show traversal direction.}
 \label{fig:course_layouts}
 \end{figure}
@@ -360,12 +357,12 @@ experimenter guidance and then completed one unrecorded full-course traversal.
 Two recorded runs followed in fixed order.
 
 After each interface block, participants completed the weighted NASA Task Load
-Index (NASA-TLX)~\cite{hart1988nasatlx} and the 10-item System Usability Scale
+Index (NASA-TLX)~\cite{hart1988nasatlx} and the System Usability Scale
 (SUS)~\cite{brooke1996sus}, referring only to the two recorded runs. After both
 blocks, they reported interface preference and relative motion sickness and could provide optional
 free-text comments.
 
-\subsection{Outcome Measures}
+\subsection{Evaluation Metrics}
 
 Completion time was the primary outcome, consistent with task-oriented HRI
 evaluation~\cite{steinfeld2006metrics}. Other measures described trajectory
@@ -402,9 +399,12 @@ For each segment, excess vertical travel $V_{\mathrm{exc}}$ was the total
 absolute height change minus the direct height change between its endpoints.
 The values were then summed across all segments. Lower low-speed fraction, less excess vertical travel, and higher path directness all indicate more continuous and direct movement.
 
-
-\emph{Task performance and swarm integrity.}
-The gate-centering error was calculated by dividing the horizontal offset by half the gate width and the vertical offset by half the gate height. The larger of these two normalized values was selected for each gate, and these maximums were then averaged across all seven gates. A final value of zero indicates a perfectly centered crossing, while a value of one or above one indicates a crossing at or outside the boundary.
+\emph{Gate-centering error.} For each gate we linearly interpolate the swarm
+centroid to the instant it crosses the gate plane and measure its offsets from
+the gate center within that plane: $d_h$ along the gate's horizontal axis and
+$d_v$ vertically. We report the in-plane distance $\sqrt{d_h^2+d_v^2}$ averaged
+over the $N_g=7$ gates, so that lower values indicate crossings closer to the
+gate center.
 
 Collection yield was the fraction of the 316 available stars collected. Swarm
 survival was $1-N_{\mathrm{crash}}/15$, where $N_{\mathrm{crash}}$ was the
@@ -431,7 +431,13 @@ Figure 4 shows the statistical distributions for all evaluated performance and s
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{Figures/box.png}
-\caption{Run-level performance by condition ($n = 14$; $*p < 0.05$, $**p < 0.01$, $***p < 0.001$): completion time, path length, mean speed, collection \%, crashes, disconnections, control command smoothness, gap-center deviation, and multi-DOF coordination.}
+\caption{Participant-level outcomes for joystick and body-motion control
+($n=14$). Command variation is shown for the recorded pipelines and after
+applying the same additional 0.143-s low-pass filter to both interfaces.
+Boxes show interquartile ranges with median lines; diamonds indicate means
+and circles indicate outliers. Orange denotes joystick and teal denotes body
+motion. Stars mark Holm-adjusted paired comparisons
+($*p<0.05$, $**p<0.01$, $***p<0.001$).}
 \label{fig:paired_results}
 \end{figure*}
 
@@ -443,11 +449,10 @@ Figure 4 shows the statistical distributions for all evaluated performance and s
 \centering
 \includegraphics[width=\columnwidth]
 {Figures/2.png}
-\caption{Centroid trajectories for both courses. Panels (a,b) show Course~1,
-and panels (c,d) show Course~2. The left and right columns show top views and
-gate-aligned height profiles, respectively. Thin curves are individual runs,
-thick curves are interface medians, and dashed lines indicate the mean run-wise
-maximum height.}
+\caption{Course~2 centroid trajectories: (a) horizontal paths and
+(b) gate-aligned heights, contextualizing horizontal and vertical excess
+travel, respectively. Thin curves show individual runs, thick curves show
+interface medians, and dashed lines mark mean run-wise maximum height.}
 \label{fig:trajectory_overlays}
 \end{figure}
 
@@ -461,7 +466,9 @@ maximum height.}
 % =====================================================================
 \section{Discussion}
 
-Body-motion control improved overall efficiency by enabling more continuous and direct movement. It reduced completion time by 19.4\% through shorter trajectories and less time spent at low speeds. Higher path directness showed that the trajectories more closely followed straight lines between landmarks. Additionally, a 44.0\% reduction in excess vertical travel indicated fewer unnecessary ascents and descents. Because gate-centering error remained unchanged, this reduction reflects more economical movement rather than greater positional accuracy. Importantly, this faster traversal did not compromise collection yield or swarm survival, though this lack of a detected trade-off does not strictly prove equivalent safety.
+Body-motion control substantially improved traversal efficiency in the tested FPV swarm-navigation task. Participants completed the courses 19.4\% faster, with 13 of 14 participants showing the same direction of improvement. Their centroid paths were 7.0\% shorter and their mean speed was 12.5\% higher. Trajectory analysis further showed less time at low speed, greater path directness, and 44.0\% less excess vertical travel. Together, these findings show that the body-motion interface supported more continuous, direct, and economical movement through the three-dimensional courses.
+
+Importantly, the efficiency advantage was not accompanied by a detected loss of task accuracy or swarm integrity. Gate-centering error, collection yield, and swarm survival did not differ detectably between interfaces, and survival remained high in both conditions. Within the tested scenario, body motion therefore enabled participants to traverse the courses faster without an observable reduction in these task-performance measures.
 
 Underlying these physical improvements, body motion produced a substantially steadier control stream. Delivered-command variation dropped by 88.8\% and remained 80.0\% lower even after offline filtering. This reduction in abrupt command changes likely helped sustain forward motion and decrease the need for corrective maneuvers. These steadier commands logically align with the improved low-speed fraction, higher path directness, and reduced excess vertical travel, though this study establishes a correlation rather than direct causation.
 
@@ -469,6 +476,16 @@ While overall usability and workload scores (SUS and TLX) were similar between i
 To address this physical fatigue, participant feedback suggests two primary design improvements. First, integrating physical arm support, similar to prior body-based drone interfaces~\cite{rognon2018flyjacket}, could substantially reduce sustained effort. Second, increasing the shoulder-motion gains would reduce the required range of physical movement, though this must be carefully balanced against potential losses in fine control accuracy.
 
 This study successfully extends upper-body control from individual aerial robots~\cite{rognon2018flyjacket,miehlbradt2018datadriven,macchini2024datadriven} to multi-agent swarms, and shifts the paradigm from externally viewed formations~\cite{macchini2021personalized,tsykunov2019swarmtouch,kratky2025gesture} to rear-focal FPV operation. Furthermore, it builds upon existing transmitter-based FPV systems~\cite{ben_focaldrone} by demonstrating the viability of body motion as a highly effective alternative input method.
+
+These findings extend upper-body control from individual aerial robots
+\cite{rognon2018flyjacket,miehlbradt2018datadriven,
+macchini2024datadriven} and externally viewed formations
+\cite{macchini2021personalized,tsykunov2019swarmtouch,
+kratky2025gesture} to continuous five-DOF swarm control from rear-focal FPV.
+They also complement transmitter-based FPV swarm
+control~\cite{ben_focaldrone} by demonstrating that a
+participant-calibrated body-motion interface can provide a meaningful
+performance advantage in a multidimensional navigation task.
 
 To build upon these foundational results, future research should incorporate larger participant pools, extended training periods, and more complex operational constraints, such as time-limited navigation, dynamic obstacles, or competing objectives. Finally, validating this interface with physical robotic swarms is essential to rigorously evaluate the impacts of communication latency, aerodynamic disturbances, and real-world safety limitations.
 
