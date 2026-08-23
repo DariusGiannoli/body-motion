@@ -166,7 +166,7 @@ tracking, and obstacle repulsion. Following Jarvis et al.~\cite{ben_focaldrone},
 
 An undirected interaction graph defined the largest connected component.
 
-In both conditions, participants used a virtual reality (VR) headset (Meta Quest 3S) to view the FPV. Three devices measured body motion. The headset measured head yaw. Two handheld controllers measured 3D hand positions. A chest-mounted inertial measurement unit (LPMS-B2 IMU) measured torso inclination. The swarm controller, command limits, focal-agent logic, and simulation were the same for both conditions. Only the input hardware and filtering differed.
+In both conditions, participants used a virtual reality (VR) headset (Meta Quest 3S, Meta, USA) to view the FPV. Three devices measured body motion. The headset measured head yaw. Two handheld controllers measured 3D hand positions. A chest-mounted inertial measurement unit (LPMS-B2, LP-Research, Japan) measured torso inclination. The swarm controller, command limits, focal-agent logic, and simulation were the same for both conditions. Only the input hardware and filtering differed.
 
 \subsection{Body-to-Swarm Mapping}
 \label{sec:mapping}
@@ -258,12 +258,12 @@ previous viewing direction.
 All parameters were selected through pilot and informal testing.
 
 
-\begin{figure}[!t]
+\begin{figure*}[!t]
 \centering
-\includegraphics[width=\columnwidth]{Figures/gg.png}
+\includegraphics[width=\textwidth]{Figures/t1.png}
 \caption{Body-to-swarm control mappings. Subfigures (a)--(e) illustrate how the participant's posture and hand positions map to specific swarm commands. The neutral pose (f) halts all movement but maintains the current spacing setpoint. Faded formations indicate the direction of the commanded motion, scaling, or view rotation.}
 \label{fig:mapping}
-\end{figure}
+\end{figure*}
 
 
 \subsection{Participant-Specific Calibration}
@@ -307,7 +307,7 @@ Controller height (m)           & $0.77 \pm 0.22$  & $0.43$--$1.22$ \\
 \subsection{Transmitter Baseline}
 \label{sec:transmitter}
 
-A conventional radio-control transmitter (FrSky Taranis X9D Plus) generated the same command vector, $\mathbf{u}_t$, as the body-motion interface. As shown in Fig. ~\ref{fig:study_overview}, the right stick controlled planar
+A conventional radio-control transmitter (Taranis X9D Plus, FrSky, China) generated the same command vector, $\mathbf{u}_t$, as the body-motion interface. As shown in Fig. ~\ref{fig:study_overview}, the right stick controlled planar
 velocity, the left horizontal axis controlled FPV yaw rate, the
 non-self-centering left throttle controlled vertical velocity, and the right
 rotary knob set target inter-agent clearance. Stick axes used a symmetric
@@ -433,7 +433,7 @@ Lower values indicate less variation in the delivered commands. Because the test
 \section{Results}
 
 All 56 runs were retained; the two runs per interface were averaged for each
-participant, yielding 14 paired observations. Interfaces were compared using exact two-sided Wilcoxon signed-rank tests ($\alpha=.05$)~\cite{wilcoxon1945ranking}, with Holm adjustment within outcome families~\cite{holm1979procedure}.
+participant, yielding 14 paired observations. Interfaces were compared using exact two-sided Wilcoxon signed-rank tests ($\alpha=0.05$)~\cite{wilcoxon1945ranking}, with Holm adjustment within outcome families~\cite{holm1979procedure}.
 
 Figure 4 shows the statistical distributions for all evaluated performance and subjective metrics.
 
@@ -441,8 +441,7 @@ Figure 4 shows the statistical distributions for all evaluated performance and s
 \centering
 \includegraphics[width=\textwidth]{Figures/box.png}
 \caption{Participant-level outcomes for joystick and body-motion control
-($n=14$). Command variation is shown for the recorded pipelines and after
-applying the same additional 0.143-s low-pass filter to both interfaces.
+($n=14$). Command variation is shown for the recorded pipelines and
 Boxes show interquartile ranges with median lines; diamonds indicate means
 and circles indicate outliers. Orange denotes joystick and teal denotes body
 motion. Stars mark Holm-adjusted paired comparisons
@@ -450,19 +449,19 @@ motion. Stars mark Holm-adjusted paired comparisons
 \label{fig:paired_results}
 \end{figure*}
 
-\emph{Traversal efficiency.} Body motion significantly improved all traversal metrics compared to the transmitter. Completion time decreased by 19.4\%, representing a mean reduction of 22.4~s (Holm-adjusted $p=.001$) with 13 of the 14 participants going faster using body motion. Centroid path length was 7.0\% shorter (Holm-adjusted $p=.011$), and mean speed was 12.5\% higher (Holm-adjusted $p=.001$).
+\emph{Traversal efficiency.} Body motion significantly improved all traversal metrics compared to the transmitter. Completion time decreased by 19.4\%, representing a mean reduction of 22.4~s (Holm-adjusted $p=0.001$) with 13 of the 14 participants going faster using body motion. Centroid path length was 7.0\% shorter (Holm-adjusted $p=0.011$), and mean speed was 12.5\% higher (Holm-adjusted $p=0.001$).
 
 \emph{Trajectory characteristics.}
 Body motion produced more continuous and direct trajectories than the
 transmitter. The fraction of time spent below $0.5~\mathrm{m\,s^{-1}}$
 decreased by 8.1 percentage points (
-Holm-adjusted $p<.001$). Path directness increased by 0.052
-(Holm-adjusted $p=.032$). Excess vertical
+Holm-adjusted $p<0.001$). Path directness increased by 0.052
+(Holm-adjusted $p=0.032$). Excess vertical
 travel decreased by 44.0\%, corresponding to 16.9~m
-(Holm-adjusted $p=.049$) while xcess horizontal
+(Holm-adjusted $p=0.049$) while xcess horizontal
 travel was 14.2\% lower with body motion (48.8 versus 56.8~m), but the
 difference was not statistically detectable (mean difference $-8.0$~m,
-Holm-adjusted $p=.153$).
+Holm-adjusted $p=0.153$).
 Figure~\ref{fig:trajectory_overlays} illustrates these trajectory
 characteristics.
 
@@ -477,11 +476,11 @@ interface medians, and dashed lines mark mean run-wise maximum height.}
 \label{fig:trajectory_overlays}
 \end{figure}
 
-\emph{Delivered-command behavior.} Body motion produced significantly smoother commands than the transmitter. Delivered-command variation decreased by 88.8\%, representing a mean reduction of 3010 ($p<.001$).
+\emph{Delivered-command behavior.} Body motion produced significantly smoother commands than the transmitter. Delivered-command variation decreased by 88.8\%, representing a mean reduction of 3010 ($p<0.001$).
 
-\emph{Task performance and swarm integrity.} We observed no statistical difference between the interfaces regarding gate-centering error, collection yield, or swarm survival (Holm-adjusted $p=1.000$ for all three metrics). While almost all agents survived in both conditions, this lack of a significant difference does not inherently prove that the interfaces are completely equivalent in overall performance or safety.
+\emph{Task performance and swarm integrity.} No differences were detected in gate-centering error, collection yield, crash count, or disconnection-event count (Holm-adjusted \(p=1.000\) for all four outcomes). While almost all agents survived in both conditions, this lack of a significant difference does not inherently prove that the interfaces are completely equivalent in overall performance or safety.
 
-\emph{Subjective experience.} While overall workload and usability were similar between conditions, body motion required significantly more physical effort. We observed no statistical difference in the overall weighted TLX score (mean difference 7.2; Holm-adjusted $p=.482$) or the SUS usability score (mean difference 1.6; Holm-adjusted $p=.491$). However, all 14 participants reported higher physical demand with body motion, resulting in a mean increase of 40.7 points (Holm-adjusted $p<.001$; Fig.~\ref{fig:paired_results}(d)). Despite the added physical exertion, user preference remained split (eight preferred body motion, five preferred the transmitter, one had no preference), and motion-sickness responses favored the body-motion interface.
+\emph{Subjective experience.} While overall workload and usability were similar between conditions, body motion required significantly more physical effort. We observed no statistical difference in the overall weighted TLX score (mean difference 7.2; Holm-adjusted $p=0.482$) or the SUS usability score (mean difference 1.6; Holm-adjusted $p=0.491$). However, all 14 participants reported higher physical demand with body motion, resulting in a mean increase of 40.7 points (Holm-adjusted $p<0.001$). Despite the added physical exertion, user preference remained split (eight preferred body motion, five preferred the transmitter, one had no preference). Motion-sickness responses were mixed: six participants reported greater sickness with body motion, four with the transmitter, and four reported no difference.
 
 
 % =====================================================================
@@ -500,7 +499,7 @@ no conclusive reduction in horizontal detouring.
 
 Importantly, the efficiency advantage was not accompanied by a detected loss of task accuracy or swarm integrity. Gate-centering error, collection yield, and swarm survival did not differ detectably between interfaces, and survival remained high in both conditions. Within the tested scenario, body motion therefore enabled participants to traverse the courses faster without an observable reduction in these task-performance measures.
 
-Underlying these physical improvements, body motion produced a substantially steadier control stream. Delivered-command variation dropped by 88.8\%c. This reduction in abrupt command changes likely helped sustain forward motion and decrease the need for corrective maneuvers. These steadier commands logically align with the improved low-speed fraction, higher path directness, and reduced excess vertical travel, though this study establishes a correlation rather than direct causation.
+Underlying these physical improvements, body motion produced a substantially steadier control stream. Delivered-command variation dropped by 88.8\%. This reduction in abrupt command changes likely helped sustain forward motion and decrease the need for corrective maneuvers. These steadier commands logically align with the improved low-speed fraction, higher path directness, and reduced excess vertical travel, though this study establishes a correlation rather than direct causation.
 
 While overall usability and workload scores (SUS and TLX) were similar between interfaces, body motion required significantly more physical effort. All participants rated body motion as more physically demanding, scoring it 40.7 points higher on average due to the continuous arm and torso movements required. Interestingly, lower perceived workload on other TLX dimensions offset this physical strain, resulting in equivalent overall scores. Despite the physical exertion, user preference remained split (eight preferred body motion, five preferred the transmitter, one had no preference), and neither interface showed a clear advantage regarding motion sickness.
 To address this physical fatigue, participant feedback suggests two primary design improvements. First, integrating physical arm support, similar to prior body-based drone interfaces~\cite{rognon2018flyjacket}, could substantially reduce sustained effort. Second, increasing the shoulder-motion gains would reduce the required range of physical movement, though this must be carefully balanced against potential losses in fine control accuracy.
