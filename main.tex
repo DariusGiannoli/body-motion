@@ -446,7 +446,8 @@ Each command was normalized to $[0,1]$. Let $\mathbf{q}_k$ denote the five comma
 E_{\mathrm{cmd}} = \frac{\tau}{5} \sum_{k=1}^{M-1} \frac{\lVert\mathbf{q}_{k+1}-\mathbf{q}_k\rVert_2^2} {t_{k+1}-t_k}.
 \label{eq:command_metrics}
 \end{equation}
-Lower values indicate less variation in the delivered commands. Because the tested interfaces applied different online filters, this measure captures the behavior of the entire interface rather than the input hardware alone.
+Lower values indicate less variation in the delivered commands. Active control time comprised intervals in which at least one command exceeded
+this threshold. Because the tested interfaces applied different online filters, this measure captures the behavior of the entire interface rather than the input hardware alone.
 
 \emph{Multi-DOF coordination.}
 We measured multi-DOF coordination as the percentage of active control time
@@ -465,9 +466,10 @@ Figure 4 shows the statistical distributions for all evaluated performance and s
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.9\textwidth]{Figures/box.png}
+\includegraphics[width=\textwidth]{Figures/box.png}
 \caption{Participant-level outcomes for joystick and body-motion control
-($n=14$). Command variation is shown for the recorded pipelines.
+($n=14$). Delivered-command variation and multi-DOF coordination are shown for the
+recorded pipelines.
 Boxes show interquartile ranges with median lines; diamonds indicate means
 and circles indicate outliers. Orange denotes joystick and teal denotes body
 motion. Stars mark Holm-adjusted paired comparisons
@@ -478,7 +480,7 @@ motion. Stars mark Holm-adjusted paired comparisons
 \emph{Traversal efficiency.} Body motion significantly improved all traversal metrics compared to the transmitter. Completion time decreased by 19.4\%, representing a mean reduction of 22.4~s (Holm-adjusted $p=0.001$) with 13 of the 14 participants going faster using body motion. Centroid path length was 7.0\% shorter (Holm-adjusted $p=0.011$), and mean speed was 12.5\% higher (Holm-adjusted $p=0.001$).
 
 \emph{Trajectory characteristics.}
-Body motion produced more continuous and direct trajectories than the
+Body motion produced more direct trajectories than the
 transmitter. Path directness increased by 0.052
 (Holm-adjusted $p=0.032$). Excess vertical
 travel decreased by 44.0\%, corresponding to 16.9~m
