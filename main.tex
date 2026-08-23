@@ -449,6 +449,12 @@ E_{\mathrm{cmd}} = \frac{\tau}{5} \sum_{k=1}^{M-1} \frac{\lVert\mathbf{q}_{k+1}-
 \end{equation}
 Lower values indicate less variation in the delivered commands. Because the tested interfaces applied different online filters, this measure captures the behavior of the entire interface rather than the input hardware alone.
 
+\emph{Multi-DOF coordination.}
+We measured multi-DOF coordination as the percentage of active control time
+during which at least two of the five commands changed simultaneously. A
+command was considered changing when its normalized change rate exceeded
+$0.10~\mathrm{s^{-1}}$. Higher values indicate more simultaneous use of
+multiple command dimensions.
 
 % =====================================================================
 \section{Results}
@@ -494,8 +500,13 @@ characteristics.
 \label{fig:trajectory_overlays}
 \end{figure}
 
-\emph{Delivered-command behavior.} Body motion produced significantly smoother commands than the transmitter. Delivered-command variation decreased by 88.8\% ($p<0.001$).
-
+\emph{Delivered-command behavior.}
+Body motion produced significantly smoother commands than the transmitter.
+Delivered-command variation decreased by 88.8\% (Holm-adjusted $p<0.001$).
+Multi-DOF coordination was higher
+with body motion than with the transmitter (mean paired
+multdifference 22.5 permucentage points; Holm-adjusted
+$p<0.001$), with the same direction for all 14 participants.
 \emph{Task performance and swarm integrity.} No differences were detected in gate-centering error, collection yield, crash count, or disconnection-event count (Holm-adjusted \(p=1.000\) for all four outcomes). While almost all agents survived in both conditions, this lack of a significant difference does not inherently prove that the interfaces are completely equivalent in overall performance or safety.
 
 \emph{Subjective experience.} While overall workload and usability were similar between conditions, body motion required significantly more physical effort. We observed no statistical difference in the overall weighted TLX score (mean difference 7.2; Holm-adjusted $p=0.482$) or the SUS usability score (mean difference 1.6; Holm-adjusted $p=0.491$). However, all 14 participants reported higher physical demand with body motion, resulting in a mean increase of 40.7 points (Holm-adjusted $p<0.001$). Despite the added physical exertion, user preference remained split (eight preferred body motion, five preferred the transmitter, one had no preference). Motion-sickness responses were mixed: six participants reported greater sickness with body motion, four with the transmitter, and four reported no difference.
