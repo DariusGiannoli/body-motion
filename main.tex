@@ -281,7 +281,7 @@ All parameters were selected through pilot and informal testing.
 
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=\textwidth]{Figures/fig2_control_mapping_v2.png}
+\includegraphics[width=\textwidth]{Figures/l.png}
 \caption{Body-to-swarm control mappings. Subfigures (a)--(e) illustrate how the participant's posture and hand positions map to specific swarm commands. The neutral pose (f) halts all movement but maintains the current spacing setpoint. Faded formations indicate the direction of the commanded motion, scaling, or view rotation.}
 \label{fig:mapping}
 \end{figure*}
@@ -306,7 +306,7 @@ Table~\ref{tab:calibration_summary} summarizes the resulting spans; angular
 spans combine opposing excursions, whereas position spans are
 maximum--minimum differences.
 
-\begin{table}[!t]
+\begin{table}[b]
 \centering
 \caption{Calibrated input spans across participants ($N=14$).}
 \label{tab:calibration_summary}
@@ -401,8 +401,7 @@ event. The centroid path length L was the total 3D distance traveled by the cont
 
 
 \emph{Trajectory characteristics.}
-Movement continuity was measured as the fraction of traversal time during
-which centroid speed was below $0.5~\mathrm{m\,s^{-1}}$. Path directness used
+Path directness used
 the endpoint-distance-to-path-length definition of path
 efficiency~\cite{mavrogiannis2022socialmomentum}:
 \begin{equation}
@@ -466,7 +465,7 @@ Figure 4 shows the statistical distributions for all evaluated performance and s
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=\textwidth]{Figures/box.png}
+\includegraphics[width=0.9\textwidth]{Figures/box.png}
 \caption{Participant-level outcomes for joystick and body-motion control
 ($n=14$). Command variation is shown for the recorded pipelines.
 Boxes show interquartile ranges with median lines; diamonds indicate means
@@ -480,9 +479,7 @@ motion. Stars mark Holm-adjusted paired comparisons
 
 \emph{Trajectory characteristics.}
 Body motion produced more continuous and direct trajectories than the
-transmitter. The fraction of time spent below $0.5~\mathrm{m\,s^{-1}}$
-decreased by 8.1 percentage points (
-Holm-adjusted $p<0.001$). Path directness increased by 0.052
+transmitter. Path directness increased by 0.052
 (Holm-adjusted $p=0.032$). Excess vertical
 travel decreased by 44.0\%, corresponding to 16.9~m
 (Holm-adjusted $p=0.049$) while excess horizontal
@@ -504,8 +501,7 @@ characteristics.
 Body motion produced significantly smoother commands than the transmitter.
 Delivered-command variation decreased by 88.8\% (Holm-adjusted $p<0.001$).
 Multi-DOF coordination was higher
-with body motion than with the transmitter (mean paired
-multdifference 22.5 permucentage points; Holm-adjusted
+with body motion than with the transmitter (mean paired difference 22.5 percentage points; Holm-adjusted
 $p<0.001$), with the same direction for all 14 participants.
 \emph{Task performance and swarm integrity.} No differences were detected in gate-centering error, collection yield, crash count, or disconnection-event count (Holm-adjusted \(p=1.000\) for all four outcomes). While almost all agents survived in both conditions, this lack of a significant difference does not inherently prove that the interfaces are completely equivalent in overall performance or safety.
 
@@ -549,13 +545,16 @@ $p<0.001$), with the same direction for all 14 participants.
 
 Body motion improved traversal efficiency and path directness in the tested FPV
 swarm-navigation task, with the trajectory improvement concentrated in the
-vertical rather than the horizontal dimension. Two observations point to why.
-First, in post-trial comments, several participants reported that they could
-adjust multiple command dimensions simultaneously with body motion, whereas the transmitter required them to move between sticks; this is consistent with the distinction between integral and separable input~\cite{jacob1994integrality,zhai1998quantifying}. Second, body motion
-reduced delivered-command variation, and fewer abrupt command changes sustain
-forward motion and reduce the need for corrective maneuvers. These accounts are
-consistent with the measured outcomes, though this study establishes a
-correlation rather than direct causation.
+vertical rather than the horizontal dimension. Two observations may help
+explain this pattern. First, multi-DOF coordination was higher with body motion
+than with the transmitter, consistent with participants' reports that they
+could adjust multiple command dimensions simultaneously rather than moving
+between transmitter sticks; this aligns with the distinction between integral
+and separable input~\cite{jacob1994integrality,zhai1998quantifying}. Second,
+body motion reduced delivered-command variation, which may help sustain forward
+motion and reduce the need for corrective maneuvers. These associations are
+consistent with the measured efficiency outcomes, although this study does not
+establish causation.
 
 Several participants reported that leaning the torso forward lowered the hands
 involuntarily, which changed the altitude command and required a subsequent
