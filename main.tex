@@ -47,15 +47,7 @@ Human Research Ethics Committee under Application No.\ HREC 092-2023.}%
 \thispagestyle{empty}
 \pagestyle{empty}
 
-\begin{figure*}[b]
-\centering
-\includegraphics[width=\textwidth]{Figures/carre.png}
-\caption{Overview of the within-subject experiment: (a) body-motion control,
-(b) the in-headset rear-focal FPV view, (c) transmitter control, and
-(d) the common five-DOF command set exposed by both interfaces: planar
-velocity, vertical velocity, target spacing, and view-yaw rate.}
-\label{fig:study_overview}
-\end{figure*}
+
 
 \begin{abstract}
 Immersive first-person-view teleoperation of aerial swarms requires concurrent
@@ -121,7 +113,16 @@ support continuous control of swarm translation, altitude, formation spacing,
 and view yaw from within the group.
 
 
-
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{Figures/111.png}
+\caption{Experimental interfaces and common visual feedback:
+(a) the in-headset rear-focal FPV view, (b) body-motion control using
+a torso-mounted IMU and hand controllers, and (c) transmitter control.
+Both conditions used the same headset, visual feedback, and swarm
+command space.}
+\label{fig:study_overview}
+\end{figure}
 
 We address this question with a participant-calibrated upper-body interface for
 a simulated swarm. Torso inclination commands
@@ -206,12 +207,7 @@ Separate scaling on either side of neutral accommodated asymmetric ranges of
 motion.
 
 
-\begin{figure}[!t]
-\centering
-\includegraphics[width=\linewidth]{Figures/hom.png}
-\caption{Body-to-swarm control mappings. Subfigures (a)--(e) illustrate how the participant's posture and hand positions map to specific swarm commands. The neutral pose (f) halts all movement but maintains the current spacing setpoint. Faded formations indicate the direction of the commanded motion, scaling, or view rotation.}
-\label{fig:mapping}
-\end{figure}
+
 
 
 \emph{Translation:}
@@ -260,6 +256,15 @@ command was
 Returning the head to neutral stopped FPV rotation without restoring the
 previous viewing direction.
 All parameters were selected through pilot and informal testing.
+
+
+\begin{figure}[!t2]
+\centering
+\includegraphics[width=\columnwidth]{Figures/gg.png}
+\caption{Body-to-swarm control mappings. Subfigures (a)--(e) illustrate how the participant's posture and hand positions map to specific swarm commands. The neutral pose (f) halts all movement but maintains the current spacing setpoint. Faded formations indicate the direction of the commanded motion, scaling, or view rotation.}
+\label{fig:mapping}
+\end{figure}
+
 
 \subsection{Participant-Specific Calibration}
 \label{sec:calibration}
@@ -336,13 +341,6 @@ completed while seated during a single session lasting approximately 1~h.
 \subsection{Task and Procedure}
 \label{sec:task}
 
-\begin{figure}[b]
-\centering
-\includegraphics[width=\columnwidth]{Figures/single_layout.png}
-\caption{Course layout for trial~2.
-Labels G1--G7 mark the gate sequence; dashed arrows show traversal direction.}
-\label{fig:course_layouts}
-\end{figure}
 
 
 All participants received identical prerecorded instructions and
@@ -362,6 +360,13 @@ Index (NASA-TLX)~\cite{hart1988nasatlx} and the System Usability Scale
 blocks, they reported interface preference and relative motion sickness and could provide optional
 free-text comments.
 
+\begin{figure}[b]
+\centering
+\includegraphics[width=\columnwidth]{Figures/single_layout.png}
+\caption{Course layout for trial~2.
+Labels G1--G7 mark the gate sequence; dashed arrows show traversal direction.}
+\label{fig:course_layouts}
+\end{figure}
 \subsection{Evaluation Metrics}
 
 Completion time was the primary outcome, consistent with task-oriented HRI
@@ -395,9 +400,13 @@ The eight segments covered the path from the start to the first gate, between
 gates, and from the final gate to the finish. The calculation used the measured
 segment endpoints.
 
-For each segment, excess vertical travel $V_{\mathrm{exc}}$ was the total
-absolute height change minus the direct height change between its endpoints.
-The values were then summed across all segments. Lower low-speed fraction, less excess vertical travel, and higher path directness all indicate more continuous and direct movement.
+For each segment, excess horizontal travel $H_{\mathrm{exc}}$ was the
+horizontal path length in the $x$--$z$ plane minus the direct horizontal
+displacement between its endpoints. Excess vertical travel
+$V_{\mathrm{exc}}$ was the total absolute height change minus the direct
+height change. Both measures were summed across the eight segments. Lower
+excess travel indicates fewer unnecessary horizontal detours or vertical
+movements.
 
 \emph{Gate-centering error.} For each gate we linearly interpolate the swarm
 centroid to the instant it crosses the gate plane and measure its offsets from
@@ -443,9 +452,21 @@ motion. Stars mark Holm-adjusted paired comparisons
 
 \emph{Traversal efficiency.} Body motion significantly improved all traversal metrics compared to the transmitter. Completion time decreased by 19.4\%, representing a mean reduction of 22.4~s (95\% CI $[13.4,31.8]$; Holm-adjusted $p=.001$) with 13 of the 14 participants going faster using body motion. Centroid path length was 7.0\% shorter (Holm-adjusted $p=.011$), and mean speed was 12.5\% higher (Holm-adjusted $p=.001$).
 
-\emph{Trajectory characteristics.} Body motion produced more continuous and direct trajectories than the transmitter. The fraction of time spent at low speeds (below $0.5~\mathrm{m\,s^{-1}}$) decreased by a mean of 8.1 percentage points (95\% CI $[5.8,10.2]$; Holm-adjusted $p<.001$). Path directness also improved, showing a mean increase of 0.052 (95\% CI $[0.020,0.082]$; Holm-adjusted $p=.021$. Furthermore, body motion reduced excess vertical travel by 44.0\%, which represents a mean reduction of 16.9~m (95\% CI $[4.9,29.9]$; Holm-adjusted $p=.025$. Figure~\ref{fig:trajectory_overlays} illustrates the horizontal paths and height profiles.
+\emph{Trajectory characteristics.}
+Body motion produced more continuous and direct trajectories than the
+transmitter. The fraction of time spent below $0.5~\mathrm{m\,s^{-1}}$
+decreased by 8.1 percentage points (95\% CI $[5.8,10.2]$;
+Holm-adjusted $p<.001$). Path directness increased by 0.052
+(95\% CI $[0.020,0.082]$; Holm-adjusted $p=.032$). Excess vertical
+travel decreased by 44.0\%, corresponding to 16.9~m
+(95\% CI $[4.9,29.9]$; Holm-adjusted $p=.049$) while xcess horizontal
+travel was 14.2\% lower with body motion (48.8 versus 56.8~m), but the
+difference was not statistically detectable (mean difference $-8.0$~m,
+95\% CI $[-18.4,1.4]$; Holm-adjusted $p=.153$).
+Figure~\ref{fig:trajectory_overlays} illustrates these trajectory
+characteristics.
 
-\begin{figure}[!tb]
+\begin{figure}[!b]
 \centering
 \includegraphics[width=\columnwidth]
 {Figures/2.png}
@@ -466,7 +487,16 @@ interface medians, and dashed lines mark mean run-wise maximum height.}
 % =====================================================================
 \section{Discussion}
 
-Body-motion control substantially improved traversal efficiency in the tested FPV swarm-navigation task. Participants completed the courses 19.4\% faster, with 13 of 14 participants showing the same direction of improvement. Their centroid paths were 7.0\% shorter and their mean speed was 12.5\% higher. Trajectory analysis further showed less time at low speed, greater path directness, and 44.0\% less excess vertical travel. Together, these findings show that the body-motion interface supported more continuous, direct, and economical movement through the three-dimensional courses.
+Body-motion control substantially improved traversal efficiency in the tested
+FPV swarm-navigation task. Participants completed the courses 19.4\% faster,
+with 13 of 14 participants showing the same direction of improvement. Their
+centroid paths were 7.0\% shorter and their mean speed was 12.5\% higher.
+Trajectory analysis further showed less time at low speed, greater path
+directness, and 44.0\% less excess vertical travel. Although mean excess
+horizontal travel was 14.2\% lower with body motion, this difference was not
+statistically detectable. The evidence therefore supports more continuous and
+direct traversal, with a clear reduction in unnecessary vertical movement but
+no conclusive reduction in horizontal detouring.
 
 Importantly, the efficiency advantage was not accompanied by a detected loss of task accuracy or swarm integrity. Gate-centering error, collection yield, and swarm survival did not differ detectably between interfaces, and survival remained high in both conditions. Within the tested scenario, body motion therefore enabled participants to traverse the courses faster without an observable reduction in these task-performance measures.
 
