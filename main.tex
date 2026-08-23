@@ -258,7 +258,7 @@ previous viewing direction.
 All parameters were selected through pilot and informal testing.
 
 
-\begin{figure}[!t2]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{Figures/gg.png}
 \caption{Body-to-swarm control mappings. Subfigures (a)--(e) illustrate how the participant's posture and hand positions map to specific swarm commands. The neutral pose (f) halts all movement but maintains the current spacing setpoint. Faded formations indicate the direction of the commanded motion, scaling, or view rotation.}
@@ -415,9 +415,10 @@ $d_v$ vertically. We report the in-plane distance $\sqrt{d_h^2+d_v^2}$ averaged
 over the $N_g=7$ gates, so that lower values indicate crossings closer to the
 gate center.
 
-Collection yield was the fraction of the 316 available stars collected. Swarm
-survival was $1-N_{\mathrm{crash}}/15$, where $N_{\mathrm{crash}}$ was the
-number of agents that crashed.
+Collection yield was the fraction of the 316 available stars collected.
+Crash count was the number of agents that crashed during a run.
+Disconnection count was the number of agent-disconnection events recorded
+during a run.
 
 \emph{Delivered-command behavior.}
 Each command was normalized to $[0,1]$. Let $\mathbf{q}_k$ denote the five commands at sample $k$, and let $\tau=t_M-t_1$ represent the total duration. The delivered-command variation was
@@ -432,8 +433,7 @@ Lower values indicate less variation in the delivered commands. Because the test
 \section{Results}
 
 All 56 runs were retained; the two runs per interface were averaged for each
-participant, yielding 14 paired observations. Interfaces were compared using exact two-sided Wilcoxon signed-rank tests ($\alpha=.05$)~\cite{wilcoxon1945ranking}, with Holm adjustment within outcome families~\cite{holm1979procedure}. Mean differences are reported with paired-bootstrap 95\% CIs based
-on 20,000 resamples~\cite{efron1993bootstrap}.
+participant, yielding 14 paired observations. Interfaces were compared using exact two-sided Wilcoxon signed-rank tests ($\alpha=.05$)~\cite{wilcoxon1945ranking}, with Holm adjustment within outcome families~\cite{holm1979procedure}.
 
 Figure 4 shows the statistical distributions for all evaluated performance and subjective metrics.
 
@@ -450,19 +450,19 @@ motion. Stars mark Holm-adjusted paired comparisons
 \label{fig:paired_results}
 \end{figure*}
 
-\emph{Traversal efficiency.} Body motion significantly improved all traversal metrics compared to the transmitter. Completion time decreased by 19.4\%, representing a mean reduction of 22.4~s (95\% CI $[13.4,31.8]$; Holm-adjusted $p=.001$) with 13 of the 14 participants going faster using body motion. Centroid path length was 7.0\% shorter (Holm-adjusted $p=.011$), and mean speed was 12.5\% higher (Holm-adjusted $p=.001$).
+\emph{Traversal efficiency.} Body motion significantly improved all traversal metrics compared to the transmitter. Completion time decreased by 19.4\%, representing a mean reduction of 22.4~s (Holm-adjusted $p=.001$) with 13 of the 14 participants going faster using body motion. Centroid path length was 7.0\% shorter (Holm-adjusted $p=.011$), and mean speed was 12.5\% higher (Holm-adjusted $p=.001$).
 
 \emph{Trajectory characteristics.}
 Body motion produced more continuous and direct trajectories than the
 transmitter. The fraction of time spent below $0.5~\mathrm{m\,s^{-1}}$
-decreased by 8.1 percentage points (95\% CI $[5.8,10.2]$;
+decreased by 8.1 percentage points (
 Holm-adjusted $p<.001$). Path directness increased by 0.052
-(95\% CI $[0.020,0.082]$; Holm-adjusted $p=.032$). Excess vertical
+(Holm-adjusted $p=.032$). Excess vertical
 travel decreased by 44.0\%, corresponding to 16.9~m
-(95\% CI $[4.9,29.9]$; Holm-adjusted $p=.049$) while xcess horizontal
+(Holm-adjusted $p=.049$) while xcess horizontal
 travel was 14.2\% lower with body motion (48.8 versus 56.8~m), but the
 difference was not statistically detectable (mean difference $-8.0$~m,
-95\% CI $[-18.4,1.4]$; Holm-adjusted $p=.153$).
+Holm-adjusted $p=.153$).
 Figure~\ref{fig:trajectory_overlays} illustrates these trajectory
 characteristics.
 
@@ -477,11 +477,11 @@ interface medians, and dashed lines mark mean run-wise maximum height.}
 \label{fig:trajectory_overlays}
 \end{figure}
 
-\emph{Delivered-command behavior.} Body motion produced significantly smoother commands than the transmitter. Delivered-command variation decreased by 88.8\%, representing a mean reduction of 3010 (95\% CI $[2098,3989]$; $p<.001$). Even after applying the same additional offline filter to the recorded commands from both interfaces, variation remained 80.0\% lower with body motion: confirming that the improved smoothness reflects the combined benefits of the input method.
+\emph{Delivered-command behavior.} Body motion produced significantly smoother commands than the transmitter. Delivered-command variation decreased by 88.8\%, representing a mean reduction of 3010 ($p<.001$).
 
 \emph{Task performance and swarm integrity.} We observed no statistical difference between the interfaces regarding gate-centering error, collection yield, or swarm survival (Holm-adjusted $p=1.000$ for all three metrics). While almost all agents survived in both conditions, this lack of a significant difference does not inherently prove that the interfaces are completely equivalent in overall performance or safety.
 
-\emph{Subjective experience.} While overall workload and usability were similar between conditions, body motion required significantly more physical effort. We observed no statistical difference in the overall weighted TLX score (mean difference 7.2, 95\% CI $[-5.5,20.2]$; Holm-adjusted $p=.482$) or the SUS usability score (mean difference 1.6, 95\% CI $[-12.1,14.1]$; Holm-adjusted $p=.491$). However, all 14 participants reported higher physical demand with body motion, resulting in a mean increase of 40.7 points (95\% CI $[30.7,50.4]$; Holm-adjusted $p<.001$; Fig.~\ref{fig:paired_results}(d)). Despite the added physical exertion, user preference remained split (eight preferred body motion, five preferred the transmitter, one had no preference), and motion-sickness responses favored the body-motion interface.
+\emph{Subjective experience.} While overall workload and usability were similar between conditions, body motion required significantly more physical effort. We observed no statistical difference in the overall weighted TLX score (mean difference 7.2; Holm-adjusted $p=.482$) or the SUS usability score (mean difference 1.6; Holm-adjusted $p=.491$). However, all 14 participants reported higher physical demand with body motion, resulting in a mean increase of 40.7 points (Holm-adjusted $p<.001$; Fig.~\ref{fig:paired_results}(d)). Despite the added physical exertion, user preference remained split (eight preferred body motion, five preferred the transmitter, one had no preference), and motion-sickness responses favored the body-motion interface.
 
 
 % =====================================================================
@@ -500,7 +500,7 @@ no conclusive reduction in horizontal detouring.
 
 Importantly, the efficiency advantage was not accompanied by a detected loss of task accuracy or swarm integrity. Gate-centering error, collection yield, and swarm survival did not differ detectably between interfaces, and survival remained high in both conditions. Within the tested scenario, body motion therefore enabled participants to traverse the courses faster without an observable reduction in these task-performance measures.
 
-Underlying these physical improvements, body motion produced a substantially steadier control stream. Delivered-command variation dropped by 88.8\% and remained 80.0\% lower even after offline filtering. This reduction in abrupt command changes likely helped sustain forward motion and decrease the need for corrective maneuvers. These steadier commands logically align with the improved low-speed fraction, higher path directness, and reduced excess vertical travel, though this study establishes a correlation rather than direct causation.
+Underlying these physical improvements, body motion produced a substantially steadier control stream. Delivered-command variation dropped by 88.8\%c. This reduction in abrupt command changes likely helped sustain forward motion and decrease the need for corrective maneuvers. These steadier commands logically align with the improved low-speed fraction, higher path directness, and reduced excess vertical travel, though this study establishes a correlation rather than direct causation.
 
 While overall usability and workload scores (SUS and TLX) were similar between interfaces, body motion required significantly more physical effort. All participants rated body motion as more physically demanding, scoring it 40.7 points higher on average due to the continuous arm and torso movements required. Interestingly, lower perceived workload on other TLX dimensions offset this physical strain, resulting in equivalent overall scores. Despite the physical exertion, user preference remained split (eight preferred body motion, five preferred the transmitter, one had no preference), and neither interface showed a clear advantage regarding motion sickness.
 To address this physical fatigue, participant feedback suggests two primary design improvements. First, integrating physical arm support, similar to prior body-based drone interfaces~\cite{rognon2018flyjacket}, could substantially reduce sustained effort. Second, increasing the shoulder-motion gains would reduce the required range of physical movement, though this must be carefully balanced against potential losses in fine control accuracy.
