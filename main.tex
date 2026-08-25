@@ -59,7 +59,7 @@ participants navigated a simulated 15-agent swarm through three-dimensional
 obstacle courses using the implemented body-motion interface and a conventional transmitter. the implemented body-motion interface
 reduced completion time by 19.4\% and centroid path length by 7.0\%, produced
 more direct trajectories, yielded 88.8\% lower delivered-command variation, and
-increased multi-DOF coordination by 22.5 percentage points. No clear
+showed higher multi-DOF coordination. No clear
 differences were detected in gate-centering error, collection yield, crash and
 disconnection counts, overall workload, or usability, while physical demand was
 higher with the implemented body-motion interface for all participants. These results indicate an
@@ -69,7 +69,6 @@ varying command dimensions across separate body segments.
 
 
 % =====================================================================
-\section{Introduction}
 
 \section{Introduction}
 
@@ -153,7 +152,7 @@ focal-agent FPV teleoperation. We implement a participant-calibrated interface
 in which torso inclination commands planar velocity, mean hand height commands
 vertical velocity, hand separation commands formation spacing, and head yaw
 commands FPV yaw rate. We compare the complete interface with a conventional
-radio-control transmitter in a within-subject study of 14 participants
+drone transmitter in a within-subject study of 14 participants
 navigating a simulated swarm through three-dimensional obstacle courses. The
 contributions are (i) a five-DOF upper-body mapping that remains aligned with
 the focal agent's reference frame during view rotation and transfer, and
@@ -351,7 +350,7 @@ Controller height (m)           & $0.77 \pm 0.22$  & $0.43$--$1.22$ \\
 \subsection{Transmitter Baseline}
 \label{sec:transmitter}
 
-A conventional radio-control transmitter (Taranis X9D Plus, FrSky, China) generated the same command vector, $\mathbf{u}_t$, as the body-motion interface. As shown in Fig. ~\ref{fig:study_overview}, the right stick controlled planar
+A conventional drone transmitter (Taranis X9D Plus, FrSky, China) connected via USB to the PC generated the same command vector, $\mathbf{u}_t$, as the body-motion interface. As shown in Fig. ~\ref{fig:study_overview}, the right stick controlled planar
 velocity, the left horizontal axis controlled FPV yaw rate, the
 non-self-centering left throttle controlled vertical velocity, and the right
 rotary knob set target inter-agent clearance. Stick axes used a symmetric
