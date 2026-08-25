@@ -105,17 +105,49 @@ varying command dimensions across separate body segments.
 % =====================================================================
 \section{Introduction}
 
+
+
+
 Aerial swarms can extend sensing and coverage by coordinating many robots, but
-missions that depend on human judgment still require an effective interface
-between one operator and the collective
-\cite{kolling2016survey,hocraffer2017meta}. Rather than command individual
-agents, the operator can steer the swarm through a smaller set of collective
-commands. In three-dimensional environments, however, several commands may
-need to change concurrently. Passing through an opening can require simultaneous
-adjustment of planar translation, altitude, formation spacing, and view
-direction. The interface must therefore support coordinated control of multiple
-continuous degrees of freedom (DOF), rather than forcing the operator to make
-these adjustments sequentially.
+missions that depend on human judgment still require an interface between one
+operator and the collective
+\cite{kolling2016survey,hocraffer2017meta,ben_focaldrone}.. Rather than command agents
+individually, the operator can specify low-dimensional commands for collective
+motion.
+The present task requires five continuous command dimensions: forward and
+lateral velocity, vertical velocity, view yaw rate, and formation spacing.
+
+
+An external view, such as a top-down view (TDV), exposes swarm geometry, whereas a focal-agent first-person
+view (FPV) can be obtained from an onboard camera without a dedicated viewing
+platform. This advantage comes with restricted global awareness, a viewpoint
+that moves or transfers between agents, and a command frame that rotates with
+the view \cite{ben_focaldrone,macchini2021impact}. FPV yaw must therefore be
+controlled together with swarm translation, altitude, and spacing.
+
+\textit{Jarvis et al.}'s interface assigned these commands to two
+transmitter sticks and a rotary control \cite{ben_focaldrone}. Although
+familiar, this layout may serialize adjustments when several dimensions must
+change during the same maneuver. Studies of multidimensional input distinguish
+such separable operation from integral input, in which dimensions can be varied
+concurrently \cite{jacob1994integrality,zhai1998quantifying}. An upper-body
+interface could instead distribute commands across the head, torso, and arms
+while preserving spatial correspondence between torso inclination and planar
+motion in the focal agent's yaw frame.
+
+Prior body--machine interfaces have enabled immersive or personalized control
+of individual drones
+\cite{rognon2018flyjacket,miehlbradt2018datadriven,macchini2024datadriven}.
+At swarm level, personalized hand-motion mappings controlled four dimensions
+from an external view \cite{macchini2021personalized}, while tactile and
+gesture-based interfaces supported hand-guided swarm motion and aerial-formation
+control \cite{tsykunov2019swarmtouch,kratky2025gesture}. Conversely,
+focal-agent FPV swarm control has been studied using a conventional transmitter
+\cite{ben_focaldrone}. These studies leave open whether upper-body motion can
+support continuous control of swarm translation, altitude, formation spacing,
+and view yaw from within the group.
+
+
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{Figures/111.png}
@@ -126,71 +158,19 @@ Both conditions used the same headset, visual feedback, and swarm
 command space.}
 \label{fig:study_overview}
 \end{figure}
-This control problem is affected by how the swarm is viewed. A top-down view
-(TDV) provides an external overview that makes the swarm's global state,
-including its spatial extent, connectivity, and relationship to surrounding
-obstacles, directly visible. Producing this view in an uninstrumented
-environment requires external infrastructure such as dedicated
-viewing platform, or real-time scene reconstruction. A dedicated viewing agent introduces a single point of failure into an otherwise distributed
-system while full scene reconstruction is computationally expensive. A first-person view (FPV) can instead be streamed from a \emph{focal
-agent}, defined here as the swarm member whose onboard camera currently supplies
-the operator's view. The camera source can be transferred if that agent becomes
-unavailable, preserving the distributed character of the swarm
-\cite{ben_focaldrone}. The trade-off is that the camera's limited field of view
-and occlusions hide much of the swarm and environment. Moreover, the viewpoint
-moves with the focal agent, its reference frame rotates with the view, and the
-feed may transfer between agents. FPV therefore restricts global awareness
-precisely while the operator must coordinate several swarm DOF.
 
-Jarvis et al.\ demonstrated that a rear-focal FPV can support one-to-many swarm
-teleoperation and compared different placements and combinations of onboard
-views \cite{ben_focaldrone}. Their interface assigned planar translation,
-vertical motion, view yaw, and formation spacing to two transmitter sticks and
-a rotary control. This established the feasibility of focal-agent FPV, but left
-an interaction problem unresolved: whether a conventional handheld transmitter
-is well matched to a task requiring concurrent adjustment of five continuous
-DOF. Multidimensional-input research distinguishes separable control, in which
-dimensions tend to be adjusted independently, from integral control, in which
-several dimensions can be varied together
-\cite{jacob1994integrality,zhai1998quantifying}. In this setting, the allocation
-of several commands across thumbsticks and a separate rotary control may become
-a bottleneck during maneuvers that require simultaneous translation, altitude,
-spacing, and viewpoint changes.
-
-
-Upper-body motion offers a different allocation of these commands. Head, torso,
-and hand movements provide several continuous input dimensions that can be
-assigned to distinct swarm DOF while retaining spatial correspondence between
-body motion and swarm commanded motion. Body--machine interfaces have already enabled
-immersive and personalized control of individual drones
-\cite{rognon2018flyjacket,miehlbradt2018datadriven,
-macchini2024datadriven}. Importantly, Macchini et al.\ found that robots with
-more DOF elicited the use of more body segments and greater variation in motion
-strategies across users, increasing the need for personalized mappings
-\cite{macchini2024datadriven}. This result motivates a participant-calibrated
-interface for the present five-DOF task. At swarm level, personalized hand
-motion has supported four-dimensional control from an external viewpoint
-\cite{macchini2021personalized}, while tactile and gesture-based systems have
-supported other forms of swarm and formation control
-\cite{tsykunov2019swarmtouch,kratky2025gesture}. Together, these studies suggest
-that body motion can support multidimensional control, but do not establish
-whether it remains effective when the operator acts through a moving
-focal-agent FPV.
-
-We therefore investigate whether distributing five continuous swarm commands
-across the head, torso, and hands can address the input bottleneck of
-focal-agent FPV teleoperation. We implement a participant-calibrated interface
-in which torso inclination commands planar velocity, mean hand height commands
-vertical velocity, hand separation commands formation spacing, and head yaw
-commands FPV yaw rate. We compare the complete interface with a conventional
-radio-control transmitter in a within-subject study of 14 participants
-navigating a simulated swarm through three-dimensional obstacle courses. The
-contributions are (i) a five-DOF upper-body mapping that remains aligned with
-the focal agent's reference frame during view rotation and transfer, and
-(ii) an experimental comparison characterizing traversal efficiency,
-trajectory geometry, control behavior, task accuracy, swarm integrity,
-workload, usability, and preference.
-
+We address this question with a participant-calibrated upper-body interface for
+a simulated swarm. Torso inclination commands
+planar velocity, mean hand height commands vertical velocity, hand separation
+sets target inter-agent spacing, and head yaw commands FPV yaw rate. We compare
+the complete interface with a radio-control transmitter in a within-subject
+study of 14 participants navigating three-dimensional gap-passing courses. The study evaluates traversal efficiency, trajectory geometry,
+delivered-command variation, task accuracy, swarm integrity, workload,
+usability, and preference. Our contributions are (i) a five-dimensional body-motion mapping
+aligned with the focal agent's yaw frame, including during viewpoint rotation
+and transfer, and (ii) a user study showing faster and more direct traversal without
+detected differences in task accuracy, swarm integrity, overall workload, or
+usability, but with higher physical demand. 
 
 \section{Swarm Control System and Input Interfaces}
 % --- 2a. Methodology: the interface and the body-to-swarm mapping ---
@@ -628,6 +608,12 @@ transmitter-based FPV swarm control~\cite{ben_focaldrone}. The swarm was
 simulated, so communication latency, aerodynamic disturbances, and real-world
 safety limits were absent; validation on physical swarms is therefore necessary.
 % =====================================================================
+\section*{Acknowledgment}
+The authors thank Benjamin Jarvis for his constructive feedback on the
+manuscript, Pablo Palle for his contributions to the simulation framework on
+which this study was built, and Gabriel Taieb for assisting with the pilot
+testing and refinement of the experimental protocol.
+
 \section{Conclusion}
 
 
