@@ -20,27 +20,6 @@
 \title{\LARGE \bf
 Body-Motion Control of a Simulated Aerial Swarm from a First-Person View}
 
-% \author{
-% \authorblockN{
-% Yang Chen,
-% Darius Giannoli, and
-% Dario Floreano,
-% \IEEEmembership{Fellow, IEEE}
-% }
-% \thanks{All authors are with the Laboratory of Intelligent Systems,
-% \'{E}cole polytechnique f\'{e}d\'{e}rale de Lausanne (EPFL),
-% Lausanne, Switzerland.}%
-% \thanks{Correspondance: \texttt{chenyang@ai.iit.tsukuba.ac.jp},
-% \{\texttt{{darius.giannoli, dario.floreano}\}@epfl.ch}.}%
-% \thanks{Videos are available in the
-% \protect\href{https://www.youtube.com/playlist?list=PLTn4QPxGFMEU}
-% {online video playlist}.}%
-% \thanks{This work was supported by the Swiss National Science Foundation
-% under Grant 200020\_212077.}%
-% \thanks{This study involving human participants was approved by the EPFL
-% Human Research Ethics Committee under Application No.\ HREC 092-2023.}%
-% }
-
 \author{
 \authorblockN{
 Yang Chen$^{\dagger}$,
@@ -71,32 +50,19 @@ Human Research Ethics Committee under Application No.\ HREC 092-2023.}%
 
 
 \begin{abstract}
-% Immersive first-person-view teleoperation of aerial swarms requires concurrent
-% control of collective motion, view direction, and formation size. We developed
-% a participant-calibrated upper-body interface providing five-DOF control
-% through torso, controller, and head motion. In a within-subject study,
-% 14 participants navigated a simulated 15-agent swarm through three-dimensional
-% obstacle courses using body motion and a conventional transmitter. Body motion
-% reduced completion time by 19.4\% and centroid path length by 7.0\%, produced
-% more direct trajectories, and yielded 88.8\% lower delivered-command
-% variation. No clear differences were detected in gate centering, collection
-% yield, swarm survival, overall workload, or usability, while physical demand
-% was higher with body motion for all participants. These findings indicate a
-% task-specific efficiency advantage for the implemented body-motion interface,
-% although the effects of input modality, command mapping, and signal processing
-% were not isolated.
+
 Immersive first-person-view teleoperation of aerial swarms requires concurrent
 control of collective motion, view direction, and formation size. We developed
 a participant-calibrated upper-body interface providing five-DOF control
 through torso, controller, and head motion. In a within-subject study, 14
 participants navigated a simulated 15-agent swarm through three-dimensional
-obstacle courses using body motion and a conventional transmitter. Body motion
+obstacle courses using the implemented body-motion interface and a conventional transmitter. the implemented body-motion interface
 reduced completion time by 19.4\% and centroid path length by 7.0\%, produced
 more direct trajectories, yielded 88.8\% lower delivered-command variation, and
 increased multi-DOF coordination by 22.5 percentage points. No clear
 differences were detected in gate-centering error, collection yield, crash and
 disconnection counts, overall workload, or usability, while physical demand was
-higher with body motion for all participants. These results indicate an
+higher with the implemented body-motion interface for all participants. These results indicate an
 efficiency advantage for an upper-body interface that distributes concurrently
 varying command dimensions across separate body segments.
 \end{abstract}
@@ -106,16 +72,45 @@ varying command dimensions across separate body segments.
 \section{Introduction}
 
 Aerial swarms can extend sensing and coverage by coordinating many robots, but
-missions that depend on human judgment still require an effective interface
-between one operator and the collective
-\cite{kolling2016survey,hocraffer2017meta}. Rather than command individual
-agents, the operator can steer the swarm through a smaller set of collective
-commands. In three-dimensional environments, however, several commands may
-need to change concurrently. Passing through an opening can require simultaneous
-adjustment of planar translation, altitude, formation spacing, and view
-direction. The interface must therefore support coordinated control of multiple
-continuous degrees of freedom (DOF), rather than forcing the operator to make
-these adjustments sequentially.
+missions that depend on human judgment still require an interface between one
+operator and the collective
+\cite{kolling2016survey,hocraffer2017meta,ben_focaldrone}.. Rather than command agents
+individually, the operator can specify low-dimensional commands for collective
+motion.
+The present task requires five continuous command dimensions: forward and
+lateral velocity, vertical velocity, view yaw rate, and formation spacing.
+
+
+An external view, such as a top-down view (TDV), exposes swarm geometry, whereas a focal-agent first-person
+view (FPV) can be obtained from an onboard camera without a dedicated viewing
+platform. This advantage comes with restricted global awareness, a viewpoint
+that moves or transfers between agents, and a command frame that rotates with
+the view \cite{ben_focaldrone,macchini2021impact}. FPV yaw must therefore be
+controlled together with swarm translation, altitude, and spacing.
+
+\textit{Jarvis et al.}'s interface assigned these commands to two
+transmitter sticks and a rotary control \cite{ben_focaldrone}. Although
+familiar, this layout may serialize adjustments when several dimensions must
+change during the same maneuver. Studies of multidimensional input distinguish
+such separable operation from integral input, in which dimensions can be varied
+concurrently \cite{jacob1994integrality,zhai1998quantifying}. An upper-body
+interface could instead distribute commands across the head, torso, and arms
+while preserving spatial correspondence between torso inclination and planar
+motion in the focal agent's yaw frame.
+
+Prior body--machine interfaces have enabled immersive or personalized control
+of individual drones
+\cite{rognon2018flyjacket,miehlbradt2018datadriven,macchini2024datadriven}.
+At swarm level, personalized hand-motion mappings controlled four dimensions
+from an external view \cite{macchini2021personalized}, while tactile and
+gesture-based interfaces supported hand-guided swarm motion and aerial-formation
+control \cite{tsykunov2019swarmtouch,kratky2025gesture}. Conversely,
+focal-agent FPV swarm control has been studied using a conventional transmitter
+\cite{ben_focaldrone}. These studies leave open whether upper-the implemented body-motion interface can
+support continuous control of swarm translation, altitude, formation spacing,
+and view yaw from within the group.
+
+
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{Figures/111.png}
@@ -126,71 +121,19 @@ Both conditions used the same headset, visual feedback, and swarm
 command space.}
 \label{fig:study_overview}
 \end{figure}
-This control problem is affected by how the swarm is viewed. A top-down view
-(TDV) provides an external overview that makes the swarm's global state,
-including its spatial extent, connectivity, and relationship to surrounding
-obstacles, directly visible. Producing this view in an uninstrumented
-environment requires external infrastructure such as dedicated
-viewing platform, or real-time scene reconstruction. A dedicated viewing agent introduces a single point of failure into an otherwise distributed
-system while full scene reconstruction is computationally expensive. A first-person view (FPV) can instead be streamed from a \emph{focal
-agent}, defined here as the swarm member whose onboard camera currently supplies
-the operator's view. The camera source can be transferred if that agent becomes
-unavailable, preserving the distributed character of the swarm
-\cite{ben_focaldrone}. The trade-off is that the camera's limited field of view
-and occlusions hide much of the swarm and environment. Moreover, the viewpoint
-moves with the focal agent, its reference frame rotates with the view, and the
-feed may transfer between agents. FPV therefore restricts global awareness
-precisely while the operator must coordinate several swarm DOF.
 
-Jarvis et al.\ demonstrated that a rear-focal FPV can support one-to-many swarm
-teleoperation and compared different placements and combinations of onboard
-views \cite{ben_focaldrone}. Their interface assigned planar translation,
-vertical motion, view yaw, and formation spacing to two transmitter sticks and
-a rotary control. This established the feasibility of focal-agent FPV, but left
-an interaction problem unresolved: whether a conventional handheld transmitter
-is well matched to a task requiring concurrent adjustment of five continuous
-DOF. Multidimensional-input research distinguishes separable control, in which
-dimensions tend to be adjusted independently, from integral control, in which
-several dimensions can be varied together
-\cite{jacob1994integrality,zhai1998quantifying}. In this setting, the allocation
-of several commands across thumbsticks and a separate rotary control may become
-a bottleneck during maneuvers that require simultaneous translation, altitude,
-spacing, and viewpoint changes.
-
-
-Upper-body motion offers a different allocation of these commands. Head, torso,
-and hand movements provide several continuous input dimensions that can be
-assigned to distinct swarm DOF while retaining spatial correspondence between
-body motion and swarm commanded motion. Body--machine interfaces have already enabled
-immersive and personalized control of individual drones
-\cite{rognon2018flyjacket,miehlbradt2018datadriven,
-macchini2024datadriven}. Importantly, Macchini et al.\ found that robots with
-more DOF elicited the use of more body segments and greater variation in motion
-strategies across users, increasing the need for personalized mappings
-\cite{macchini2024datadriven}. This result motivates a participant-calibrated
-interface for the present five-DOF task. At swarm level, personalized hand
-motion has supported four-dimensional control from an external viewpoint
-\cite{macchini2021personalized}, while tactile and gesture-based systems have
-supported other forms of swarm and formation control
-\cite{tsykunov2019swarmtouch,kratky2025gesture}. Together, these studies suggest
-that body motion can support multidimensional control, but do not establish
-whether it remains effective when the operator acts through a moving
-focal-agent FPV.
-
-We therefore investigate whether distributing five continuous swarm commands
-across the head, torso, and hands can address the input bottleneck of
-focal-agent FPV teleoperation. We implement a participant-calibrated interface
-in which torso inclination commands planar velocity, mean hand height commands
-vertical velocity, hand separation commands formation spacing, and head yaw
-commands FPV yaw rate. We compare the complete interface with a conventional
-radio-control transmitter in a within-subject study of 14 participants
-navigating a simulated swarm through three-dimensional obstacle courses. The
-contributions are (i) a five-DOF upper-body mapping that remains aligned with
-the focal agent's reference frame during view rotation and transfer, and
-(ii) an experimental comparison characterizing traversal efficiency,
-trajectory geometry, control behavior, task accuracy, swarm integrity,
-workload, usability, and preference.
-
+We address this question with a participant-calibrated upper-body interface for
+a simulated swarm. Torso inclination commands
+planar velocity, mean hand height commands vertical velocity, hand separation
+sets target inter-agent spacing, and head yaw commands FPV yaw rate. We compare
+the complete interface with a radio-control transmitter in a within-subject
+study of 14 participants navigating three-dimensional gap-passing courses. The study evaluates traversal efficiency, trajectory geometry,
+delivered-command variation, task accuracy, swarm integrity, workload,
+usability, and preference. Our contributions are (i) a five-dimensional body-motion mapping
+aligned with the focal agent's yaw frame, including during viewpoint rotation
+and transfer, and (ii) a user study showing faster and more direct traversal without
+detected differences in task accuracy, swarm integrity, overall workload, or
+usability, but with higher physical demand. 
 
 \section{Swarm Control System and Input Interfaces}
 % --- 2a. Methodology: the interface and the body-to-swarm mapping ---
@@ -221,7 +164,7 @@ tracking, and obstacle repulsion. Following Jarvis et al.~\cite{ben_focaldrone},
 
 An undirected interaction graph defined the largest connected component.
 
-In both conditions, participants used a virtual reality (VR) headset (Meta Quest 3S, Meta, USA) to view the FPV. Three devices measured body motion. The headset measured head yaw. Two handheld controllers measured 3D hand positions. A chest-mounted inertial measurement unit (LPMS-B2, LP-Research, Japan) measured torso inclination. The swarm controller, command limits, focal-agent logic, and simulation were the same for both conditions. Only the input hardware and filtering differed.
+In both conditions, participants used a virtual reality (VR) headset (Meta Quest 3S, Meta, USA) to view the FPV. Three devices measured the implemented body-motion interface. The headset measured head yaw. Two handheld controllers measured 3D hand positions. A chest-mounted inertial measurement unit (LPMS-B2, LP-Research, Japan) measured torso inclination. The swarm controller, command limits, focal-agent logic, and simulation were the same for both conditions. Only the input hardware and filtering differed.
 
 \subsection{Body-to-Swarm Mapping}
 \label{sec:mapping}
@@ -512,15 +455,15 @@ motion. Stars mark Holm-adjusted paired comparisons
 \label{fig:paired_results}
 \end{figure*}
 
-\emph{Traversal efficiency.} Body motion significantly improved all traversal metrics compared to the transmitter. Completion time decreased by 19.4\%, representing a mean reduction of 22.4~s (Holm-adjusted $p=0.001$) with 13 of the 14 participants going faster using body motion. Centroid path length was 7.0\% shorter (Holm-adjusted $p=0.011$), and mean speed was 12.5\% higher (Holm-adjusted $p=0.001$).
+\emph{Traversal efficiency.} the implemented body-motion interface significantly improved all traversal metrics compared to the transmitter. Completion time decreased by 19.4\%, representing a mean reduction of 22.4~s (Holm-adjusted $p=0.001$) with 13 of the 14 participants going faster using the implemented body-motion interface. Centroid path length was 7.0\% shorter (Holm-adjusted $p=0.011$), and mean speed was 12.5\% higher (Holm-adjusted $p=0.001$).
 
 \emph{Trajectory characteristics.}
-Body motion produced more direct trajectories than the
+the implemented body-motion interface produced more direct trajectories than the
 transmitter. Path directness increased by 0.052
 (Holm-adjusted $p=0.032$). Excess vertical
 travel decreased by 44.0\%, corresponding to 16.9~m
 (Holm-adjusted $p=0.049$) while excess horizontal
-travel was 14.2\% lower with body motion (48.8 versus 56.8~m), but the
+travel was 14.2\% lower with the implemented body-motion interface (48.8 versus 56.8~m), but the
 difference was not statistically detectable (mean difference $-8.0$~m,
 Holm-adjusted $p=0.153$).
 Figure~\ref{fig:trajectory_overlays} illustrates these trajectory
@@ -535,62 +478,30 @@ characteristics.
 \end{figure}
 
 \emph{Delivered-command behavior.}
-Body motion produced significantly smoother commands than the transmitter.
+the implemented body-motion interface produced significantly smoother commands than the transmitter.
 Delivered-command variation decreased by 88.8\% (Holm-adjusted $p<0.001$).
 Multi-DOF coordination was higher
-with body motion than with the transmitter (mean paired difference 22.5 percentage points; Holm-adjusted
+with the implemented body-motion interface than with the transmitter (mean paired difference 22.5 percentage points; Holm-adjusted
 $p<0.001$), with the same direction for all 14 participants.
 
 \emph{Task performance and swarm integrity.} No differences were detected in gate-centering error, collection yield, crash count, or disconnection-event count (Holm-adjusted \(p=1.000\) for all four outcomes). 
 % While almost all agents survived in both conditions, this lack of a significant difference does not inherently prove that the interfaces are completely equivalent in overall performance or safety.
 
-\emph{Subjective experience.} While overall workload and usability were similar between conditions, body motion required significantly more physical effort. We observed no statistical difference in the overall weighted TLX score (mean difference 7.2; Holm-adjusted $p=0.482$) or the SUS usability score (mean difference 1.6; Holm-adjusted $p=0.491$). However, all 14 participants reported higher physical demand with body motion, resulting in a mean increase of 40.7 points (Holm-adjusted $p<0.001$). Despite the added physical exertion, user preference remained split (eight preferred body motion, five preferred the transmitter, one had no preference). Motion-sickness responses were mixed: six participants reported greater sickness with body motion, four with the transmitter, and four reported no difference.
+\emph{Subjective experience.} While overall workload and usability were similar between conditions, the implemented body-motion interface required significantly more physical effort. We observed no statistical difference in the overall weighted TLX score (mean difference 7.2; Holm-adjusted $p=0.482$) or the SUS usability score (mean difference 1.6; Holm-adjusted $p=0.491$). However, all 14 participants reported higher physical demand with the implemented body-motion interface, resulting in a mean increase of 40.7 points (Holm-adjusted $p<0.001$). Despite the added physical exertion, user preference remained split (eight preferred the implemented body-motion interface, five preferred the transmitter, one had no preference). Motion-sickness responses were mixed: six participants reported greater sickness with the implemented body-motion interface, four with the transmitter, and four reported no difference.
 
 
 % =====================================================================
 \section{Discussion}
 
-% Body-motion control substantially improved traversal efficiency in the tested
-% FPV swarm-navigation task. Participants completed the courses 19.4\% faster,
-% with 13 of 14 participants showing the same direction of improvement. Their
-% centroid paths were 7.0\% shorter and their mean speed was 12.5\% higher.
-% Trajectory analysis further showed less time at low speed, greater path
-% directness, and 44.0\% less excess vertical travel. Although mean excess
-% horizontal travel was 14.2\% lower with body motion, this difference was not
-% statistically detectable. The evidence therefore supports more continuous and
-% direct traversal, with a clear reduction in unnecessary vertical movement but
-% no conclusive reduction in horizontal detouring.
-
-% Importantly, the efficiency advantage was not accompanied by a detected loss of task accuracy or swarm integrity. Gate-centering error, collection yield, and swarm survival did not differ detectably between interfaces, and survival remained high in both conditions. Within the tested scenario, body motion therefore enabled participants to traverse the courses faster without an observable reduction in these task-performance measures.
-
-% Underlying these physical improvements, body motion produced a substantially steadier control stream. Delivered-command variation dropped by 88.8\%. This reduction in abrupt command changes likely helped sustain forward motion and decrease the need for corrective maneuvers. These steadier commands logically align with the improved low-speed fraction, higher path directness, and reduced excess vertical travel, though this study establishes a correlation rather than direct causation.
-
-% While overall usability and workload scores (SUS and TLX) were similar between interfaces, body motion required significantly more physical effort. All participants rated body motion as more physically demanding, scoring it 40.7 points higher on average due to the continuous arm and torso movements required. Interestingly, lower perceived workload on other TLX dimensions offset this physical strain, resulting in equivalent overall scores. Despite the physical exertion, user preference remained split (eight preferred body motion, five preferred the transmitter, one had no preference), and neither interface showed a clear advantage regarding motion sickness.
-% To address this physical fatigue, participant feedback suggests two primary design improvements. First, integrating physical arm support, similar to prior body-based drone interfaces~\cite{rognon2018flyjacket}, could substantially reduce sustained effort. Second, increasing the shoulder-motion gains would reduce the required range of physical movement, though this must be carefully balanced against potential losses in fine control accuracy.
-
-% This study successfully extends upper-body control from individual aerial robots~\cite{rognon2018flyjacket,miehlbradt2018datadriven,macchini2024datadriven} to multi-agent swarms, and shifts the paradigm from externally viewed formations~\cite{macchini2021personalized,tsykunov2019swarmtouch,kratky2025gesture} to rear-focal FPV operation. Furthermore, it builds upon existing transmitter-based FPV systems~\cite{ben_focaldrone} by demonstrating the viability of body motion as a highly effective alternative input method.
-
-% These findings extend upper-body control from individual aerial robots
-% \cite{rognon2018flyjacket,miehlbradt2018datadriven,
-% macchini2024datadriven} and externally viewed formations
-% \cite{macchini2021personalized,tsykunov2019swarmtouch,
-% kratky2025gesture} to continuous five-DOF swarm control from rear-focal FPV.
-% They also complement transmitter-based FPV swarm
-% control~\cite{ben_focaldrone} by demonstrating that a
-% participant-calibrated body-motion interface can provide a meaningful
-% performance advantage in a multidimensional navigation task.
-
-% To build upon these foundational results, future research should incorporate larger participant pools, extended training periods, and more complex operational constraints, such as time-limited navigation, dynamic obstacles, or competing objectives. Finally, validating this interface with physical robotic swarms is essential to rigorously evaluate the impacts of communication latency, aerodynamic disturbances, and real-world safety limitations.
-
-Body motion improved traversal efficiency and path directness in the tested FPV
+the implemented body-motion interface improved traversal efficiency and path directness in the tested FPV
 swarm-navigation task, with the trajectory improvement concentrated in the
 vertical rather than the horizontal dimension. Two observations may help
-explain this pattern. First, multi-DOF coordination was higher with body motion
+explain this pattern. First, multi-DOF coordination was higher with the implemented body-motion interface
 than with the transmitter, consistent with participants' reports that they
 could adjust multiple command dimensions simultaneously rather than moving
 between transmitter sticks; this aligns with the distinction between integral
 and separable input~\cite{jacob1994integrality,zhai1998quantifying}. Second,
-body motion reduced delivered-command variation, which may help sustain forward
+the implemented body-motion interface reduced delivered-command variation, which may help sustain forward
 motion and reduce the need for corrective maneuvers. These associations are
 consistent with the measured efficiency outcomes, although this study does not
 establish causation.
@@ -610,7 +521,7 @@ or swarm integrity: gate-centering error, collection yield, crash count, and
 disconnection events did not differ between interfaces. However, the absence of
 a detected difference does not establish equivalence.
 
-Body motion required more physical effort, yet overall workload was unchanged:
+the implemented body-motion interface required more physical effort, yet overall workload was unchanged:
 all 14 participants rated it more physically demanding, while lower ratings on
 the remaining TLX dimensions offset this strain. Preference nevertheless
 remained split, which indicates that acceptance is not determined by efficiency
@@ -630,14 +541,9 @@ safety limits were absent; validation on physical swarms is therefore necessary.
 % =====================================================================
 \section{Conclusion}
 
-
-% We presented a participant-calibrated upper-body interface for continuous five-DOF FPV swarm teleoperation. In a 14-participant within-subject study, the complete body-motion system reduced completion time by 19.4\% relative to a
-% transmitter, with 7.0\% shorter paths, higher mean speed, and lower
-% delivered-command variation. However, physical demand increased, while no differences were detected in task accuracy, swarm integrity, total workload, or usability; these null results do not establish equivalence. Matched-processing and physical-swarm studies are needed to isolate modality effects and determine whether the efficiency advantage generalizes beyond the tested simulated 15-agent rear-FPV task.
-
 We presented a participant-calibrated upper-body interface for continuous
 five-DOF FPV swarm teleoperation. In a 14-participant within-subject study,
-body motion reduced completion time by 19.4\% relative to a transmitter and
+the implemented body-motion interface reduced completion time by 19.4\% relative to a transmitter and
 produced more direct trajectories with lower delivered-command variation, at the
 cost of higher physical demand and with no detected differences in task
 accuracy, swarm integrity, total workload, or usability. Validation on physical
