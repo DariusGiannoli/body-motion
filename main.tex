@@ -163,7 +163,9 @@ and $\rho_t^{*}$ specifies target agent spacing.
 
 A decentralized Olfati--Saber controller~\cite{olfatisaber2006flocking}
 combined clearance regulation, velocity alignment, reference-velocity
-tracking, and obstacle repulsion. The surviving agents formed an undirected interaction graph. Two agents were connected if the distance between them was less than \(R_t=\max(2\rho_t^{*},\,\rho_t^{*}+2~\mathrm{m}),\). The largest connected component was considered the connected swarm, and all surviving agents outside it were classified as disconnected.
+tracking, and obstacle repulsion. The surviving agents formed an undirected interaction graph. Two agents were connected if the distance between them was less than \(R_t=\max(2\rho_t^{*},\,\rho_t^{*}+2~\mathrm{m}),\). The largest connected component was considered the connected swarm, and all surviving agents outside it were classified as disconnected. The simulation
+environment was built on the FPV swarm-teleoperation framework of Palle
+et al.~\cite{palle2026multisensory}.
 
 To isolate input-interface effects, both conditions used the rear-focal
 stereoscopic FPV of Jarvis et al., which keeps most agents ahead of the camera
@@ -356,9 +358,7 @@ demonstrations. They were asked to complete each course as quickly as possible w
 
 Each recorded course contained seven gates whose positions, heights, and
 opening sizes were varied to require horizontal translation, altitude
-adjustment, and formation-spacing control. The 90-degree turn additionally
-required participants to rotate the FPV and continue navigating in the rotated
-focal-agent reference frame. Collectible stars were distributed across the
+adjustment, and formation-spacing control. Each course included one 90-degree turn, in opposite directions, requiring participants to rotate the FPV and continue navigating in the rotated focal-agent reference frame. Collectible stars were distributed across the
 gate openings to encourage participants to control the spatial extent of the
 swarm rather than merely guide the focal agent or swarm centroid through each
 gate. Collection yield therefore provided a secondary measure of collective
@@ -381,7 +381,7 @@ free-text comments.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{Figures/single_layout.png}
-\caption{Both obstacle course layouts.
+\caption{Course 2 obstacle layout.
 Labels G1--G7 mark the gate sequence; dashed arrows show traversal direction.}
 \label{fig:course_layouts}
 \end{figure}
@@ -628,9 +628,7 @@ world would reduce the postural coupling that participants reported.
 % =====================================================================
 
 \section*{Acknowledgment}
-The authors thank Benjamin Jarvis for his constructive feedback on the
-manuscript, Pablo Palle for his contributions to the simulation framework on
-which this study was built.
+The authors thank Benjamin Jarvis for constructive feedback on the manuscript, Pablo Palle for contributions to the simulation framework, and Gabriel Taieb for helping test the experimental protocol.
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
