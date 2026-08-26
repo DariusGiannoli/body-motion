@@ -1,0 +1,4 @@
+\RequirePackage{shellesc}
+\ShellEscape{latexdiff --flatten save.tex main.tex > generated-diff.tex}
+\input{generated-diff.tex}
+\documentclass{dummy}
