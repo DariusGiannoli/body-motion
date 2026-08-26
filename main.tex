@@ -218,6 +218,12 @@ $q_{\mathrm{L}}=q^{0}-d$ and $q_{\mathrm{U}}=q^{0}+d$. The normalization was
 Separate scaling on either side of neutral accommodated asymmetric ranges of
 motion.
 
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\textwidth]{Figures/l.png}
+\caption{Body-to-swarm control mappings. Subfigures (a)--(e) illustrate how the participant's posture and hand positions map to specific swarm commands. The neutral pose (f) halts all movement but maintains the current spacing setpoint. Faded formations indicate the direction of the commanded motion, scaling, or view rotation.}
+\label{fig:mapping}
+\end{figure*}
 
 
 
@@ -267,20 +273,9 @@ command was
 \end{equation}
 Returning the head to neutral stopped FPV rotation without restoring the
 previous viewing direction.
-The selection of body-to-swarm couplings was not based on an empirical
-comparison of alternative mappings. Pilot and informal testing were used only
-to tune numerical parameters, including gains, deadzones, maximum command
-speeds, and the formation-clearance range.
-The selection of body-to-swarm couplings was not based on an empirical
-comparison of alternative mappings. Pilot and informal testing were used only
-to tune numerical parameters, including gains, deadzones, maximum command
-speeds, and the formation-clearance range.
-\begin{figure*}[!t]
-\centering
-\includegraphics[width=\textwidth]{Figures/l.png}
-\caption{Body-to-swarm control mappings. Subfigures (a)--(e) illustrate how the participant's posture and hand positions map to specific swarm commands. The neutral pose (f) halts all movement but maintains the current spacing setpoint. Faded formations indicate the direction of the commanded motion, scaling, or view rotation.}
-\label{fig:mapping}
-\end{figure*}
+
+Pilot and informal testing were used to tune numerical parameters and validate the proposed body motion mapping. 
+
 
 
 \subsection{Participant-Specific Calibration}
@@ -423,6 +418,20 @@ The eight segments covered the path from the start to the first gate, between
 gates, and from the final gate to the finish. The calculation used the measured
 segment endpoints.
 
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{Figures/box.png}
+\caption{Participant-level outcomes for transmitter and body-motion control
+($n=14$). 
+% Delivered-command variation and multi-DOF coordination are shown for the recorded pipelines.
+Boxes show interquartile ranges with median lines; diamonds indicate means
+and circles indicate outliers. Orange denotes transmitter and teal denotes body
+motion. Stars mark Holm-adjusted paired comparisons
+($*p<0.05$, $**p<0.01$, $***p<0.001$).}
+\label{fig:paired_results}
+\end{figure*}
+
 For each segment, excess horizontal travel $H_{\mathrm{exc}}$ was the
 horizontal path length in the $x$--$z$ plane minus the direct horizontal
 displacement between its endpoints. Excess vertical travel
@@ -468,18 +477,7 @@ participant, yielding 14 paired observations. Interfaces were compared using exa
 
 Figure 4 shows the statistical distributions for all evaluated performance and subjective metrics.
 
-\begin{figure*}[t]
-\centering
-\includegraphics[width=\textwidth]{Figures/box.png}
-\caption{Participant-level outcomes for transmitter and body-motion control
-($n=14$). 
-% Delivered-command variation and multi-DOF coordination are shown for the recorded pipelines.
-Boxes show interquartile ranges with median lines; diamonds indicate means
-and circles indicate outliers. Orange denotes transmitter and teal denotes body
-motion. Stars mark Holm-adjusted paired comparisons
-($*p<0.05$, $**p<0.01$, $***p<0.001$).}
-\label{fig:paired_results}
-\end{figure*}
+
 
 \emph{Traversal efficiency.} the implemented body-motion interface significantly improved all traversal metrics compared to the transmitter. Completion time decreased by 19.4\%, representing a mean reduction of 22.4~s (Holm-adjusted $p=0.001$) with 13 of the 14 participants going faster using the implemented body-motion interface. Centroid path length was 7.0\% shorter (Holm-adjusted $p=0.011$), and mean speed was 12.5\% higher (Holm-adjusted $p=0.001$).
 
@@ -500,6 +498,26 @@ characteristics.
 \includegraphics[width=\columnwidth]
 {Figures/a.png}
 \caption{Course 2 individual-drone trajectories for one participant: (a) horizontal paths and (b) gate-aligned height profiles under transmitter and body-motion control. Thin lines show the trajectories of the non-focal drones, while thick lines highlight the focal drone. Black markers indicate gate locations and vertical opening ranges.}
+\label{fig:trajectory_overlays}
+\end{figure}
+
+\begin{figure}[!b]
+\centering
+\includegraphics[width=0.9\columnwidth]
+{Figures/fig_pairwise_dof_cochange.png}
+\caption{Exploratory decomposition of delivered-command co-change.}
+\label{fig:trajectory_overlays}
+\end{figure}
+
+\begin{figure}[!b]
+\centering
+\includegraphics[width=\columnwidth]
+{Figures/fig_subjective_responses.png}
+\caption{Comparative responses after both interface blocks (n = 14). The
+upper bar shows interface preference, and the lower bar shows the interface
+associated with greater motion sickness. Neutral denotes no preference in
+the upper bar and no difference in motion sickness in the lower bar. Counts
+are descriptive; no inferential comparison was performed.}
 \label{fig:trajectory_overlays}
 \end{figure}
 
@@ -561,6 +579,8 @@ differences may not generalize to front-focal or simultaneous multi-view
 configurations. Viewpoint and input mapping may interact, which should be
 examined in a factorial study.
 
+me, the increased multi-DOF coordination may expand the complexity of environments that a single operator can negotiate. By allowing the swarm to translate, change altitude, reconfigure its spatial extent, and redirect the viewpoint concurrently, the interface could support navigation through tighter, more irregular, or dynamically changing three-dimensional spaces.
+
 These findings extend upper-body control from individual aerial
 robots~\cite{rognon2018flyjacket,miehlbradt2018datadriven,macchini2024datadriven}
 and externally viewed
@@ -584,6 +604,12 @@ separate body segments rather than across controls on a single handheld device. 
 world would reduce the postural coupling that participants reported.
 
 % =====================================================================
+
+\section*{Acknowledgment}
+The authors thank Benjamin Jarvis for his constructive feedback on the
+manuscript, Pablo Palle for his contributions to the simulation framework on
+which this study was built.
+
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 
