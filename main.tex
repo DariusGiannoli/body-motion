@@ -324,8 +324,8 @@ velocity, the left horizontal axis controlled FPV yaw rate, the
 non-self-centering left throttle controlled vertical velocity, and the right
 rotary knob set target inter-agent clearance. Stick axes used a symmetric
 deadzone, while the knob mapped linearly
-to $\rho^*\in[1,5]$~m. The transmitter received no participant-specific
-calibration or additional temporal filtering.
+to $\rho^*\in[1,5]$~m.
+As a standard baseline, the transmitter used pilot-tested gains and deadzones fixed across participants, without individual calibration or temporal smoothing.
 
 % =====================================================================
 
@@ -461,13 +461,11 @@ E_{\mathrm{cmd}} = \frac{\tau}{5} \sum_{k=1}^{M-1} \frac{\lVert\mathbf{q}_{k+1}-
 Lower values indicate less variation in the delivered commands.
 
 \emph{Multi-DOF coordination.}
-We measured multi-DOF coordination as the percentage of active control time
-during which at least two of the five commands changed simultaneously. A
-command was considered changing when its normalized change rate exceeded
-$0.10~\mathrm{s^{-1}}$. Active control time comprised intervals in which at
-least one command's normalized change rate exceeded this threshold. Higher
-values indicate more simultaneous use of multiple command dimensions. 
-% Because the tested interfaces applied different online filters, both measures characterize the delivered-command pipelines rather than the input hardware or participants' unfiltered movements.
+A command was active when its normalized change rate exceeded
+$0.10~\mathrm{s^{-1}}$, and active control time comprised intervals with at
+least one active command. Multi-DOF coordination was the percentage of this time with two or more active commands; higher values indicate greater concurrent control. To identify contributing dimensions, we also calculated pairwise co-change as the percentage of active control time in which both commands in each of the ten pairs were active. Intervals with three or more
+active commands contributed to multiple pairs, so pairwise values were not additive.
+Because the interfaces used different temporal filtering, these metrics characterize the complete delivered-command pipelines rather than intrinsic input smoothness or intentional user coordination.
 
 % =====================================================================
 \section{Results}
@@ -529,7 +527,7 @@ with the implemented body-motion interface than with the transmitter (mean paire
 $p<0.001$), with the same direction for all 14 participants.
 
 \emph{Task performance and swarm integrity.} No differences were detected in gate-centering error, collection yield, crash count, or disconnection-event count (Holm-adjusted \(p=1.000\) for all four outcomes). 
-% While almost all agents survived in both conditions, this lack of a significant difference does not inherently prove that the interfaces are completely equivalent in overall performance or safety.
+
 
 \emph{Subjective experience.} While overall workload and usability were similar between conditions, the implemented body-motion interface required significantly more physical effort. We observed no statistical difference in the overall weighted TLX score (mean difference 7.2; Holm-adjusted $p=0.482$) or the SUS usability score (mean difference 1.6; Holm-adjusted $p=0.491$). However, all 14 participants reported higher physical demand with the implemented body-motion interface, resulting in a mean increase of 40.7 points (Holm-adjusted $p<0.001$). Despite the added physical exertion, user preference remained split (eight preferred the implemented body-motion interface, five preferred the transmitter, one had no preference). Motion-sickness responses were mixed: six participants reported greater sickness with the implemented body-motion interface, four with the transmitter, and four reported no difference.
 
@@ -537,7 +535,7 @@ $p<0.001$), with the same direction for all 14 participants.
 % =====================================================================
 \section{Discussion}
 
-the implemented body-motion interface improved traversal efficiency and path directness in the tested FPV
+The implemented body-motion interface improved traversal efficiency and path directness in the tested FPV
 swarm-navigation task, with the trajectory improvement concentrated in the
 vertical rather than the horizontal dimension. Two observations may help
 explain this pattern. First, multi-DOF coordination was higher with the implemented body-motion interface
@@ -564,6 +562,18 @@ The efficiency advantage was not accompanied by a detected loss of task accuracy
 or swarm integrity: gate-centering error, collection yield, crash count, and
 disconnection events did not differ between interfaces. However, the absence of
 a detected difference does not establish equivalence.
+
+The trajectory difference was concentrated in the vertical component. The
+larger vertical reversals illustrated in Fig.~\ref{fig:trajectory_overlays}(b)
+are consistent with repeated altitude corrections under transmitter control,
+although the figure alone does not establish their cause. One possibility is
+that the fixed throttle gain was too sensitive for some participants. Moreover,
+the body-motion altitude command was individually calibrated and smoothed,
+whereas the transmitter command was neither personalized nor additionally
+filtered. The observed difference therefore characterizes the complete
+implemented interfaces and cannot be attributed solely to input modality.
+Future comparisons should match temporal filtering and evaluate
+participant-specific transmitter gains.
 
 The implemented body-motion interface required more physical effort, yet overall workload was unchanged:
 all 14 participants rated it more physically demanding, while lower ratings on
