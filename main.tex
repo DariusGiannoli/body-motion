@@ -378,9 +378,9 @@ Index (NASA-TLX)~\cite{hart1988nasatlx} and the System Usability Scale
 blocks, they reported interface preference and relative motion sickness and could provide optional
 free-text comments.
 
-\begin{figure}[b]
+\begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{Figures/layouts.png}
+\includegraphics[width=\columnwidth]{Figures/single_layout.png}
 \caption{Both obstacle course layouts.
 Labels G1--G7 mark the gate sequence; dashed arrows show traversal direction.}
 \label{fig:course_layouts}
@@ -467,6 +467,14 @@ least one active command. Multi-DOF coordination was the percentage of this time
 active commands contributed to multiple pairs, so pairwise values were not additive.
 Because the interfaces used different temporal filtering, these metrics characterize the complete delivered-command pipelines rather than intrinsic input smoothness or intentional user coordination.
 
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]
+{Figures/a.png}
+\caption{Course 2 individual-drone trajectories for one participant: (a) horizontal paths and (b) gate-aligned height profiles under transmitter and body-motion control. Thin lines show the trajectories of the non-focal drones, while thick lines highlight the focal drone. Black markers indicate gate locations and vertical opening ranges.}
+\label{fig:trajectory_overlays}
+\end{figure}
 % =====================================================================
 \section{Results}
 
@@ -475,37 +483,28 @@ participant, yielding 14 paired observations. Interfaces were compared using exa
 
 Figure 4 shows the statistical distributions for all evaluated performance and subjective metrics.
 
-
-
-\emph{Traversal efficiency.} the implemented body-motion interface significantly improved all traversal metrics compared to the transmitter. Completion time decreased by 19.4\%, representing a mean reduction of 22.4~s (Holm-adjusted $p=0.001$) with 13 of the 14 participants going faster using the implemented body-motion interface. Centroid path length was 7.0\% shorter (Holm-adjusted $p=0.011$), and mean speed was 12.5\% higher (Holm-adjusted $p=0.001$).
+\emph{Traversal efficiency.} 
+The implemented body-motion interface significantly improved all traversal metrics compared to the transmitter. Completion time decreased by 19.4\%, representing a mean reduction of 22.4~s (Holm-adjusted $p=0.001$) with 13 of the 14 participants going faster using the implemented body-motion interface. Centroid path length was 7.0\% shorter (Holm-adjusted $p=0.011$), and mean speed was 12.5\% higher (Holm-adjusted $p=0.001$).
 
 \emph{Trajectory characteristics.}
-the implemented body-motion interface produced more direct trajectories than the
-transmitter. Path directness increased by 0.052
-(Holm-adjusted $p=0.032$). Excess vertical
-travel decreased by 44.0\%, corresponding to 16.9~m
-(Holm-adjusted $p=0.049$) while excess horizontal
-travel was 14.2\% lower with the implemented body-motion interface (48.8 versus 56.8~m), but the
-difference was not statistically detectable (mean difference $-8.0$~m,
-Holm-adjusted $p=0.153$).
-Figure~\ref{fig:trajectory_overlays} illustrates these trajectory
-characteristics.
+The implemented body-motion interface produced more direct trajectories than the
+transmitter. Path directness increased by 0.052 (Holm-adjusted $p=0.032$). Excess vertical
+travel decreased by 44.0\%, corresponding to 16.9~m (Holm-adjusted $p=0.049$) while excess horizontal travel was 14.2\% lower with the implemented body-motion interface (48.8 versus 56.8~m), but the difference was not statistically detectable (mean difference $-8.0$~m, Holm-adjusted $p=0.153$). Figure~\ref{fig:trajectory_overlays} illustrates these trajectory characteristics.
 
-\begin{figure}[!b]
-\centering
-\includegraphics[width=\columnwidth]
-{Figures/a.png}
-\caption{Course 2 individual-drone trajectories for one participant: (a) horizontal paths and (b) gate-aligned height profiles under transmitter and body-motion control. Thin lines show the trajectories of the non-focal drones, while thick lines highlight the focal drone. Black markers indicate gate locations and vertical opening ranges.}
-\label{fig:trajectory_overlays}
-\end{figure}
 
-\begin{figure}[!b]
+
+\begin{figure}[!t]
 \centering
 \includegraphics[width=0.9\columnwidth]
 {Figures/fig_pairwise_dof_cochange.png}
-\caption{Exploratory decomposition of delivered-command co-change.}
+\caption{Exploratory pairwise command co-change for (a) body-motion and
+(b) transmitter control. Off-diagonal cells show the percentage of active
+control time during which both commands were active; diagonal cells show
+single-command activity. Values were averaged across participants ($n=14$)
+using a shared color scale.}
 \label{fig:trajectory_overlays}
 \end{figure}
+
 
 \begin{figure}[!b]
 \centering
@@ -520,85 +519,97 @@ are descriptive; no inferential comparison was performed.}
 \end{figure}
 
 \emph{Delivered-command behavior.}
-the implemented body-motion interface produced significantly smoother commands than the transmitter.
-Delivered-command variation decreased by 88.8\% (Holm-adjusted $p<0.001$).
-Multi-DOF coordination was higher
-with the implemented body-motion interface than with the transmitter (mean paired difference 22.5 percentage points; Holm-adjusted
-$p<0.001$), with the same direction for all 14 participants.
+The implemented body-motion pipeline showed 88.8\% lower command
+variation (Holm-adjusted $p<0.001$). Multi-DOF coordination was 22.5 percentage
+points higher with body motion ($p<0.001$), with the same direction for all
+14 participants. Pairwise co-change was higher for seven of the ten command
+pairs (Fig.~\ref{fig:dof_pairwise}). The largest body-motion versus transmitter
+differences were vertical--forward (19.3\% versus 5.5\%),
+forward--spacing (10.5\% versus 0.3\%), and vertical--spacing
+(10.0\% versus 0.1\%; $p=0.001$ for each). Lateral--spacing co-change was
+also higher (8.1\% versus 0.5\%) but was not the dominant pair, while the three
+translation--yaw pairs did not differ after Holm correction.
 
-\emph{Task performance and swarm integrity.} No differences were detected in gate-centering error, collection yield, crash count, or disconnection-event count (Holm-adjusted \(p=1.000\) for all four outcomes). 
+\emph{Task performance and swarm integrity.} 
+No differences were detected in gate-centering error, collection yield, crash count, or disconnection-event count (Holm-adjusted \(p=1.000\) for all four outcomes). 
 
-
-\emph{Subjective experience.} While overall workload and usability were similar between conditions, the implemented body-motion interface required significantly more physical effort. We observed no statistical difference in the overall weighted TLX score (mean difference 7.2; Holm-adjusted $p=0.482$) or the SUS usability score (mean difference 1.6; Holm-adjusted $p=0.491$). However, all 14 participants reported higher physical demand with the implemented body-motion interface, resulting in a mean increase of 40.7 points (Holm-adjusted $p<0.001$). Despite the added physical exertion, user preference remained split (eight preferred the implemented body-motion interface, five preferred the transmitter, one had no preference). Motion-sickness responses were mixed: six participants reported greater sickness with the implemented body-motion interface, four with the transmitter, and four reported no difference.
+\emph{Subjective experience.} 
+While overall workload and usability were similar between conditions, the implemented body-motion interface required significantly more physical effort. We observed no statistical difference in the overall weighted TLX score (mean difference 7.2; Holm-adjusted $p=0.482$) or the SUS usability score (mean difference 1.6; Holm-adjusted $p=0.491$). However, all 14 participants reported higher physical demand with the implemented body-motion interface, resulting in a mean increase of 40.7 points (Holm-adjusted $p<0.001$).  Interface preference was divided, and relative motion-sickness responses were
+mixed (Fig.~\ref{fig:trajectory_overlays}).
 
 
 % =====================================================================
 \section{Discussion}
 
-The implemented body-motion interface improved traversal efficiency and path directness in the tested FPV
-swarm-navigation task, with the trajectory improvement concentrated in the
-vertical rather than the horizontal dimension. Two observations may help
-explain this pattern. First, multi-DOF coordination was higher with the implemented body-motion interface
-than with the transmitter, consistent with participants' reports that they
-could adjust multiple command dimensions simultaneously rather than moving
-between transmitter sticks; this aligns with the distinction between integral
-and separable input~\cite{jacob1994integrality,zhai1998quantifying}. Second,
-the implemented body-motion interface reduced delivered-command variation, which may help sustain forward
-motion and reduce the need for corrective maneuvers. These associations are
-consistent with the measured efficiency outcomes, although this study does not
-establish causation.
+The implemented body-motion interface improved traversal efficiency and path
+directness in the tested FPV swarm-navigation task, with the trajectory
+improvement concentrated in the vertical rather than the horizontal dimension.
+Two observations may help explain this pattern. First, multi-DOF coordination
+was higher with body motion than with the transmitter, consistent with
+participants' reports that they could adjust several commands simultaneously
+rather than moving between transmitter controls. This aligns with the
+distinction between integral and separable input
+\cite{jacob1994integrality,zhai1998quantifying}. Second, body motion reduced
+delivered-command variation, which may have supported more continuous forward
+motion and fewer corrections. These associations are consistent with the
+measured efficiency gains but do not establish causation.
 
-Several participants reported that leaning the torso forward lowered the hands
-involuntarily, which changed the altitude command and required a subsequent
-correction, although they also reported adapting to this coupling quickly. Such
-mechanical cross-coupling between torso and arm postures could increase the
-measured coordination index without reflecting intentional concurrent control,
-so a higher value would not necessarily indicate a more effective interface.
-Decoupling these channels, for example through physical arm
-support~\cite{rognon2018flyjacket} or by referencing hand height to the torso
-rather than to the world, would remove the need for this compensation.
+Several participants reported that leaning forward involuntarily lowered their
+hands, changed the altitude command, and required a correction, although they
+adapted to this coupling quickly. This mechanical coupling could increase the
+measured coordination index without reflecting intentional concurrent control.
+The pairwise results are consistent with this concern: the differences covered
+several command pairs and were largest for vertical and forward control, rather
+than being confined to lateral motion and spacing. However, task demands and
+interface-specific filtering could also produce co-change, so the matrix does
+not identify its cause. Physical arm support
+\cite{rognon2018flyjacket} or measuring hand height relative to the torso could
+help decouple these commands.
 
-The efficiency advantage was not accompanied by a detected loss of task accuracy
-or swarm integrity: gate-centering error, collection yield, crash count, and
-disconnection events did not differ between interfaces. However, the absence of
-a detected difference does not establish equivalence.
+The efficiency advantage was not accompanied by a detected loss of task
+accuracy or swarm integrity: gate-centering error, collection yield, crash
+count, and disconnection events did not differ between interfaces. However,
+the absence of a detected difference does not establish equivalence.
 
-The trajectory difference was concentrated in the vertical component. The
-larger vertical reversals illustrated in Fig.~\ref{fig:trajectory_overlays}(b)
-are consistent with repeated altitude corrections under transmitter control,
-although the figure alone does not establish their cause. One possibility is
-that the fixed throttle gain was too sensitive for some participants. Moreover,
-the body-motion altitude command was individually calibrated and smoothed,
-whereas the transmitter command was neither personalized nor additionally
-filtered. The observed difference therefore characterizes the complete
-implemented interfaces and cannot be attributed solely to input modality.
-Future comparisons should match temporal filtering and evaluate
-participant-specific transmitter gains.
+The larger vertical reversals illustrated in
+Fig.~\ref{fig:trajectory_overlays}(b) are consistent with repeated altitude
+corrections under transmitter control, although the figure alone does not
+establish their cause. The fixed throttle gain may have been too sensitive for
+some participants. In addition, the body-motion altitude command was
+individually calibrated and smoothed, whereas the transmitter command was
+neither personalized nor additionally filtered. The results therefore compare
+the complete implemented interfaces and cannot be attributed solely to input
+modality. Future comparisons should match temporal filtering and evaluate
+participant-specific transmitter gains and alternative command mappings.
 
-The implemented body-motion interface required more physical effort, yet overall workload was unchanged:
-all 14 participants rated it more physically demanding, while lower ratings on
-the remaining TLX dimensions offset this strain. Preference nevertheless
-remained split, which indicates that acceptance is not determined by efficiency
-alone and that the added physical demand offsets the efficiency gain for some
-operators. Beyond decoupling the torso and arm channels, increasing the
-shoulder-motion gains would reduce the required range of physical movement, at
-the cost of fine control accuracy.
+The body-motion interface required more physical effort, although overall
+workload was unchanged. All 14 participants rated it as more physically
+demanding, while lower ratings on the remaining TLX dimensions offset this
+strain. Preference remained split, suggesting that the added physical demand
+reduced the appeal of the efficiency gain for some operators. Beyond
+decoupling torso and arm commands, increasing the shoulder-motion gains could
+reduce the required movement range at the cost of fine control accuracy.
 
-Because both conditions used only a rear-focal FPV, the observed interface
-differences may not generalize to front-focal or simultaneous multi-view
-configurations. Viewpoint and input mapping may interact, which should be
-examined in a factorial study.
+Because both conditions used only a rear-focal FPV, the observed differences
+may not generalize to front-focal or simultaneous multi-view configurations.
+Viewpoint and input mapping may interact and should be examined in a factorial
+study.
 
-me, the increased multi-DOF coordination may expand the complexity of environments that a single operator can negotiate. By allowing the swarm to translate, change altitude, reconfigure its spatial extent, and redirect the viewpoint concurrently, the interface could support navigation through tighter, more irregular, or dynamically changing three-dimensional spaces.
+Concurrent control of several commands may allow a single operator to navigate
+more complex environments. By translating the swarm, changing its altitude and
+spacing, and redirecting the viewpoint simultaneously, the interface could
+support tighter, more irregular, or dynamically changing three-dimensional
+spaces.
 
-These findings extend upper-body control from individual aerial
-robots~\cite{rognon2018flyjacket,miehlbradt2018datadriven,macchini2024datadriven}
-and externally viewed
-formations~\cite{macchini2021personalized,tsykunov2019swarmtouch,kratky2025gesture}
+These findings extend upper-body control from individual aerial robots
+\cite{rognon2018flyjacket,miehlbradt2018datadriven,macchini2024datadriven}
+and externally viewed formations
+\cite{macchini2021personalized,tsykunov2019swarmtouch,kratky2025gesture}
 to continuous five-DOF swarm control from a rear-focal FPV, and complement
 transmitter-based FPV swarm control~\cite{ben_focaldrone}. The swarm was
 simulated, so communication latency, aerodynamic disturbances, and real-world
-safety limits were absent; validation on physical swarms is therefore necessary.
+safety limits were absent; validation with physical swarms is therefore
+necessary.
 % =====================================================================
 \section{Conclusion}
 
