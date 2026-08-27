@@ -67,11 +67,18 @@ efficiency at the cost of greater physical demand.
 % =====================================================================
 
 \section{Introduction}
-Aerial swarms can extend sensing and coverage, but missions requiring human
-judgment still need an effective interface between one operator and the
-collective~\cite{kolling2016survey,hocraffer2017meta}. Rather than command
-individual agents, the operator can steer the swarm through collective
-commands. In three-dimensional environments, passing through an opening may
+% Aerial swarms can extend sensing and coverage, but missions requiring human
+% judgment still need an effective interface between one operator and the
+% collective~\cite{kolling2016survey,hocraffer2017meta}. Rather than command
+% individual agents, the operator can steer the swarm through collective
+% commands. 
+Aerial swarms extend the sensing range and coverage of a single robot, and
+are candidates for missions such as search and rescue. Such missions rely on
+human judgment, so the swarm cannot be left fully
+autonomous~\cite{kolling2016survey,hocraffer2017meta}. Assigning one operator
+to each robot does not scale, so a single operator must command the group as a
+whole. 
+In three-dimensional environments, passing through an opening may
 require concurrent changes in planar translation, altitude, formation spacing,
 and view direction. The interface must therefore support these DOF together
 rather than sequentially.
@@ -99,8 +106,9 @@ command space.}
 \label{fig:study_overview}
 \end{figure}
 
-Jarvis et al.\ demonstrated rear-focal FPV swarm teleoperation and compared
-different onboard viewpoints~\cite{ben_focaldrone}. Their transmitter mapped
+% Jarvis et al.\ demonstrated rear-focal FPV swarm teleoperation and compared
+% different onboard viewpoints~\cite{ben_focaldrone}. 
+In a comparison study between different viewpoints, Jarvis et al found that using the backmost drone as the focal one was favored by participants ~\cite{ben_focaldrone}. For the control interface, they used a commerial transmitter, which mapped
 planar translation, vertical motion, view yaw, and formation spacing to two
 sticks and a rotary knob. However, it remains unclear whether this layout is
 well suited to the concurrent adjustment of five continuous DOF.
@@ -170,7 +178,13 @@ The agent furthest back along the horizontal viewing direction provided the
 feed; handoff occurred only when another agent remained at least 0.5~m further
 back for 0.5~s.
 
-In both conditions, participants to viewed  the FPV through a virtual reality (VR) headset (Meta Quest 3S, Meta, USA). Body motion was measured using the headset for head yaw, two handheld controllers for hand positions, and a chest-mounted inertial measurement unit (LPMS-B2, LP-Research, Japan) measured torso inclination. The swarm controller, command limits, focal-agent logic, and simulation were the same for both conditions. Only the input hardware and filtering differed.
+In both conditions, participants viewed the FPV through a virtual reality (VR)
+headset (Meta Quest 3S, Meta, USA). For body-motion control, the headset measured
+head yaw, two handheld controllers measured hand positions, and a chest-mounted
+inertial measurement unit (LPMS-B2, LP-Research, Japan) measured torso
+inclination. The swarm controller, command limits, focal-agent logic, and
+simulation were the same in both conditions; only the input hardware and
+filtering differed.
 
 \subsection{Body-to-Swarm Mapping}
 \label{sec:mapping} 
@@ -285,10 +299,9 @@ seated neutral postures and comfortable motion limits. The chair configuration a
 Calibration included five torso poses (neutral and maximum forward, backward,
 left, and right), three head-yaw poses (neutral and maximum left and right),
 two controller-separation poses (minimum and maximum), and three
-controller-height poses (minimum, neutral, and maximum). Neutral torso and head
-poses defined the IMU orientation offset and headset yaw reference $\psi_0$,
-respectively; only $(s_{\min},s_{\max})$ parameterized the absolute spacing
-mapping.
+controller-height poses (minimum, neutral, and maximum). Neutral torso and head poses defined the IMU orientation offset and headset yaw
+reference $\psi_0$, respectively; the controller-separation limits defined the
+agent-spacing range.
 
 Table~\ref{tab:calibration_summary} summarizes the calibrated spans. Angular
 spans combine opposing excursions, while position spans are
@@ -353,8 +366,7 @@ stereoscopic FPV, with no timer, score, or task-status display.
 
 Each recorded course contained seven gates whose positions, heights, and
 opening sizes were varied to require horizontal translation, altitude
-adjustment, and formation-spacing control. Each course included one 90-degree turn, requiring participants to rotate the FPV and continue in the rotated
-focal-agent reference frame. Stars distributed across the gate openings encouraged control of swarm extent rather than only the focal agent or centroid; collection yield measured this collective performance.
+adjustment, and formation-spacing control. Each course included one 90-degree turn, left in one course and right in the other, requiring participants to rotate the FPV and continue in the rotated focal-agent reference frame. Stars distributed across the gate openings encouraged control of swarm extent rather than only the focal agent or centroid; collection yield measured this collective performance.
 
 A star was collected when any agent entered its trigger. Wall or inter-agent
 collisions removed the affected agent, and surviving agents outside the largest
@@ -390,8 +402,9 @@ the controlled-component centroid, and mean speed was $\bar v=L/T$. Path length
 and speed were treated as supporting outcomes.
 
 \emph{Trajectory characteristics.}
-Path directness used the endpoint-distance-to-path-length definition of path
-efficiency~\cite{mavrogiannis2022socialmomentum}:
+Path directness was the sum of the straight-line endpoint distances across
+eight course segments, divided by the total path length $L$
+\cite{mavrogiannis2022socialmomentum}:
 \begin{equation}
 D_{\mathrm{path}}
 =
@@ -405,8 +418,7 @@ D_{\mathrm{path}}
 \label{eq:path_directness}
 \end{equation}
 The eight segments ran from the start to the first gate, between consecutive
-gates, and from the final gate to the finish, using the measured segment
-endpoints.
+gates, and from the final gate to the finish.
 
 
 \begin{figure*}[t]
@@ -464,7 +476,10 @@ intentional coordination.
 \centering
 \includegraphics[width=\columnwidth]
 {Figures/a.png}
-\caption{Course 2 individual-drone trajectories for one participant: (a) horizontal paths and (b) gate-aligned height profiles under transmitter and body-motion control. Thin lines show the trajectories of the non-focal drones, while thick lines highlight the focal drone. Black markers indicate gate locations and vertical opening ranges.}
+\caption{Example Course 2 trajectories for one participant: (a) horizontal
+paths and (b) gate-aligned heights under each interface. Thin lines show
+non-focal agents, thick lines show the focal agent, and black markers show gate
+locations and vertical openings.}
 \label{fig:trajectory_overlays}
 \end{figure}
 
@@ -481,7 +496,10 @@ path length was 7.0\% shorter ($p=0.011$), and mean speed was 12.5\% higher
 
 \emph{Trajectory characteristics.}
 Path directness increased by 0.052 (Holm-adjusted $p=0.032$). Excess vertical
-travel decreased by 44.0\%, corresponding to 16.9~m (Holm-adjusted $p=0.049$) while excess horizontal travel was 14.2\% lower with the implemented body-motion interface (48.8 versus 56.8~m), but no clear difference was detected (mean difference $-8.0$~m, $p=0.153$). Figure~\ref{fig:trajectory_overlays} illustrates these patterns.
+travel decreased by 44.0\%, corresponding to 16.9~m (Holm-adjusted $p=0.049$).
+Excess horizontal travel was 14.2\% lower with body motion (48.8 versus
+56.8~m), but no clear difference was detected (mean difference $-8.0$~m,
+$p=0.153$). Figure~\ref{fig:trajectory_overlays} illustrates these patterns.
 
 \begin{figure}[!t]
 \centering
@@ -509,8 +527,12 @@ translation--yaw pairs did not differ after Holm correction.
 No differences were detected in gate-centering error, collection yield, crash count, or disconnection-event count (Holm-adjusted \(p=1.000\) for all four outcomes). 
 
 \emph{Subjective experience.} 
-While overall workload and usability were similar between conditions, the implemented body-motion interface required significantly more physical effort. We observed no statistical difference in the overall weighted TLX score (mean difference 7.2; Holm-adjusted $p=0.482$) or the SUS usability score (mean difference 1.6; Holm-adjusted $p=0.491$). However, all 14 participants reported higher physical demand with the implemented body-motion interface, resulting in a mean increase of 40.7 points (Holm-adjusted $p<0.001$).  Interface preference was divided, and relative motion-sickness responses were
-mixed (Fig.~\ref{fig:trajectory_overlays}).
+Overall weighted NASA-TLX and SUS scores did not differ between conditions
+(mean differences 7.2 and 1.6; Holm-adjusted $p=0.482$ and $p=0.491$,
+respectively). However, all 14 participants reported higher physical demand
+with body motion (mean increase 40.7 points; Holm-adjusted $p<0.001$).
+Interface preference was divided, and relative motion-sickness responses were
+mixed (Fig.~\ref{fig:subjective_responses}).
 
 \begin{figure}[!b]
 \centering
@@ -526,11 +548,23 @@ are descriptive; no inferential comparison was performed.}
 
 % ====================================================================
 
-
 \section{Discussion}
-The implemented body-motion interface improved traversal efficiency and path directness in the tested FPV swarm-navigation task, with the trajectory
-improvement concentrated in the vertical rather than the horizontal dimension. Two observations may help explain this pattern. First, multi-DOF coordination was higher with body motion than with the transmitter, consistent with participants' reports that they could adjust several commands simultaneously rather than moving between transmitter controls. This aligns with the distinction between integral and separable input
-\cite{jacob1994integrality,zhai1998quantifying}. Second, body motion reduced delivered-command variation, which may have supported more continuous forward motion and fewer corrections. These associations are consistent with the measured efficiency gains but do not establish causation.
+The implemented body-motion interface improved traversal efficiency and path directness in the tested FPV swarm-navigation task.
+%, with the trajectory
+%improvement concentrated in the vertical rather than the horizontal dimension.
+Two observations may help explain this pattern. First, multi-DOF coordination was higher with body motion than with the transmitter, consistent with participants' reports that they could adjust several commands simultaneously rather than moving between transmitter controls. This aligns with the distinction between integral and separable input
+\cite{jacob1994integrality,zhai1998quantifying}. Second, body motion reduced delivered-command variation, which may have supported more continuous motion and fewer corrections. %These associations are consistent with the measured efficiency gains but do not establish causation.
+
+The improvement concentrated in the vertical rather than the horizontal dimension.
+The larger vertical reversals illustrated in Fig.~\ref{fig:trajectory_overlays}(b) are consistent with repeated altitude corrections under transmitter control, although the figure alone does not establish their cause. The fixed throttle gain may have been too sensitive for some participants. In addition, the body-motion altitude command was
+individually calibrated and smoothed, whereas the transmitter command was
+neither personalized nor additionally filtered. The results therefore compare
+the complete implemented interfaces and cannot be attributed solely to input
+modality. Future comparisons should match temporal filtering and evaluate
+participant-specific transmitter gains and alternative command mappings.
+Because we tested one body-motion mapping and one transmitter configuration,
+the findings characterize these implementations rather than body-motion
+control in general.
 
 Several participants reported that leaning forward involuntarily lowered their
 hands, changed the altitude command, and required a correction, although they adapted to this coupling quickly. This mechanical coupling could increase the measured coordination index without reflecting intentional concurrent control. The pairwise results are consistent with this concern: the differences covered several command pairs and were largest for vertical and forward control, rather than being confined to lateral motion and spacing. However, task demands and interface-specific filtering could also produce co-change, so the matrix does not identify its cause. Physical arm support
@@ -541,18 +575,7 @@ accuracy or swarm integrity: gate-centering error, collection yield, crash
 count, and disconnection events did not differ between interfaces. However,
 the absence of a detected difference does not establish equivalence.
 
-The larger vertical reversals illustrated in
-Fig.~\ref{fig:trajectory_overlays}(b) are consistent with repeated altitude
-corrections under transmitter control, although the figure alone does not
-establish their cause. The fixed throttle gain may have been too sensitive for
-some participants. In addition, the body-motion altitude command was
-individually calibrated and smoothed, whereas the transmitter command was
-neither personalized nor additionally filtered. The results therefore compare
-the complete implemented interfaces and cannot be attributed solely to input
-modality. Future comparisons should match temporal filtering and evaluate
-participant-specific transmitter gains and alternative command mappings.
-
-The body-motion interface required more physical effort, although overall
+The body-motion interface required more physical demand, although overall
 workload was unchanged. All 14 participants rated it as more physically
 demanding, while lower ratings on the remaining TLX dimensions offset this
 strain. Preference remained split, suggesting that the added physical demand
@@ -580,13 +603,13 @@ transmitter-based FPV swarm control~\cite{ben_focaldrone}. The swarm was
 simulated, so communication latency, aerodynamic disturbances, and real-world
 safety limits were absent; validation with physical swarms is therefore
 necessary.
-% =====================================================================
-\section{Conclusion}
 
+% =====================================================================
+
+\section{Conclusion}
 We presented a participant-calibrated upper-body interface for continuous
 five-DOF FPV swarm teleoperation. In a 14-participant within-subject study,
-the implemented body-motion interface reduced completion time by 19.4\% relative to a transmitter and
-produced more direct trajectories with lower delivered-command variation, at the
+the implemented body-motion interface reduced completion time by 19.4\% relative to a transmitter and produced more direct trajectories with lower delivered-command variation, at the
 cost of higher physical demand and with no detected differences in task
 accuracy, swarm integrity, total workload, or usability. Validation on physical
 swarms remains necessary. For first-person-view swarm teleoperation, these
