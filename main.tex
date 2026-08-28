@@ -18,7 +18,7 @@
 
 
 \title{\LARGE \bf
-Body-Motion Control of a Simulated Aerial Swarm from a First-Person View}
+Body-Motion Based Control of a Simulated Aerial Swarm from a First-Person View}
 
 \author{
 \authorblockN{
@@ -203,20 +203,35 @@ Each rate-controlled signal was mapped to $[-1,1]$ using its calibrated lower
 extreme, neutral value, and upper extreme $(q^{-},q^{0},q^{+})$, with a
 deadzone of half-width $d$ around neutral. Let
 $q_{\mathrm{L}}=q^{0}-d$ and $q_{\mathrm{U}}=q^{0}+d$. The normalization was
+% \begin{equation}
+% \mathcal{D}(q_t;q^{-},q^{0},q^{+},d)=
+% \begin{cases}
+% \displaystyle
+% \max\!\left(-1,
+% \frac{q_t-q_{\mathrm{L}}}{q_{\mathrm{L}}-q^{-}}\right),
+% & q_t<q_{\mathrm{L}},\\[6pt]
+% 0,
+% & q_{\mathrm{L}}\leq q_t\leq q_{\mathrm{U}},\\[3pt]
+% \displaystyle
+% \min\!\left(1,
+% \frac{q_t-q_{\mathrm{U}}}{q^{+}-q_{\mathrm{U}}}\right),
+% & q_t>q_{\mathrm{U}}.
+% \end{cases}
+% \label{eq:deadzone_mapping}
+% \end{equation}
 \begin{equation}
-\mathcal{D}(q_t;q^{-},q^{0},q^{+},d)=
+\begin{split}
+&\mathcal{D}(q_t;q^{-},q^{0},q^{+},d)\\
+&\qquad=
 \begin{cases}
-\displaystyle
-\max\!\left(-1,
-\frac{q_t-q_{\mathrm{L}}}{q_{\mathrm{L}}-q^{-}}\right),
-& q_t<q_{\mathrm{L}},\\[6pt]
+\max\!\left(-1,\dfrac{q_t-q_{\mathrm{L}}}{q_{\mathrm{L}}-q^{-}}\right),
+& q_t<q_{\mathrm{L}},\\[8pt]
 0,
-& q_{\mathrm{L}}\leq q_t\leq q_{\mathrm{U}},\\[3pt]
-\displaystyle
-\min\!\left(1,
-\frac{q_t-q_{\mathrm{U}}}{q^{+}-q_{\mathrm{U}}}\right),
+& q_{\mathrm{L}}\leq q_t\leq q_{\mathrm{U}},\\[8pt]
+\min\!\left(1,\dfrac{q_t-q_{\mathrm{U}}}{q^{+}-q_{\mathrm{U}}}\right),
 & q_t>q_{\mathrm{U}}.
 \end{cases}
+\end{split}
 \label{eq:deadzone_mapping}
 \end{equation}
 Separate scaling on either side of neutral accommodated asymmetric ranges of
@@ -537,7 +552,7 @@ This is consistent with the distinction between integral and separable
 input~\cite{jacob1994integrality,zhai1998quantifying}. Lower delivered-command
 variation may also have supported more continuous motion and fewer corrections.
 These associations do not establish causation.
-\begin{figure}[!b]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]
 {Figures/a.png}
@@ -617,7 +632,7 @@ separate body segments rather than across controls on a single handheld device.
 % =====================================================================
 
 \section*{Acknowledgment}
-The authors thank Benjamin Jarvis for constructive feedback on the manuscript, Pablo Palle for contributions to the simulation framework, and Gabriel Taieb for helping test the experimental protocol.
+The authors thank Benjamin Jarvis for constructive feedback on the manuscript, and Gabriel Taieb for helping test the experimental protocol.
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
