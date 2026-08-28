@@ -64,21 +64,15 @@ participants. The implemented mapping therefore improved FPV navigation
 efficiency at the cost of greater physical demand.
 \end{abstract}
 
-% =====================================================================
-
 \section{Introduction}
-Aerial swarms extend the sensing range and coverage of a single robot, and
-are candidates for missions such as search and rescue. Such missions rely on
-human judgment, so the swarm cannot be left fully
-autonomous~\cite{kolling2016survey,hocraffer2017meta}. Assigning one operator
-to each robot does not scale, so a single operator must command the group as a
-whole. 
+Aerial swarms can extend the sensing range and coverage of a single robot, making them well suited to missions such as search and rescue. Because these missions depend on human judgment, the swarm cannot operate fully autonomously~\cite{kolling2016survey,hocraffer2017meta}. However, assigning an operator to each robot does not scale, requiring a single operator to command the swarm as a whole.
+
 In three-dimensional environments, passing through an opening may
 require concurrent changes in planar translation, altitude, formation spacing,
 and view direction. The interface must therefore support these DOF together
 rather than sequentially.
 
-Viewpoint further constrains control. A top-down view (TDV) reveals the swarm's
+The viewpoint further constrains control. A top-down view (TDV) reveals the swarm's
 spatial extent, connectivity, and relationship to nearby obstacles. However, it
 requires an external viewing platform or real-time scene reconstruction. The
 former can introduce a single point of failure, while the latter adds
@@ -117,11 +111,9 @@ An upper-body interface can instead distribute spatially corresponding commands
 across the head, torso, and hands. Body--machine interfaces have already enabled
 immersive and personalized control of individual drones
 \cite{rognon2018flyjacket,miehlbradt2018datadriven,
-macchini2024datadriven}. Macchini et al.\ found that robots with
-more DOF elicited the use of more body segments and greater variation in motion
-strategies across users, increasing the need for personalized mappings
-\cite{macchini2024datadriven}. This result motivates a participant-calibrated
-interface for the present five-DOF task. At swarm level, personalized hand
+macchini2024datadriven}. Macchini et al.\ observed that more complex robots—differing in both morphology and DOF—were associated with the use of more body segments and greater inter-user variability in spontaneous control motions, strengthening the case for personalized mappings \cite{macchini2024datadriven}. Together, these findings motivate participant-specific calibration for the present five-DOF task.
+
+At swarm level, personalized hand
 motion has supported four-dimensional control from an external viewpoint
 \cite{macchini2021personalized}, while tactile and gesture-based systems have
 supported other forms of swarm and formation control
@@ -182,9 +174,7 @@ filtering differed.
 \subsection{Body-to-Swarm Mapping}
 \label{sec:mapping} 
 The mapping was designed to provide intuitive spatial correspondence and allow
-several commands to be used simultaneously. As in previous body-motion drone
-interfaces~\cite{rognon2018flyjacket}, leaning forward, backward, or sideways
-controlled the corresponding planar motion of the swarm. Raising or lowering
+several commands to be used simultaneously. Building on previous body-motion drone interfaces that mapped torso inclination to aircraft pitch and roll~\cite{rognon2018flyjacket}, we mapped forward, backward, and lateral leaning to the corresponding planar motion of the swarm. Raising or lowering
 both hands controlled vertical motion, while hand separation controlled agent
 spacing. Because participants were seated, head rotation provided a natural
 input for FPV yaw. Participant-specific calibration accounted for differences
@@ -227,15 +217,15 @@ $q_{\mathrm{L}}=q^{0}-d$ and $q_{\mathrm{U}}=q^{0}+d$. The normalization was
 Separate scaling on either side of neutral accommodated asymmetric ranges of
 motion.
 
-\begin{figure*}[!t]
+\begin{figure}[!t]
 \centering
-\includegraphics[width=\textwidth]{Figures/l.png}
+\includegraphics[width=\columnwidth]{Figures/hom.png}
 \caption{Body-to-swarm mappings. Panels (a)--(e) show the posture or hand
 movement assigned to each command; (f) shows the neutral pose, which stops
 motion while retaining the spacing setpoint. Faded formations indicate the
 commanded direction, scaling, or view rotation.}
 \label{fig:mapping}
-\end{figure*}
+\end{figure}
 
 
 
@@ -494,7 +484,7 @@ path length was 7.0\% shorter ($p=0.011$), and mean speed was 12.5\% higher
 ($p=0.001$).
 
 \emph{Trajectory characteristics.}
-Path directness increased by 0.052 (Holm-adjusted $p=0.032$). Excess vertical
+With body-motion control, path directness increased by 0.052 with (Holm-adjusted $p=0.032$), while excess vertical
 travel decreased by 44.0\%, corresponding to 16.9~m (Holm-adjusted $p=0.049$).
 Excess horizontal travel was 14.2\% lower with body motion (48.8 versus
 56.8~m), but no clear difference was detected (mean difference $-8.0$~m,
@@ -513,13 +503,11 @@ using a shared color scale.}
 \end{figure}
 
 \emph{Delivered-command behavior.}
-Command variation was 88.8\% lower with body motion (Holm-adjusted $p<0.001$).
-Multi-DOF coordination was 22.5 percentage points higher ($p<0.001$), with the
-same direction for all participants. Pairwise co-change was higher for seven of
+With body-motion, command variation was 88.8\% lower (Holm-adjusted $p<0.001$) and multi-DOF coordination was 22.5 percentage points higher than with transmitter control ($p<0.001$); every participant showed effects in the same direction. Pairwise co-change was also higher with body-motion for seven of
 ten command pairs (Fig.~\ref{fig:dof_pairwise}). The largest differences were
 vertical--forward (19.3\% versus 5.5\%), forward--spacing (10.5\% versus 0.3\%),
-and vertical--spacing (10.0\% versus 0.1\%; $p=0.001$ each).
-Lateral--spacing was also higher (8.1\% versus 0.5\%), whereas the three
+and vertical--spacing (10.0\% versus 0.1\%; $p=0.001$ each), where values are reported as body motion versus transmitter control.
+Lateral--spacing co-change was likewise higher with body-motion (8.1\% versus 0.5\%), whereas the three
 translation--yaw pairs did not differ after Holm correction.
 
 \emph{Task performance and swarm integrity.} 
@@ -533,8 +521,6 @@ with body motion (mean increase 40.7 points; Holm-adjusted $p<0.001$).
 Interface preference was divided, and relative motion-sickness responses were
 mixed (Fig.~\ref{fig:subjective_responses}).
 
-
-
 % ====================================================================
 
 \section{Discussion}
@@ -546,18 +532,6 @@ This is consistent with the distinction between integral and separable
 input~\cite{jacob1994integrality,zhai1998quantifying}. Lower delivered-command
 variation may also have supported more continuous motion and fewer corrections.
 These associations do not establish causation.
-
-The trajectory improvement was concentrated in the vertical dimension. The
-larger vertical reversals in Fig.~\ref{fig:trajectory_overlays}(b) are
-consistent with repeated altitude corrections under transmitter control,
-although the figure does not establish their cause. The fixed throttle gain may
-have been too sensitive for some participants. Moreover, the body-motion
-altitude command was individually calibrated and smoothed, whereas the
-transmitter used a fixed gain and no additional smoothing. The results therefore
-characterize the tested body-motion mapping and transmitter configuration as
-complete interfaces, rather than input modality or body-motion control in
-general. TALK MORE ABOUT THE COUPLED MOVEMENTS
-
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]
@@ -568,6 +542,18 @@ non-focal agents, thick lines show the focal agent, and black markers show gate
 locations and vertical openings.}
 \label{fig:trajectory_overlays}
 \end{figure}
+The trajectory improvement was concentrated in the vertical dimension. The
+larger vertical reversals in Fig.~\ref{fig:trajectory_overlays}(b) are
+consistent with repeated altitude corrections under transmitter control,
+although the figure does not establish their cause. The fixed throttle gain may
+have been too sensitive for some participants. Moreover, the body-motion
+altitude command was individually calibrated and smoothed, whereas the
+transmitter used a fixed gain and no additional smoothing. The results therefore
+characterize the tested body-motion mapping and transmitter configuration as
+complete interfaces, rather than input modality or body-motion control in
+general.
+
+
 
 Several participants reported that leaning forward also lowered their hands,
 unintentionally changing the altitude command and requiring correction,
@@ -578,7 +564,7 @@ and forward commands rather than being concentrated in lateral motion and
 spacing. However, task demands and interface-specific filtering could also
 produce co-change, so the matrix does not identify its cause. Arm
 support~\cite{rognon2018flyjacket} or measuring hand height relative to the
-torso could help decouple these commands
+torso could help decouple these commands.
 
 The efficiency gain was not accompanied by a detected loss of task accuracy or swarm integrity. Gate-centering error, collection yield, crash count, and disconnection events did not differ between interfaces. However, the absence of a detected difference does not establish equivalence. 
 
@@ -589,8 +575,7 @@ suggesting that physical demand reduced the appeal of the efficiency gain for
 some operators. Future designs could reduce the required arm movement by
 increasing the hand-height gain, although higher gains may reduce fine control.
 
-The main practical benefit is not access to additional commands, because both interfaces controlled the same five DOF, but the ability to combine them in time. Reducing the need to sequence translation, altitude, spacing, and viewpoint adjustments could allow an operator to resize and redirect the swarm without interrupting forward motion. This may be valuable in tight or changing environments where several adjustments must occur quickly. All participants showed higher measured coordination after brief familiarization, so longer training may strengthen this capability. Conversely, longer operation may increase fatigue. Future studies should therefore examine the trade-off between learning and physical demand over longer periods.
- 
+The main practical benefit is not access to additional commands, because both interfaces controlled the same five DOF, but the ability to combine them in time which may be valuable in tight or changing environments where several adjustments must occur quickly. Reducing the need to sequence translation, altitude, spacing, and viewpoint adjustments could allow an operator to resize and redirect the swarm without interrupting forward motion as shown in Fig.~\ref{fig:traj_gate}. All participants showed higher measured coordination after brief familiarization, so longer training may strengthen this capability.
 
 These findings extend upper-body control from individual aerial
 robots~\cite{rognon2018flyjacket,miehlbradt2018datadriven,
@@ -603,6 +588,15 @@ front-focal or simultaneous multi-view configurations. The simulated setting
 also excluded communication latency, aerodynamic disturbances, and real-world
 safety constraints. Future work should examine interactions between viewpoint
 and input mapping and validate the interface with physical swarms.
+
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\textwidth]
+{Figures/yeah.png}
+\caption{Representative G5--G6 90$^\circ$ turn for P02. (a) Top-view swarm-centroid trajectories. (b) Delivered commands aligned to the G5 crossing; solid blue indicates body motion and dashed orange indicates the transmitter. Vertical lines mark the G6 crossing. The lower panel shows whether the delivered forward command was positive (ON) or non-positive (OFF).}
+\label{fig:traj_gate}
+\end{figure*}
 
 % =====================================================================
 
