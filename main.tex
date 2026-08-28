@@ -171,10 +171,20 @@ inclination. The swarm controller, command limits, focal-agent logic, and
 simulation were the same in both conditions; only the input hardware and
 filtering differed.
 
+\begin{figure}[!b]
+\centering
+\includegraphics[width=0.9\columnwidth]{Figures/hom.png}
+\caption{Body-to-swarm mappings. Panels (a)--(e) show the posture or hand
+movement assigned to each command; (f) shows the neutral pose, which stops
+motion while retaining the spacing setpoint. Faded formations indicate the
+commanded direction, scaling, or view rotation.}
+\label{fig:mapping}
+\end{figure}
+
 \subsection{Body-to-Swarm Mapping}
 \label{sec:mapping} 
 The mapping was designed to provide intuitive spatial correspondence and allow
-several commands to be used simultaneously. Building on previous body-motion drone interfaces that mapped torso inclination to aircraft pitch and roll~\cite{rognon2018flyjacket}, we mapped forward, backward, and lateral leaning to the corresponding planar motion of the swarm. Raising or lowering
+iseveral commands to be used simultaneously. Building on previous body-motion drone interfaces that mapped torso inclination to aircraft pitch and rollnt~o\cite{rognon2018flyjacket}, we mapped forward, cbackward, and lateral leaning to the corresponding planar motion of the swarm. Raising or lowering
 both hands controlled vertical motion, while hand separation controlled agent
 spacing. Because participants were seated, head rotation provided a natural
 input for FPV yaw. Participant-specific calibration accounted for differences
@@ -217,15 +227,7 @@ $q_{\mathrm{L}}=q^{0}-d$ and $q_{\mathrm{U}}=q^{0}+d$. The normalization was
 Separate scaling on either side of neutral accommodated asymmetric ranges of
 motion.
 
-\begin{figure}[!t]
-\centering
-\includegraphics[width=0.9\columnwidth]{Figures/hom.png}
-\caption{Body-to-swarm mappings. Panels (a)--(e) show the posture or hand
-movement assigned to each command; (f) shows the neutral pose, which stops
-motion while retaining the spacing setpoint. Faded formations indicate the
-commanded direction, scaling, or view rotation.}
-\label{fig:mapping}
-\end{figure}
+
 
 
 
@@ -324,6 +326,17 @@ rotary knob set target agent spacing. Stick axes used symmetric deadzones, and
 the knob mapped linearly to $\rho^*\in[1,5]$~m. Pilot-tested gains and deadzones were fixed across participants. Unlike the body-motion mapping, the off-the-shelf transmitter used standardized controls and received no participant-specific calibration or additional temporal
 smoothing.
 
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.4\columnwidth]
+{Figures/transmitter.png}
+\caption{Example Course 2 trajectories for one participant: (a) horizontal
+paths and (b) gate-aligned heights under each interface. Thin lines show
+non-focal agents, thick lines show the focal agent, and black markers show gate
+locations and vertical openings.}
+\label{fig:trajectory_overlays}
+\end{figure}
+
 % =====================================================================
 \section{Experimental Evaluation}
 \label{sec:experiment}
@@ -368,13 +381,7 @@ After each block, participants completed the weighted NASA-TLX \cite{hart1988nas
 After both blocks, they reported interface preference, relative motion sickness,
 and optional comments.
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.9\columnwidth]{Figures/layouts.png}
-\caption{Obstacle course layouts.
-Labels G1--G7 mark the gate sequence; dashed arrows show traversal direction.}
-\label{fig:course_layouts}
-\end{figure}
+
 
 
 \subsection{Evaluation Metrics}
@@ -405,7 +412,13 @@ D_{\mathrm{path}}
 \end{equation}
 The eight segments ran from the start to the first gate, between consecutive
 gates, and from the final gate to the finish.
-
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\columnwidth]{Figures/layouts.png}
+\caption{Obstacle course layouts.
+Labels G1--G7 mark the gate sequence; dashed arrows show traversal direction.}
+\label{fig:course_layouts}
+\end{figure}
 
 \begin{figure*}[t]
 \centering
@@ -436,6 +449,8 @@ Collection yield was the fraction of the 316 available stars collected.
 Crash count was the number of agents that crashed during a run.
 Disconnection count was the number of agent-disconnection events recorded
 during a run.
+
+
 
 \emph{Delivered-command behavior.}
 Each command was normalized to $[0,1]$. Let $\mathbf{q}_k$ be the five-command
@@ -471,6 +486,8 @@ the upper bar and no difference in motion sickness in the lower bar. Counts
 are descriptive; no inferential comparison was performed.}
 \label{fig:subjective_responses}
 \end{figure}
+
+
 
 % =====================================================================
 \section{Results}
@@ -523,6 +540,14 @@ mixed (Fig.~\ref{fig:subjective_responses}).
 
 % ====================================================================
 
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.9\textwidth]
+{Figures/yeah.png}
+\caption{Representative 90$^\circ$ turn for P02, shown from 5~s before G5 to the G6 crossing. (a) Top-view swarm-centroid trajectories. (b) Delivered commands aligned to G5 ($t=0$); solid blue indicates body motion and dashed orange indicates the transmitter. Vertical lines mark the G6 crossings. The lower panel shows whether the delivered forward command was positive (ON) or non-positive (OFF). It was ON for 95.5\% of the displayed body-motion interval and 61.3\% of the displayed transmitter interval.}
+\label{fig:traj_gate}
+\end{figure*}
+
 \section{Discussion}
 The implemented body-motion interface improved traversal efficiency and path
 directness in the tested FPV swarm-navigation task. Higher multi-DOF
@@ -532,7 +557,7 @@ This is consistent with the distinction between integral and separable
 input~\cite{jacob1994integrality,zhai1998quantifying}. Lower delivered-command
 variation may also have supported more continuous motion and fewer corrections.
 These associations do not establish causation.
-\begin{figure}[!t]
+\begin{figure}[!b]
 \centering
 \includegraphics[width=\columnwidth]
 {Figures/a.png}
@@ -575,7 +600,8 @@ suggesting that physical demand reduced the appeal of the efficiency gain for
 some operators. Future designs could reduce the required arm movement by
 increasing the hand-height gain, although higher gains may reduce fine control.
 
-The main practical benefit is not access to additional commands, because both interfaces controlled the same five DOF, but the ability to combine them in time which may be valuable in tight or changing environments where several adjustments must occur quickly. Reducing the need to sequence translation, altitude, spacing, and viewpoint adjustments could allow an operator to resize and redirect the swarm without interrupting forward motion as shown in Fig.~\ref{fig:traj_gate}. All participants showed higher measured coordination after brief familiarization, so longer training may strengthen this capability.
+The main practical benefit is not access to additional commands, because both interfaces controlled the same five DOF, but the ability to combine them in time. In Fig.~\ref{fig:traj_gate}, P02 maintained a positive forward command for most of the body-motion turn while adjusting other commands, whereas the transmitter trace contained several pauses. Together with the group-level
+coordination result, this suggests that concurrent control may help operators resize and redirect the swarm without repeatedly interrupting the forward command. All participants showed higher measured coordination after brief familiarization, so longer training may strengthen this capability.
 
 These findings extend upper-body control from individual aerial
 robots~\cite{rognon2018flyjacket,miehlbradt2018datadriven,
@@ -590,13 +616,7 @@ safety constraints. Future work should examine interactions between viewpoint
 and input mapping and validate the interface with physical swarms.
 
 
-\begin{figure*}[!t]
-\centering
-\includegraphics[width=0.9\textwidth]
-{Figures/yeah.png}
-\caption{Representative 90$^\circ$ turn for P02, shown from 5~s before G5 to the G6 crossing. (a) Top-view swarm-centroid trajectories. (b) Delivered commands aligned to G5 ($t=0$); solid blue indicates body motion and dashed orange indicates the transmitter. Vertical lines mark the G6 crossings. The lower panel shows whether the delivered forward command was positive (ON) or non-positive (OFF). It was ON for 95.5\% of the displayed body-motion interval and 61.3\% of the displayed transmitter interval.}
-\label{fig:traj_gate}
-\end{figure*}
+
 
 % =====================================================================
 
