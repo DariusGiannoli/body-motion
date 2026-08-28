@@ -120,9 +120,7 @@ supported other forms of swarm and formation control
 
 We therefore investigate whether distributing five continuous swarm commands
 across the head, torso, and hands can address the input bottleneck of
-focal-agent FPV swarm teleoperation. We implement a participant-calibrated interface in which torso inclination commands planar velocity, mean hand height commands vertical velocity, hand separation commands formation spacing, and head yaw commands FPV yaw rate. We compare the interface with a conventional drone transmitter in a
-within-subject study of 14 participants navigating a simulated swarm through
-three-dimensional obstacle courses. The contributions are (i) a five-DOF
+focal-agent FPV swarm teleoperation. We implement a participant-calibrated, upper-body interface for controlling a simulated drone swarm and compare it with a conventional transmitter in a within-subject study of 14 participants navigating three-dimensional obstacle courses. The contributions are (i) a five-DOF
 upper-body mapping aligned with the focal-agent reference frame during view
 rotation and transfer, and (ii) a within-subject evaluation of navigation
 efficiency, command behavior, task outcomes, and user experience.
@@ -548,7 +546,8 @@ paths and (b) gate-aligned heights under each interface. Thin lines show
 non-focal agents, thick lines show the focal agent, and black markers show gate
 locations and vertical openings.}
 \label{fig:trajectory_overlays}
-\end{figure}m
+\end{figure}
+
 The trajectory improvement was concentrated in the vertical dimension. The
 larger vertical reversals in Fig.~\ref{fig:trajectory_overlays}(b) are
 consistent with repeated altitude corrections under transmitter control,
@@ -593,11 +592,9 @@ macchini2024datadriven} and externally viewed
 formations~\cite{macchini2021personalized,tsykunov2019swarmtouch,
 kratky2025gesture} to continuous five-DOF swarm control from a rear-focal FPV,
 and complement transmitter-based FPV swarm
-control~\cite{ben_focaldrone}. However, the findings may not generalize to
-front-focal or simultaneous multi-view configurations. The simulated setting
-also excluded communication latency, aerodynamic disturbances, and real-world
-safety constraints. Future work should examine interactions between viewpoint
-and input mapping and validate the interface with physical swarms.
+control~\cite{ben_focaldrone}. Generalization to other
+viewpoints and physical swarms with communication, aerodynamic, and safety
+constraints remains to be tested.
 
 
 
