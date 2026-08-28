@@ -171,20 +171,20 @@ inclination. The swarm controller, command limits, focal-agent logic, and
 simulation were the same in both conditions; only the input hardware and
 filtering differed.
 
-\begin{figure}[!b]
+\begin{figure*}[t]
 \centering
-\includegraphics[width=0.9\columnwidth]{Figures/hom.png}
+\includegraphics[width=\textwidth]{Figures/hom.png}
 \caption{Body-to-swarm mappings. Panels (a)--(e) show the posture or hand
 movement assigned to each command; (f) shows the neutral pose, which stops
 motion while retaining the spacing setpoint. Faded formations indicate the
 commanded direction, scaling, or view rotation.}
 \label{fig:mapping}
-\end{figure}
+\end{figure*}
 
 \subsection{Body-to-Swarm Mapping}
 \label{sec:mapping} 
 The mapping was designed to provide intuitive spatial correspondence and allow
-iseveral commands to be used simultaneously. Building on previous body-motion drone interfaces that mapped torso inclination to aircraft pitch and rollnt~o\cite{rognon2018flyjacket}, we mapped forward, cbackward, and lateral leaning to the corresponding planar motion of the swarm. Raising or lowering
+iseveral commands to be used simultaneously. Building on previous body-motion drone interfaces that mapped torso inclination to aircraft pitch and roll\cite{rognon2018flyjacket}, we mapped forward, backward, and lateral leaning to the corresponding planar motion of the swarm. Raising or lowering
 both hands controlled vertical motion, while hand separation controlled agent
 spacing. Because participants were seated, head rotation provided a natural
 input for FPV yaw. Participant-specific calibration accounted for differences
@@ -325,17 +325,6 @@ the non-self-centering throttle controlled vertical velocity, and the right
 rotary knob set target agent spacing. Stick axes used symmetric deadzones, and
 the knob mapped linearly to $\rho^*\in[1,5]$~m. Pilot-tested gains and deadzones were fixed across participants. Unlike the body-motion mapping, the off-the-shelf transmitter used standardized controls and received no participant-specific calibration or additional temporal
 smoothing.
-
-\begin{figure}[!t]
-\centering
-\includegraphics[width=0.4\columnwidth]
-{Figures/transmitter.png}
-\caption{Example Course 2 trajectories for one participant: (a) horizontal
-paths and (b) gate-aligned heights under each interface. Thin lines show
-non-focal agents, thick lines show the focal agent, and black markers show gate
-locations and vertical openings.}
-\label{fig:trajectory_overlays}
-\end{figure}
 
 % =====================================================================
 \section{Experimental Evaluation}
