@@ -97,7 +97,7 @@ command space.}
 
 % Jarvis et al.\ demonstrated rear-focal FPV swarm teleoperation and compared
 % different onboard viewpoints~\cite{ben_focaldrone}. 
-In a comparison study between different viewpoints, Jarvis et al found that using the backmost drone as the focal one was favored by participants ~\cite{ben_focaldrone}. For the control interface, they used a commerial transmitter, which mapped
+In a comparison study between different viewpoints, Jarvis et al found that using the backmost drone as the focal one was favored by participants ~\cite{ben_focaldrone}. For the control interface, they used a commercial transmitter, which mapped
 planar translation, vertical motion, view yaw, and formation spacing to two
 sticks and a rotary knob. However, it remains unclear whether this layout is
 well suited to the concurrent adjustment of five continuous DOF.
@@ -187,7 +187,7 @@ rotation.}
 \subsection{Body-to-Swarm Mapping}
 \label{sec:mapping} 
 The mapping was designed to provide intuitive spatial correspondence and allow
-iseveral commands to be used simultaneously. Building on previous body-motion drone interfaces that mapped torso inclination to aircraft pitch and roll\cite{rognon2018flyjacket}, we mapped forward, backward, and lateral leaning to the corresponding planar motion of the swarm. Raising or lowering
+vseveral commands to be used simultaneously. Building on previous body-motion drone interfaces that mapped torso inclination to aircraft pitch and roll\cite{rognon2018flyjacket}, we mapped forward, backward, and lateral leaning to the corresponding planar motion of the swarm. Raising or lowering
 both hands controlled vertical motion, while hand separation controlled agent
 spacing. Because participants were seated, head rotation provided a natural
 input for FPV yaw. Participant-specific calibration accounted for differences
@@ -299,7 +299,19 @@ Table~\ref{tab:calibration_summary} summarizes the calibrated spans. Angular
 spans combine opposing excursions, while position spans are
 maximum--minimum differences.
 
-\begin{table}[b]
+\subsection{Transmitter Baseline}
+\label{sec:transmitter}
+A conventional drone transmitter (Taranis X9D Plus, FrSky, China) connected to
+the PC by USB generated the same command vector $\mathbf{u}_t$. The right stick
+controlled planar velocity, the left horizontal axis controlled FPV yaw rate,
+the non-self-centering throttle controlled vertical velocity, and the right
+rotary knob set target agent spacing. Stick axes used symmetric deadzones, and
+the knob mapped linearly to $\rho^*\in[1,5]$~m. Pilot-tested gains and deadzones were fixed across participants. Unlike the body-motion mapping, the off-the-shelf transmitter used standardized controls and received no participant-specific calibration or additional temporal
+smoothing.
+
+% =====================================================================
+
+\begin{table}[t]
 \centering
 \caption{Calibrated input spans across participants ($N=14$).}
 \label{tab:calibration_summary}
@@ -318,18 +330,6 @@ Controller height (m)           & $0.77 \pm 0.22$  & $0.43$--$1.22$ \\
 \end{tabular}
 \end{table}
 
-\subsection{Transmitter Baseline}
-\label{sec:transmitter}
-
-A conventional drone transmitter (Taranis X9D Plus, FrSky, China) connected to
-the PC by USB generated the same command vector $\mathbf{u}_t$. The right stick
-controlled planar velocity, the left horizontal axis controlled FPV yaw rate,
-the non-self-centering throttle controlled vertical velocity, and the right
-rotary knob set target agent spacing. Stick axes used symmetric deadzones, and
-the knob mapped linearly to $\rho^*\in[1,5]$~m. Pilot-tested gains and deadzones were fixed across participants. Unlike the body-motion mapping, the off-the-shelf transmitter used standardized controls and received no participant-specific calibration or additional temporal
-smoothing.
-
-% =====================================================================
 \section{Experimental Evaluation}
 \label{sec:experiment}
 
@@ -382,7 +382,7 @@ evaluation~\cite{steinfeld2006metrics}. Secondary measures covered trajectory ch
 
 \emph{Traversal efficiency.}
 Completion time $T$ extended from the recorded start event to the finish event.
-Centroid path length $L$ was the total three-dimensional distance travelled by
+Centroid path length $L$ was the total three-dimensional distance traveled by
 the controlled-component centroid, and mean speed was $\bar v=L/T$. Path length
 and speed were treated as supporting outcomes.
 
@@ -493,7 +493,7 @@ path length was 7.0\% shorter ($p=0.011$), and mean speed was 12.5\% higher
 ($p=0.001$).
 
 \emph{Trajectory characteristics.}
-With body-motion control, path directness increased by 0.052 with (Holm-adjusted $p=0.032$), while excess vertical
+With body-motion control, path directness increased by 0.052 (Holm-adjusted $p=0.032$), while excess vertical
 travel decreased by 44.0\%, corresponding to 16.9~m (Holm-adjusted $p=0.049$).
 Excess horizontal travel was 14.2\% lower with body motion (48.8 versus
 56.8~m), but no clear difference was detected (mean difference $-8.0$~m,
