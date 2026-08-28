@@ -81,8 +81,7 @@ streamed from a \emph{focal agent}, the swarm member whose onboard camera
 currently supplies the operator's view. The source can transfer if that agent
 becomes unavailable~\cite{ben_focaldrone}. However, the limited field of view
 and occlusions hide parts of the swarm and environment, while the viewpoint
-moves, rotates, and may transfer between agents. FPV therefore limits global
-awareness while the operator coordinates several swarm DOF.
+moves, rotates, and may transfer between agents.
 
 \begin{figure}[!t]
 \centering
@@ -174,22 +173,17 @@ filtering differed.
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{Figures/hom.png}
-\caption{Body-to-swarm control mappings. Panels (a)--(e) map torso roll, torso
-pitch, mean controller height, controller separation, and head-yaw deviation to
-lateral velocity, forward velocity, vertical velocity, target spacing, and
-view-yaw rate, respectively. Panel (f) shows the neutral pose, which produces
-zero rate commands while retaining the current spacing setpoint. Faded
-formations illustrate the commanded translation, spacing change, or view
-rotation.}
+\caption{Control mappings for the body-motion and transmitter interfaces:
+(a) body-to-swarm mappings, (b) transmitter mappings, and (c)--(f) the
+resulting swarm translation, spacing, and view rotation.}
 \label{fig:mapping}
 \end{figure*}
 
 \subsection{Body-to-Swarm Mapping}
 \label{sec:mapping} 
-The mapping was designed to provide intuitive spatial correspondence and allow
-vseveral commands to be used simultaneously. Building on previous body-motion drone interfaces that mapped torso inclination to aircraft pitch and roll\cite{rognon2018flyjacket}, we mapped forward, backward, and lateral leaning to the corresponding planar motion of the swarm. Raising or lowering
-both hands controlled vertical motion, while hand separation controlled agent
-spacing. Because participants were seated, head rotation provided a natural
+The mapping was designed to provide intuitive spatial correspondence and allows several commands to be used simultaneously. Building on previous body-motion drone interfaces that mapped torso inclination to aircraft pitch and roll\cite{rognon2018flyjacket}, we mapped forward, backward, and lateral leaning to the corresponding planar motion of the swarm. Raising or lowering
+both hands were designed to control the vertical motion, while hand separation was used for agent
+spacing. Because in teleoperation participants are ususally in a fixed position, head rotation can provide a natural
 input for FPV yaw. Participant-specific calibration accounted for differences
 in posture and range of motion.
 
@@ -471,11 +465,7 @@ intentional coordination.
 \centering
 \includegraphics[width=0.9\columnwidth]
 {Figures/fig_subjective_responses.png}
-\caption{Comparative responses after both interface blocks (n = 14). The
-upper bar shows interface preference, and the lower bar shows the interface
-associated with greater motion sickness. Neutral denotes no preference in
-the upper bar and no difference in motion sickness in the lower bar. Counts
-are descriptive; no inferential comparison was performed.}
+\caption{Comparative responses after both interface blocks (n = 14). The upper bar shows interface preference, and the lower bar shows the interface associated with greater motion sickness. Neutral denotes no preference.}
 \label{fig:subjective_responses}
 \end{figure}
 
@@ -536,7 +526,7 @@ mixed (Fig.~\ref{fig:subjective_responses}).
 \centering
 \includegraphics[width=0.9\textwidth]
 {Figures/yeah.png}
-\caption{Representative 90$^\circ$ turn for P02, shown from 5~s before G5 to the G6 crossing. (a) Top-view swarm-centroid trajectories. (b) Delivered commands aligned to G5 ($t=0$); solid blue indicates body motion and dashed orange indicates the transmitter. Vertical lines mark the G6 crossings. The lower panel shows whether the delivered forward command was positive (ON) or non-positive (OFF). It was ON for 95.5\% of the displayed body-motion interval and 61.3\% of the displayed transmitter interval.}
+\caption{Representative 90$^\circ$ turn, shown from 5~s before G5 to the G6 crossing. (a) Top-view swarm-centroid trajectories. (b) Delivered commands aligned to G5 ($t=0$); solid blue indicates body motion and dashed orange indicates the transmitter. Vertical lines mark the G6 crossings. The lower panel shows whether the delivered forward command was positive (ON) or non-positive (OFF). It was ON for 95.5\% of the displayed body-motion interval and 61.3\% of the displayed transmitter interval.}
 \label{fig:traj_gate}
 \end{figure*}
 
@@ -558,7 +548,7 @@ paths and (b) gate-aligned heights under each interface. Thin lines show
 non-focal agents, thick lines show the focal agent, and black markers show gate
 locations and vertical openings.}
 \label{fig:trajectory_overlays}
-\end{figure}
+\end{figure}m
 The trajectory improvement was concentrated in the vertical dimension. The
 larger vertical reversals in Fig.~\ref{fig:trajectory_overlays}(b) are
 consistent with repeated altitude corrections under transmitter control,
@@ -592,7 +582,9 @@ suggesting that physical demand reduced the appeal of the efficiency gain for
 some operators. Future designs could reduce the required arm movement by
 increasing the hand-height gain, although higher gains may reduce fine control.
 
-The main practical benefit is not access to additional commands, because both interfaces controlled the same five DOF, but the ability to combine them in time. In Fig.~\ref{fig:traj_gate}, P02 maintained a positive forward command for most of the body-motion turn while adjusting other commands, whereas the transmitter trace contained several pauses. Together with the group-level
+The main practical benefit is not access to additional commands, because both
+interfaces controlled the same five DOF, but the ability to combine them in
+time, as illustrated in Fig.~\ref{fig:traj_gate}. Together with the group-level
 coordination result, this suggests that concurrent control may help operators resize and redirect the swarm without repeatedly interrupting the forward command. All participants showed higher measured coordination after brief familiarization, so longer training may strengthen this capability.
 
 These findings extend upper-body control from individual aerial
@@ -620,8 +612,10 @@ cost of higher physical demand and with no detected differences in task
 accuracy, swarm integrity, total workload, or usability. Validation on physical
 swarms remains necessary. For first-person-view swarm teleoperation, these
 results support distributing the command dimensions that vary together across
-separate body segments rather than across controls on a single handheld device. They also suggest that referencing hand height to the torso rather than to the
-world would reduce the postural coupling that participants reported.
+separate body segments rather than across controls on a single handheld device. 
+
+%They also suggest that referencing hand height to the torso rather than to the
+% world would reduce the postural coupling that participants reported.
 
 % =====================================================================
 
