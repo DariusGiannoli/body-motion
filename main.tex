@@ -87,7 +87,7 @@ moves, rotates, and may transfer between agents.
 \centering
 \includegraphics[width=0.9\columnwidth]{Figures/111.png}
 \caption{Experimental interfaces and common visual feedback:
-(a) the in-headset rear-focal FPV view, (b) body-motion control using
+(a) the in-headset rear-focal FPV view, (b) body-motion based control using
 a torso-mounted IMU and hand controllers, and (c) transmitter control.
 Both conditions used the same headset, visual feedback, and swarm
 command space.}
@@ -161,7 +161,7 @@ feed; handoff occurred only when another agent remained at least 0.5~m further
 back for 0.5~s.
 
 In both conditions, participants viewed the FPV through a virtual reality (VR)
-headset (Meta Quest 3S, Meta, USA). For body-motion control, the headset measured
+headset (Meta Quest 3S, Meta, USA). For the body-motion based control, the headset measured
 head yaw, two handheld controllers measured hand positions, and a chest-mounted
 inertial measurement unit (LPMS-B2, LP-Research, Japan) measured torso
 inclination. The swarm controller, command limits, focal-agent logic, and
@@ -422,7 +422,7 @@ Labels G1--G7 mark the gate sequence; dashed arrows show traversal direction.}
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.9\textwidth]{Figures/box.png}
-\caption{Participant-level outcomes for transmitter and body-motion control
+\caption{Participant-level outcomes for transmitter and the body-motion based control
 ($n=14$). 
 % Delivered-command variation and multi-DOF coordination are shown for the recorded pipelines.
 Boxes show interquartile ranges with median lines; diamonds indicate means
@@ -496,7 +496,7 @@ path length was 7.0\% shorter ($p=0.011$), and mean speed was 12.5\% higher
 ($p=0.001$).
 
 \emph{Trajectory characteristics.}
-With body-motion control, path directness increased by 0.052 (Holm-adjusted $p=0.032$), while excess vertical
+With the body-motion based control, path directness increased by 0.052 (Holm-adjusted $p=0.032$), while excess vertical
 travel decreased by 44.0\%, corresponding to 16.9~m (Holm-adjusted $p=0.049$).
 Excess horizontal travel was 14.2\% lower with body motion (48.8 versus
 56.8~m), but no clear difference was detected (mean difference $-8.0$~m,
@@ -506,7 +506,7 @@ $p=0.153$). Figure~\ref{fig:trajectory_overlays} illustrates these patterns.
 \centering
 \includegraphics[width=0.9\columnwidth]
 {Figures/fig_pairwise_dof_cochange.png}
-\caption{Exploratory pairwise command co-change for (a) body-motion and
+\caption{Exploratory pairwise command co-change for (a) body-motion based control and
 (b) transmitter control. Off-diagonal cells show the percentage of active
 control time during which both commands were active; diagonal cells show
 single-command activity. Values were averaged across participants ($n=14$)
@@ -515,7 +515,7 @@ using a shared color scale.}
 \end{figure}
 
 \emph{Delivered-command behavior.}
-With body-motion, command variation was 88.8\% lower (Holm-adjusted $p<0.001$) and multi-DOF coordination was 22.5 percentage points higher than with transmitter control ($p<0.001$); every participant showed effects in the same direction. Pairwise co-change was also higher with body-motion for seven of
+With the body-motion based control, command variation was 88.8\% lower (Holm-adjusted $p<0.001$) and multi-DOF coordination was 22.5 percentage points higher than with transmitter control ($p<0.001$); every participant showed effects in the same direction. Pairwise co-change was also higher with body-motion for seven of
 ten command pairs (Fig.~\ref{fig:dof_pairwise}). The largest differences were
 vertical--forward (19.3\% versus 5.5\%), forward--spacing (10.5\% versus 0.3\%),
 and vertical--spacing (10.0\% versus 0.1\%; $p=0.001$ each), where values are reported as body motion versus transmitter control.
@@ -571,7 +571,7 @@ have been too sensitive for some participants. Moreover, the body-motion
 altitude command was individually calibrated and smoothed, whereas the
 transmitter used a fixed gain and no additional smoothing. The results therefore
 characterize the tested body-motion mapping and transmitter configuration as
-complete interfaces, rather than input modality or body-motion control in
+complete interfaces, rather than input modality or body-motion based control in
 general.
 
 
