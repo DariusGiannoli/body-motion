@@ -63,12 +63,17 @@ Human Research Ethics Committee under Application No.\ HREC 092-2023.}%
 % participants. The implemented mapping therefore improved FPV navigation
 % efficiency at the cost of greater physical demand.
 
-First-person-view (FPV) teleoperation of aerial swarms requires an operator to coordinate collective translation, viewing direction, and formation spacing. We present an upper-body interface that maps torso inclination, hand position, and head rotation to five continuous command dimensions. Neutral postures and motion ranges are calibrated for each participant. In a within-subject study, 14 participants navigated a simulated 15-agent swarm through three-dimensional obstacle courses using this interface and a conventional transmitter. Body-motion control reduced completion time by 19.7\% and centroid path length by 6.6\%, and increased path directness. Delivered-command variation was 88.7\% lower, and concurrent command changes were more frequent. These command measures characterize the complete interfaces, which differed in calibration and filtering. No differences were detected in gate-centering error, collection yield, crash or disconnection counts, overall workload, or usability. All participants reported higher physical demand with body-motion control. The implemented interface therefore improved FPV navigation efficiency at the cost of greater physical demand.
+First-person-view (FPV) teleoperation of aerial swarms requires an operator to coordinate collective translation, viewing direction, and formation spacing. We present an upper-body interface that maps torso inclination, hand position, and head rotation to five continuous command dimensions. Neutral postures and motion ranges are calibrated for each participant. In a within-subject study, 14 participants navigated a simulated 15-agent swarm through three-dimensional obstacle courses using this interface and a conventional transmitter. Body-motion control reduced completion time by 19.4\% and centroid path length by 7.0\%, and increased path directness. Delivered-command variation was 88.8\% lower, and concurrent command changes were more frequent. These command measures characterize the complete interfaces, which differed in calibration and filtering. No differences were detected in gate-centering error, collection yield, crash or disconnection counts, overall workload, or usability. All participants reported higher physical demand with body-motion control. The implemented interface therefore improved FPV navigation efficiency at the cost of greater physical demand.
 
 \end{abstract}
 
 \section{Introduction}
-Aerial swarms can extend the sensing range and coverage of a single robot, making them well suited to missions such as search and rescue. Because these missions depend on human judgment, the swarm cannot operate fully autonomously~\cite{kolling2016survey,hocraffer2017meta}. However, assigning an operator to each robot does not scale, requiring a single operator to command the swarm as a whole.
+Aerial swarms can extend the sensing range and coverage of a single
+robot, making them useful for missions such as search and rescue.
+Human judgment and oversight remain important in these
+missions~\cite{kolling2016survey,hocraffer2017meta}. However, assigning
+an operator to each robot does not scale. This motivates interfaces
+that allow a single operator to command the swarm as a whole.
 
 In three-dimensional environments, passing through an opening may
 require concurrent changes in planar translation, altitude, formation spacing,
@@ -99,9 +104,10 @@ command space.}
 
 % Jarvis et al.\ demonstrated rear-focal FPV swarm teleoperation and compared
 % different onboard viewpoints~\cite{ben_focaldrone}. 
-In a comparison study between different viewpoints, Jarvis et al.\ found that participants preferred a viewpoint from the rear of the swarm For the control interface, they used a commercial transmitter, which mapped
-planar translation, vertical motion, view yaw, and formation spacing to two
-sticks and a rotary knob. However, it remains unclear whether this layout is
+Jarvis et al.\ found that participants preferred views from the rear
+of the swarm~\cite{ben_focaldrone}. Their commercial transmitter
+mapped planar translation, vertical motion, view yaw, and formation
+spacing to two sticks and a rotary knob. However, it remains unclear whether this layout is
 well suited to the concurrent adjustment of five continuous DOF.
 Multidimensional-input research distinguishes separable control, in which
 dimensions are adjusted independently, from integral control, in which they can
@@ -151,7 +157,7 @@ graph, with an edge between agents whose Euclidean separation was below
 \(R_t=\max(2\rho_t^*,\,\rho_t^*+2~\mathrm{m}).\)
 The largest connected component defined the connected swarm; surviving agents
 outside it were classified as disconnected. The simulation built on the FPV
-swarm-teleoperation framework of Palle et al.~\cite{palle2026multisensory}.
+swarm-teleoperation framework of Chin et al.~\cite{palle2026multisensory}.
 
 To isolate input-interface effects, both conditions used the rear-focal
 stereoscopic FPV of Jarvis et al., which keeps most agents ahead of the camera
