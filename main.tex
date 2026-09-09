@@ -54,12 +54,12 @@ control of collective motion, view direction, and formation size. We developed
 a participant-calibrated upper-body interface that mapped torso, hand, and head
 movements to five swarm DOF. In a within-subject study, 14 participants
 navigated a simulated 15-agent swarm through three-dimensional obstacle courses
-using body motion and a conventional transmitter. Compared with the tested transmitter
-control, the implemented body-motion based control reduced completion time by 19.4\%, centroid path length by
+using body-motion based control and conventional transmitter control. Compared with the tested transmitter
+control, the body-motion based control system reduced completion time by 19.4\%, centroid path length by
 7.0\%, and delivered-command variation by 88.8\%, while increasing path
 directness and multi-DOF coordination. No clear differences were detected in
 gate-centering error, collection yield, crash or disconnection counts, overall
-workload, or usability. Physical demand was higher with body motion for all
+workload, or usability. Physical demand was higher under body-motion based control for all
 participants. The implemented mapping therefore improved FPV navigation
 efficiency at the cost of greater physical demand.
 \end{abstract}
@@ -96,7 +96,7 @@ command space.}
 
 % Jarvis et al.\ demonstrated rear-focal FPV swarm teleoperation and compared
 % different onboard viewpoints~\cite{ben_focaldrone}. 
-In a comparison study between different viewpoints, Jarvis et al found that using the backmost drone as the focal one was favored by participants ~\cite{ben_focaldrone}. For the control interface, they used a commercial transmitter, which mapped
+In a comparison study between different viewpoints, Jarvis et al.\ found that using the backmost drone as the focal one was favored by participants~\cite{ben_focaldrone}. For the control interface, they used a commercial transmitter, which mapped
 planar translation, vertical motion, view yaw, and formation spacing to two
 sticks and a rotary knob. However, it remains unclear whether this layout is
 well suited to the concurrent adjustment of five continuous DOF.
@@ -108,15 +108,12 @@ adjustment.
 
 An upper-body interface can instead distribute spatially corresponding commands
 across the head, torso, and hands. Body--machine interfaces have already enabled
-immersive and personalized control of individual drones
-\cite{rognon2018flyjacket,miehlbradt2018datadriven,
-macchini2024datadriven}. Macchini et al.\ observed that more complex robots—differing in both morphology and DOF—were associated with the use of more body segments and greater inter-user variability in spontaneous control motions, strengthening the case for personalized mappings \cite{macchini2024datadriven}. Together, these findings motivate participant-specific calibration for the present five-DOF task.
+immersive and personalized control of individual drones~\cite{rognon2018flyjacket,miehlbradt2018datadriven,
+macchini2024datadriven}. Macchini et al.\ observed that more complex robots—differing in both morphology and DOF—were associated with the use of more body segments and greater inter-user variability in spontaneous control motions, strengthening the case for personalized mappings~\cite{macchini2024datadriven}. Together, these findings motivate participant-specific calibration for the present five-DOF task.
 
 At swarm level, personalized hand
-motion has supported four-dimensional control from an external viewpoint
-\cite{macchini2021personalized}, while tactile and gesture-based systems have
-supported other forms of swarm and formation control
-\cite{tsykunov2019swarmtouch,kratky2025gesture}. Together, these studies support multidimensional body control but do not establish its effectiveness for a swarm viewed through a moving focal agent. 
+motion has supported four-dimensional control from an external viewpoint~\cite{macchini2021personalized}, while tactile and gesture-based systems have
+supported other forms of swarm and formation control~\cite{tsykunov2019swarmtouch,kratky2025gesture}. Together, these studies support multidimensional body control but do not establish its effectiveness for a swarm viewed through a moving focal agent. 
 
 We therefore investigate whether distributing five continuous swarm commands
 across the head, torso, and hands can address the input bottleneck of
@@ -181,7 +178,7 @@ resulting swarm translation, spacing, and view rotation.}
 \label{sec:mapping} 
 The mapping was designed to provide intuitive spatial correspondence and allows several commands to be used simultaneously. Building on previous body-motion drone interfaces that mapped torso inclination to aircraft pitch and roll\cite{rognon2018flyjacket}, we mapped forward, backward, and lateral leaning to the corresponding planar motion of the swarm. Raising or lowering
 both hands were designed to control the vertical motion, while hand separation was used for agent
-spacing. Because in teleoperation participants are ususally in a fixed position, head rotation can provide a natural
+spacing. Because in teleoperation participants are usually in a fixed position, head rotation can provide a natural
 input for FPV yaw. Participant-specific calibration accounted for differences
 in posture and range of motion.
 
@@ -203,22 +200,7 @@ Each rate-controlled signal was mapped to $[-1,1]$ using its calibrated lower
 extreme, neutral value, and upper extreme $(q^{-},q^{0},q^{+})$, with a
 deadzone of half-width $d$ around neutral. Let
 $q_{\mathrm{L}}=q^{0}-d$ and $q_{\mathrm{U}}=q^{0}+d$. The normalization was
-% \begin{equation}
-% \mathcal{D}(q_t;q^{-},q^{0},q^{+},d)=
-% \begin{cases}
-% \displaystyle
-% \max\!\left(-1,
-% \frac{q_t-q_{\mathrm{L}}}{q_{\mathrm{L}}-q^{-}}\right),
-% & q_t<q_{\mathrm{L}},\\[6pt]
-% 0,
-% & q_{\mathrm{L}}\leq q_t\leq q_{\mathrm{U}},\\[3pt]
-% \displaystyle
-% \min\!\left(1,
-% \frac{q_t-q_{\mathrm{U}}}{q^{+}-q_{\mathrm{U}}}\right),
-% & q_t>q_{\mathrm{U}}.
-% \end{cases}
-% \label{eq:deadzone_mapping}
-% \end{equation}
+
 \begin{equation}
 \begin{split}
 &\mathcal{D}(q_t;q^{-},q^{0},q^{+},d)\\
@@ -236,11 +218,6 @@ $q_{\mathrm{L}}=q^{0}-d$ and $q_{\mathrm{U}}=q^{0}+d$. The normalization was
 \end{equation}
 Separate scaling on either side of neutral accommodated asymmetric ranges of
 motion.
-
-
-
-
-
 
 \emph{Translation:}
 The normalized translation commands were
@@ -610,9 +587,6 @@ and complement transmitter-based FPV swarm
 control~\cite{ben_focaldrone}. Generalization to other
 viewpoints and physical swarms with communication, aerodynamic, and safety
 constraints remains to be tested.
-
-
-
 
 % =====================================================================
 
